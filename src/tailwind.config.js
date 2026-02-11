@@ -15,40 +15,42 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Primary Purple
+                // Primary Teal/Turquoise (Delapre Abbey)
                 primary: {
-                    50: '#f5f3ff',
-                    100: '#ede9fe',
-                    200: '#ddd6fe',
-                    300: '#c4b5fd',
-                    400: '#a78bfa',
-                    500: '#8b5cf6',
-                    600: '#7c3aed',
-                    700: '#6d28d9',
-                    800: '#5b21b6',
-                    900: '#370671', // Your main purple
-                    950: '#2e0b5a',
+                    50: '#f0fdfa',
+                    100: '#ccfbf1',
+                    200: '#99f6e4',
+                    300: '#5ae4d4',
+                    400: '#2dd4bf',
+                    500: '#4DB8A7', // Main teal
+                    600: '#0d9488',
+                    700: '#0f766e',
+                    800: '#115e59',
+                    900: '#134e4a',
+                    950: '#042f2e',
                 },
-                // Secondary Red
+                // Secondary Golden Yellow (Delapre Abbey)
                 secondary: {
-                    50: '#fef2f2',
-                    100: '#fee2e2',
-                    200: '#fecaca',
-                    300: '#fca5a5',
-                    400: '#f87171',
-                    500: '#ef4444',
-                    600: '#dc2626',
-                    700: '#b91c1c',
-                    800: '#991b1b',
-                    900: '#7f1d1d',
-                    950: '#450a0a',
+                    50: '#fefce8',
+                    100: '#fef9c3',
+                    200: '#fef08a',
+                    300: '#fde047',
+                    400: '#facc15',
+                    500: '#F5B800', // Main gold/yellow
+                    600: '#ca8a04',
+                    700: '#a16207',
+                    800: '#854d0e',
+                    900: '#713f12',
+                    950: '#422006',
                 },
-                // Accent colors for status/info
+                // Accent colors
                 accent: {
                     success: '#10b981',
                     warning: '#f59e0b',
                     info: '#3b82f6',
                     danger: '#ef4444',
+                    teal: '#4DB8A7',
+                    gold: '#F5B800',
                 },
             },
         },

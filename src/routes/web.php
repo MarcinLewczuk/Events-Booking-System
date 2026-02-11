@@ -31,6 +31,8 @@ Route::get('/cookie-policy', [CorporateController::class, 'cookiePolicy'])->name
 Route::get('/locations', [CorporateController::class, 'locations'])->name('locations.index');
 Route::get('/items', [CorporateController::class, 'browseItems'])->name('items.browse');
 Route::get('/items/{item}', [CorporateController::class, 'showItem'])->name('items.show');
+Route::get('/events', function() { return view('corporate.events.index'); })->name('events');
+Route::get('/events/{id}', function($id) { return view('corporate.events.show', ['id' => $id]); })->name('events.show');
 Route::get('/auctions', [CorporateController::class, 'browseAuctions'])->name('auctions.browse');
 Route::get('/auctions/{auction}', [CorporateController::class, 'showAuction'])->name('auctions.show');
 

@@ -9,7 +9,7 @@
     $isAdmin = $userRole === 'admin';
 @endphp
 
-<nav x-data="{ adminOpen: false, userOpen: false }" class="bg-gradient-to-r from-primary-900 to-primary-800 shadow-lg">
+<nav x-data="{ adminOpen: false, userOpen: false }" class="bg-primary-500 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
@@ -31,14 +31,15 @@
                     class="text-white px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('inbox.*') ? 'bg-primary-700 text-white' : 'text-primary-100 hover:bg-primary-700 hover:text-white' }} transition whitespace-nowrap">
                         Inbox
                     </a>
-                    <a href="{{ route('auctions.browse') }}" 
-                    class="text-white px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('auctions.*') ? 'bg-primary-700 text-white' : 'text-primary-100 hover:bg-primary-700 hover:text-white' }} transition whitespace-nowrap">
-                        Auctions
+                    
+                    <a href="{{ route('events') }}" 
+                    class="text-white px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-primary-100 hover:bg-primary-700 hover:text-white' }} transition whitespace-nowrap">
+                        What's On
                     </a>
 
                     <a href="{{ route('items.browse') }}" 
                     class="text-white px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('items.*') ? 'bg-primary-700 text-white' : 'text-primary-100 hover:bg-primary-700 hover:text-white' }} transition whitespace-nowrap">
-                        Items
+                        Explore
                     </a>
 
                     <a href="{{ route('locations.index') }}" 
