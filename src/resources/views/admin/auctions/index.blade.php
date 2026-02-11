@@ -1,0 +1,164 @@
+
+<x-app-layout>
+    <div class="py-8 bg-gradient-to-br from-primary-50 to-secondary-50 min-h-screen">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-secondary-600">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-primary-900">Auctions Management</h1>
+                        <p class="text-gray-600 mt-1">Schedule and manage live auctions</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        @if(in_array(auth()->user()->role, ['admin', 'approver']))
+                            <x-buttons.link :href="route('admin.approvals.auctions')" class="bg-purple-600 hover:bg-purple-700">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Auction Approvals
+                            </x-buttons.link>
+                        @endif
+                        <x-buttons.link :href="route('admin.auctions.create')" class="bg-secondary-600 hover:bg-secondary-700">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Create New Auction
+                        </x-buttons.link>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-green-800 font-medium">{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Auctions List -->
+            <div class="space-y-6">
+                @forelse($auctions as $auction)
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 {{ 
+                        $auction->status === 'open' ? 'border-green-500' : 
+                        ($auction->status === 'closed' ? 'border-gray-500' : 
+                        ($auction->status === 'settled' ? 'border-blue-500' : 'border-secondary-600')) 
+                    }} hover:shadow-xl transition-all duration-300">
+                        <div class="p-6">
+                            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                <!-- Left Section -->
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <h3 class="text-2xl font-bold text-primary-900 mb-2">{{ $auction->title }}</h3>
+                                            <div class="flex flex-wrap gap-3 text-sm text-gray-600">
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 mr-1.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                    </svg>
+                                                    {{ $auction->auction_date ? \Carbon\Carbon::parse($auction->auction_date)->format('d M Y') : 'TBD' }}
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 mr-1.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                    {{ $auction->start_time ?? 'TBD' }}
+                                                </div>
+                                                @if($auction->location)
+                                                    <div class="flex items-center">
+                                                        <svg class="w-5 h-5 mr-1.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                        </svg>
+                                                        {{ $auction->location->name }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status Badge -->
+                                        @php
+                                            $statusConfig = [
+                                                'scheduled' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-800', 'icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+                                                'open' => ['bg' => 'bg-green-100', 'text' => 'text-green-800', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+                                                'closed' => ['bg' => 'bg-gray-100', 'text' => 'text-gray-800', 'icon' => 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'],
+                                                'settled' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-800', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+                                            ];
+                                            $config = $statusConfig[$auction->status] ?? $statusConfig['scheduled'];
+                                        @endphp
+                                        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold {{ $config['bg'] }} {{ $config['text'] }}">
+                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $config['icon'] }}"/>
+                                            </svg>
+                                            {{ ucfirst($auction->status) }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Catalogue Info -->
+                                    <div class="mt-4 p-4 bg-primary-50 rounded-lg border border-primary-200">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-600">Catalogue:</p>
+                                                <p class="text-lg font-bold text-primary-900">{{ $auction->catalogue->name ?? 'N/A' }}</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-sm font-medium text-gray-600">Created by:</p>
+                                                <p class="text-sm font-semibold text-gray-900">{{ $auction->creator->first_name ?? 'N/A' }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex lg:flex-col gap-2 lg:min-w-[140px]">
+                                    <a href="{{ route('admin.auctions.edit', $auction) }}" 
+                                       class="flex-1 lg:flex-none text-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg shadow transition">
+                                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                        Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.auctions.destroy', $auction) }}" 
+                                          onsubmit="return confirm('Delete this auction?');" 
+                                          class="flex-1 lg:flex-none">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow transition">
+                                            <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="bg-white rounded-lg shadow-lg p-12 text-center">
+                        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p class="text-xl font-bold text-gray-900 mb-2">No auctions scheduled</p>
+                        <p class="text-gray-600 mb-6">Create your first auction to start selling items</p>
+                        <x-buttons.link :href="route('admin.auctions.create')" class="bg-secondary-600 hover:bg-secondary-700">
+                            Create New Auction
+                        </x-buttons.link>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Pagination -->
+            @if($auctions->hasPages())
+                <div class="mt-6">
+                    {{ $auctions->links() }}
+                </div>
+            @endif
+        </div>
+    </div>
+</x-app-layout>

@@ -1,0 +1,102 @@
+
+<x-app-layout>
+    <div class="py-8 bg-gradient-to-br from-primary-50 to-secondary-50 min-h-screen">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-purple-600">
+                <div class="p-6">
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-primary-900">Edit Category: {{ $category->name }}</h1>
+                        <p class="text-gray-600 mt-1">Update category details</p>
+                    </div>
+
+                    @if($errors->any())
+                        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-red-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-red-800 font-medium mb-2">Please fix the following errors:</p>
+                                    <ul class="list-disc list-inside text-red-700">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('admin.categories.update', $category) }}" class="space-y-6">
+                        @csrf
+                        @method('PUT')
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Category Name <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" 
+                                   name="name" 
+                                   value="{{ old('name', $category->name) }}"
+                                   class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Parent Category</label>
+                            <select name="parent_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
+                                <option value="">None (Top Level Category)</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}" 
+                                        {{ old('parent_id', $category->parent_id) == $cat->id ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-1">
+                            <p class="text-sm text-blue-800">
+                                <strong>Subcategories:</strong> {{ $category->children()->count() }}
+                            </p>
+                            <p class="text-sm text-blue-800">
+                                <strong>Used in catalogues:</strong> {{ $category->catalogues()->count() }}
+                            </p>
+                        </div>
+
+                        <div class="flex gap-3 pt-4 border-t">
+                            <x-buttons.primary type="submit">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Update Category
+                            </x-buttons.primary>
+                            <a href="{{ route('admin.categories.index') }}" 
+                               class="inline-flex items-center px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg shadow-md transition">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                    <!-- Delete Section -->
+                    <form method="POST" 
+                          action="{{ route('admin.categories.destroy', $category) }}"
+                          class="mt-8 pt-6 border-t"
+                          onsubmit="return confirm('Are you sure you want to delete this category? This action cannot be undone.');">
+                        @csrf
+                        @method('DELETE')
+                        <div class="flex items-start gap-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-bold text-gray-900 mb-1">Delete Category</h3>
+                                <p class="text-sm text-gray-600">Once deleted, this category cannot be recovered. Items and catalogues using this category will need to be reassigned.</p>
+                            </div>
+                            <x-buttons.danger type="submit">
+                                Delete Category
+                            </x-buttons.danger>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

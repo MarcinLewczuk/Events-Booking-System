@@ -1,0 +1,136 @@
+<x-app-layout>
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Edit Tag</h1>
+                <p class="mt-1 text-sm text-gray-600">Update tag details</p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="border-l-4 border-[#370671] p-6">
+                    @if($errors->any())
+                        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-red-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h3 class="text-sm font-medium text-red-800 mb-1">There were errors with your submission</h3>
+                                    <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Usage Stats -->
+                    <div class="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-[#370671] to-purple-600 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">{{ $tag->name }}</h3>
+                                <p class="text-sm text-gray-600">
+                                    Currently used by <span class="font-semibold text-[#370671]">{{ $tag->items()->count() }}</span> 
+                                    {{ Str::plural('item', $tag->items()->count()) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{{ route('admin.tags.update', $tag) }}">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Tag Name -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Tag Name <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" 
+                                   name="name" 
+                                   value="{{ old('name', $tag->name) }}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('name') border-red-500 @enderror"
+                                   required>
+                        </div>
+
+                        <!-- Slug (Read-only) -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Slug (Auto-generated)
+                            </label>
+                            <input type="text" 
+                                   value="{{ $tag->slug }}"
+                                   class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 cursor-not-allowed"
+                                   disabled>
+                            <p class="mt-2 text-sm text-gray-600">
+                                <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                This is automatically generated from the tag name
+                            </p>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Description
+                            </label>
+                            <textarea name="description" 
+                                      rows="4" 
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('description') border-red-500 @enderror">{{ old('description', $tag->description) }}</textarea>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200">
+                            <x-buttons.primary type="submit">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Update Tag
+                            </x-buttons.primary>
+                            <x-buttons.secondary href="{{ route('admin.tags.index') }}">
+                                Cancel
+                            </x-buttons.secondary>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Delete Section -->
+            <div class="mt-8 bg-white rounded-lg shadow-sm border border-red-200">
+                <div class="border-l-4 border-red-600 p-6">
+                    <h2 class="text-lg font-semibold text-red-900 mb-2">Danger Zone</h2>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Once you delete this tag, it will be removed from all items. This action cannot be undone.
+                        @if($tag->items()->count() > 0)
+                            <span class="block mt-2 font-semibold text-red-600">
+                                Warning: This tag is currently used by {{ $tag->items()->count() }} {{ Str::plural('item', $tag->items()->count()) }}.
+                            </span>
+                        @endif
+                    </p>
+                    <form method="POST" 
+                          action="{{ route('admin.tags.destroy', $tag) }}"
+                          onsubmit="return confirm('Are you sure you want to delete this tag? This will remove it from all items. This action cannot be undone.');">
+                        @csrf
+                        @method('DELETE')
+                        <x-buttons.danger type="submit">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Delete Tag
+                        </x-buttons.danger>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

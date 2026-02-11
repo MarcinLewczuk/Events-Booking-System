@@ -1,0 +1,109 @@
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            Profile Information
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            Update your account's profile information and email address.
+        </p>
+    </header>
+
+    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        @csrf
+    </form>
+
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+        @csrf
+        @method('patch')
+
+        <!-- Title -->
+        <div>
+            <x-input-label for="title" value="Title (Optional)" />
+            <select id="title" name="title" class="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm">
+                <option value="">Select Title</option>
+                <option value="Mr" {{ old('title', $user->title) == 'Mr' ? 'selected' : '' }}>Mr</option>
+                <option value="Mrs" {{ old('title', $user->title) == 'Mrs' ? 'selected' : '' }}>Mrs</option>
+                <option value="Miss" {{ old('title', $user->title) == 'Miss' ? 'selected' : '' }}>Miss</option>
+                <option value="Ms" {{ old('title', $user->title) == 'Ms' ? 'selected' : '' }}>Ms</option>
+                <option value="Dr" {{ old('title', $user->title) == 'Dr' ? 'selected' : '' }}>Dr</option>
+                <option value="Prof" {{ old('title', $user->title) == 'Prof' ? 'selected' : '' }}>Prof</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('title')" />
+        </div>
+
+        <!-- First Name -->
+        <div>
+            <x-input-label for="first_name" value="First Name" />
+            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="given-name" />
+            <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
+        </div>
+
+        <!-- Surname -->
+        <div>
+            <x-input-label for="surname" value="Surname" />
+            <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $user->surname)" required autocomplete="family-name" />
+            <x-input-error class="mt-2" :messages="$errors->get('surname')" />
+        </div>
+
+        <!-- Email -->
+        <div>
+            <x-input-label for="email" value="Email" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                <div>
+                    <p class="text-sm mt-2 text-gray-800">
+                        Your email address is unverified.
+
+                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            Click here to re-send the verification email.
+                        </button>
+                    </p>
+
+                    @if (session('status') === 'verification-link-sent')
+                        <p class="mt-2 font-medium text-sm text-green-600">
+                            A new verification link has been sent to your email address.
+                        </p>
+                    @endif
+                </div>
+            @endif
+        </div>
+
+        <!-- Contact Telephone Number -->
+        <div>
+            <x-input-label for="contact_telephone_number" value="Contact Telephone (Optional)" />
+            <x-text-input id="contact_telephone_number" name="contact_telephone_number" type="tel" class="mt-1 block w-full" :value="old('contact_telephone_number', $user->contact_telephone_number)" autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('contact_telephone_number')" />
+        </div>
+
+        <!-- Contact Address -->
+        <div>
+            <x-input-label for="contact_address" value="Contact Address (Optional)" />
+            <textarea id="contact_address" name="contact_address" rows="3" class="mt-1 block w-full border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm">{{ old('contact_address', $user->contact_address) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('contact_address')" />
+        </div>
+
+        <!-- Role Display (Read-only) -->
+        <div>
+            <x-input-label for="role" value="Account Type" />
+            <x-text-input id="role" type="text" class="mt-1 block w-full bg-gray-100" :value="ucfirst($user->role)" disabled readonly />
+            <p class="mt-1 text-sm text-gray-500">Your account type cannot be changed here.</p>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <x-primary-button>Save</x-primary-button>
+
+            @if (session('status') === 'profile-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600"
+                >Saved.</p>
+            @endif
+        </div>
+    </form>
+</section>

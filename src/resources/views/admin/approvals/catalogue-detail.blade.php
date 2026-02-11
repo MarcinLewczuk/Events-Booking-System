@@ -1,0 +1,161 @@
+
+<x-app-layout>
+    <div class="py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center text-sm text-gray-600 mb-4">
+                    <a href="{{ route('admin.approvals.catalogues') }}" class="hover:text-[#370671]">← Back to Approvals</a>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900">Review Catalogue for Approval</h1>
+                <p class="mt-1 text-sm text-gray-600">Review catalogue details before approving</p>
+            </div>
+
+            <!-- Approval Status Banner -->
+            <div class="mb-6 p-4 bg-purple-50 border-l-4 border-purple-500 rounded-r-lg">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-purple-900 mb-1">Awaiting Your Approval</h3>
+                        <p class="text-sm text-purple-800">
+                            Submitted by {{ $catalogue->creator?->full_name ?? 'Unknown' }} 
+                            {{ $catalogue->updated_at?->diffForHumans() }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approval Actions -->
+            <div class="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Approval Actions</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <form method="POST" action="{{ route('admin.catalogues.approve', $catalogue) }}" class="flex-1">
+                        @csrf
+                        <x-buttons.success type="submit" class="w-full justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Approve & Publish Catalogue
+                        </x-buttons.success>
+                    </form>
+                    <form method="POST" action="{{ route('admin.catalogues.reject', $catalogue) }}" class="flex-1" onsubmit="return confirm('Are you sure you want to reject this catalogue?');">
+                        @csrf
+                        <x-buttons.danger type="submit" class="w-full justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Reject Catalogue
+                        </x-buttons.danger>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Catalogue Info -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-l-4 border-[#370671] p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Catalogue Details</h3>
+                    
+                    <form method="POST" action="{{ route('admin.catalogues.update', $catalogue) }}">
+                        @csrf
+                        @method('PATCH')
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Catalogue Name -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Catalogue Name <span class="text-red-600">*</span>
+                                </label>
+                                <input type="text" 
+                                       name="name" 
+                                       value="{{ old('name', $catalogue->name) }}"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition"
+                                       required>
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Category <span class="text-red-600">*</span>
+                                </label>
+                                <select name="category_id" 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition"
+                                        required>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category_id', $catalogue->category_id) == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex gap-3 pt-4 border-t border-gray-200">
+                            <x-buttons.primary type="submit">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Save Changes
+                            </x-buttons.primary>
+                            <x-buttons.secondary href="{{ route('admin.approvals.catalogues') }}">
+                                Cancel
+                            </x-buttons.secondary>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Items in Catalogue -->
+            @if($catalogue->items->isNotEmpty())
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="border-l-4 border-[#370671] p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
+                            Items in Catalogue ({{ $catalogue->items->count() }})
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach($catalogue->items as $item)
+                                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                    <!-- Image -->
+                                    <div class="aspect-square bg-gray-100">
+                                        @if($item->primaryImage)
+                                            <img src="{{ Storage::url($item->primaryImage->path) }}" 
+                                                 alt="{{ $item->title }}"
+                                                 class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center">
+                                                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Info -->
+                                    <div class="p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-xs font-semibold text-purple-600">Lot {{ $item->pivot->lot_number ?? 'N/A' }}</span>
+                                            <span class="text-xs text-gray-500 font-mono">Ref: {{ $item->id }}</span>
+                                        </div>
+                                        <h4 class="font-semibold text-sm text-gray-900 line-clamp-1">{{ $item->title }}</h4>
+                                        <p class="text-xs text-gray-600 mt-1">{{ $item->category?->name ?? 'Uncategorized' }}</p>
+                                        @if($item->estimated_price)
+                                            <p class="text-sm font-semibold text-gray-900 mt-2">£{{ number_format($item->estimated_price, 2) }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                    </svg>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">No Items</h4>
+                    <p class="text-gray-600">This catalogue doesn't have any items yet.</p>
+                </div>
+            @endif
+        </div>
+    </div>
+</x-app-layout>

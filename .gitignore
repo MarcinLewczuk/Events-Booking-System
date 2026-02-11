@@ -1,0 +1,19 @@
+# Compiled view files
+storage/framework/views/*.php
+
+# Log files
+storage/logs/*.log
+
+# Environment files
+.env
+.env.backup
+
+# IDE files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+storage/framework/views
+storage/logs

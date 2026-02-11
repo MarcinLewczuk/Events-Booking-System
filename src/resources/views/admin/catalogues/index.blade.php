@@ -1,0 +1,128 @@
+
+<x-app-layout>
+    <div class="py-8 bg-gradient-to-br from-primary-50 to-primary-50 min-h-screen">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-primary-600">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-primary-900">Catalogues Management</h1>
+                        <p class="text-gray-600 mt-1">Create and manage auction catalogues (max 90 items each)</p>
+                    </div>
+                    <x-buttons.link :href="route('admin.catalogues.create')">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Create New Catalogue
+                    </x-buttons.link>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-green-800 font-medium">{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Catalogues Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @forelse($catalogues as $catalogue)
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-primary-600 hover:shadow-xl transition-all duration-300">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-primary-900 to-primary-800 p-4">
+                            <h3 class="text-xl font-bold text-white">{{ $catalogue->name }}</h3>
+                            <p class="text-primary-200 text-sm mt-1">{{ $catalogue->category->name ?? 'Uncategorized' }}</p>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="p-6">
+                            <!-- Stats -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Items:</span>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold {{ $catalogue->items->count() >= 90 ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800' }}">
+                                        {{ $catalogue->items->count() }} / 90
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Status:</span>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold {{ $catalogue->status === 'published' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                        {{ ucfirst($catalogue->status) }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-medium text-gray-600">Created by:</span>
+                                    <span class="text-sm font-semibold text-gray-900">{{ $catalogue->creator->first_name ?? 'N/A' }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            @php
+                                $percentage = min(($catalogue->items->count() / 90) * 100, 100);
+                            @endphp
+                            <div class="mb-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-xs font-medium text-gray-600">Capacity</span>
+                                    <span class="text-xs font-bold text-primary-900">{{ round($percentage) }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="h-2.5 rounded-full {{ $percentage >= 90 ? 'bg-purple-600' : 'bg-primary-600' }}" style="width: {{ $percentage }}%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex gap-2">
+                                <a href="{{ route('admin.catalogues.edit', $catalogue) }}" 
+                                   class="flex-1 text-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg shadow transition">
+                                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                    Edit
+                                </a>
+                                <form method="POST" action="{{ route('admin.catalogues.destroy', $catalogue) }}" 
+                                      onsubmit="return confirm('Delete this catalogue and remove all item associations?');" 
+                                      class="flex-1">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow transition">
+                                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full">
+                        <div class="bg-white rounded-lg shadow-lg p-12 text-center">
+                            <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <p class="text-xl font-bold text-gray-900 mb-2">No catalogues found</p>
+                            <p class="text-gray-600 mb-6">Create your first catalogue to organize auction items</p>
+                            <x-buttons.link :href="route('admin.catalogues.create')">
+                                Create New Catalogue
+                            </x-buttons.link>
+                        </div>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Pagination -->
+            @if($catalogues->hasPages())
+                <div class="mt-6">
+                    {{ $catalogues->links() }}
+                </div>
+            @endif
+        </div>
+    </div>
+</x-app-layout>
