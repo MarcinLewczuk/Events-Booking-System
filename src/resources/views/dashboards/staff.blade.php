@@ -297,52 +297,18 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     
-                    <!-- Items -->
-                    <a href="{{ route('admin.items.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
+                    <!-- Events -->
+                    <a href="{{ route('admin.events.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-3">
-                            <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition">
-                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                </svg>
+                            <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
+                                <span class="text-2xl">📅</span>
                             </div>
                             <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Items</h4>
-                        <p class="text-sm text-gray-600 mt-1">Manage auction items</p>
-                    </a>
-
-                    <!-- Catalogues -->
-                    <a href="{{ route('admin.catalogues.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-secondary-600 transform hover:-translate-y-1">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="bg-red-100 rounded-lg p-3 group-hover:bg-red-200 transition">
-                                <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                </svg>
-                            </div>
-                            <svg class="w-5 h-5 text-gray-400 group-hover:text-secondary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </div>
-                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-secondary-600 transition">Catalogues</h4>
-                        <p class="text-sm text-gray-600 mt-1">Create and manage catalogues</p>
-                    </a>
-
-                    <!-- Auctions -->
-                    <a href="{{ route('admin.auctions.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition">
-                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </div>
-                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Auctions</h4>
-                        <p class="text-sm text-gray-600 mt-1">Schedule auctions</p>
+                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Events</h4>
+                        <p class="text-sm text-gray-600 mt-1">Manage events</p>
                     </a>
 
                     @if($role === 'admin')
@@ -371,35 +337,7 @@
                                 </svg>
                             </div>
                             <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Tags</h4>
-                            <p class="text-sm text-gray-600 mt-1">Manage item tags</p>
-                        </a>
-
-                        <!-- Bands -->
-                        <a href="{{ route('admin.bands.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-secondary-600 transform hover:-translate-y-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="bg-red-100 rounded-lg p-3 group-hover:bg-red-200 transition flex items-center justify-center">
-                                    <span class="text-2xl">💰</span>
-                                </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-red-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-red-600 transition">Price Bands</h4>
-                            <p class="text-sm text-gray-600 mt-1">Manage price ranges</p>
-                        </a>
-
-                        <!-- Locations -->
-                        <a href="{{ route('admin.locations.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
-                                    <span class="text-2xl">📍</span>
-                                </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Locations</h4>
-                            <p class="text-sm text-gray-600 mt-1">Manage venues</p>
+                            <p class="text-sm text-gray-600 mt-1">Manage tags</p>
                         </a>
 
                         <!-- Users -->
@@ -416,34 +354,7 @@
                             <p class="text-sm text-gray-600 mt-1">Manage users</p>
                         </a>
 
-                        <!-- Bids -->
-                        <a href="{{ route('admin.bids.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
-                                    <span class="text-2xl">💵</span>
-                                </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Bids</h4>
-                            <p class="text-sm text-gray-600 mt-1">View bid history</p>
-                        </a>
-
-                        <!-- Settlements -->
-                        <a href="{{ route('admin.settlements.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-secondary-600 transform hover:-translate-y-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="bg-red-100 rounded-lg p-3 group-hover:bg-red-200 transition flex items-center justify-center">
-                                    <span class="text-2xl">💳</span>
-                                </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-red-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-red-600 transition">Settlements</h4>
-                            <p class="text-sm text-gray-600 mt-1">Manage payments</p>
-                        </a>
-                            <!-- Announcements -->
+                        <!-- Announcements -->
                         <a href="{{ route('admin.announcements.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-3">
                                 <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
