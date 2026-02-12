@@ -6,6 +6,7 @@ services:
       dockerfile: ./docker/php/Dockerfile
     volumes:
       - .:/var/www
+      - /var/www/vendor      # Named volume for vendor (performance)
       - /var/www/node_modules
     container_name: laravel_app
     working_dir: /var/www
