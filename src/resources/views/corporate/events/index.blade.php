@@ -176,8 +176,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($events as $event)
                     <!-- Event Card -->
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition group">
-                        <div class="relative h-64 bg-gradient-to-br from-teal-light-400 to-primary-400">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition group flex flex-col h-full">
+                        <a href="{{ route('events.show', $event->id) }}" class="block relative h-64 bg-gradient-to-br from-teal-light-400 to-primary-400 flex-shrink-0">
                             @if($event->primary_image)
                                 <img src="{{ asset('storage/' . $event->primary_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
                             @else
@@ -199,8 +199,8 @@
                                     FREE
                                 </div>
                             @endif
-                        </div>
-                        <div class="p-6">
+                        </a>
+                        <div class="p-6 flex flex-col flex-grow">
                             @if($event->category)
                                 <div class="text-sm text-primary-400 font-semibold mb-2 uppercase">{{ $event->category->name }}</div>
                             @endif
@@ -230,6 +230,7 @@
                                 {{ $event->location->name }}
                             </div>
                             
+                            <div class="mt-auto">
                             @if($event->is_fully_booked)
                                 <div class="w-full text-center px-6 py-3 bg-gray-300 text-gray-600 rounded-lg font-bold cursor-not-allowed">
                                     Fully Booked
@@ -238,14 +239,25 @@
                                 <div class="mb-2 text-sm text-orange-600 font-semibold">
                                     Only {{ $event->remaining_spaces }} spaces left!
                                 </div>
-                                <a href="{{ route('events.book', $event->id) }}" class="inline-block w-full text-center px-6 py-3 bg-secondary-500 hover:bg-secondary-600 text-gray-900 rounded-lg transition font-bold shadow-lg">
-                                    Book Now
-                                </a>
+                                <div class="flex gap-2">
+                                    <a href="{{ route('events.show', $event->id) }}" class="flex-1 text-center px-6 py-3 bg-primary-400 hover:bg-primary-500 text-white rounded-lg transition font-bold shadow-lg">
+                                        View
+                                    </a>
+                                    <a href="{{ route('events.book', $event->id) }}" class="px-4 py-3 bg-secondary-500 hover:bg-secondary-600 text-gray-900 rounded-lg transition font-bold shadow-lg">
+                                        Book Now
+                                    </a>
+                                </div>
                             @else
-                                <a href="{{ route('events.book', $event->id) }}" class="inline-block w-full text-center px-6 py-3 bg-secondary-500 hover:bg-secondary-600 text-gray-900 rounded-lg transition font-bold shadow-lg">
-                                    Book Now
-                                </a>
+                                <div class="flex gap-2">
+                                    <a href="{{ route('events.show', $event->id) }}" class="flex-1 text-center px-6 py-3 bg-primary-400 hover:bg-primary-500 text-white rounded-lg transition font-bold shadow-lg">
+                                        View
+                                    </a>
+                                    <a href="{{ route('events.book', $event->id) }}" class="px-4 py-3 bg-secondary-500 hover:bg-secondary-600 text-gray-900 rounded-lg transition font-bold shadow-lg">
+                                        Book Now
+                                    </a>
+                                </div>
                             @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
