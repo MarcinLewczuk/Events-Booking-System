@@ -15,6 +15,7 @@ class Event extends Model
         'end_datetime',
         'duration_minutes',
         'location_id',
+        'category_id',
         'capacity',
         'is_paid',
         'adult_price',
@@ -41,6 +42,11 @@ class Event extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function bookings()
