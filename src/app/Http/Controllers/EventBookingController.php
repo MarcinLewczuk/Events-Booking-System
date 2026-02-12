@@ -169,6 +169,9 @@ class EventBookingController extends Controller
                 'status' => 'confirmed',
             ]);
 
+            // Create individual tickets for the booking
+            \App\Models\Ticket::createForBooking($booking);
+
             DB::commit();
 
             // TODO: Queue confirmation email

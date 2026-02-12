@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\SettlementController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\EventBreakdownController;
 
 // Public corporate pages
 Route::get('/', [CorporateController::class, 'index'])->name('home');
@@ -95,9 +96,11 @@ Route::middleware(['auth', 'role:customer'])->prefix('calendar')->name('calendar
 });
 
 // My Bookings (Customer only)
-Route::middleware(['auth', 'role:customer'])
-    ->get('/my-bookings', [CalendarController::class, 'myBookings'])
-    ->name('customer.bookings');
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/my-bookings', [CalendarController::class, 'myBookings'])->name('customer.bookings');
+    Route::get('/my-bookings/{booking}', [CalendarController::class, 'bookingDetail'])->name('customer.booking.show');
+    Route::get('/my-bookings/{booking}/download', [CalendarController::class, 'downloadBooking'])->name('customer.booking.download');
+});
 
 // Public calendar - browse all events
 Route::get('/calendar/events', [CalendarController::class, 'browseAll'])->name('calendar.browse-all');
@@ -133,6 +136,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     
     // Events Management (authorization handled in controller)
     Route::resource('events', AdminEventController::class);
+
+    // Event Breakdown / Analytics
+    Route::get('event-breakdown', [EventBreakdownController::class, 'index'])->name('event-breakdown.index');
+    Route::get('event-breakdown/{event}', [EventBreakdownController::class, 'show'])->name('event-breakdown.show');
 });
 
 // Item approval routes
