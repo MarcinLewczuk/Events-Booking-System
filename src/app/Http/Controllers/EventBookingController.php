@@ -53,6 +53,25 @@ class EventBookingController extends Controller
     {
         $event = Event::with('location')->findOrFail($id);
 
+        // Calculate total tickets first to validate before authentication check
+        $totalTickets = $request->integer('adult_tickets', 0) + 
+                       $request->integer('child_tickets', 0) + 
+                       $request->integer('concession_tickets', 0);
+
+        // Must book at least 1 ticket - check this first
+        if ($totalTickets === 0) {
+            return redirect()->back()
+                ->withErrors(['Please select at least one ticket.'])
+                ->withInput();
+        }
+
+        // Maximum 4 tickets per booking
+        if ($totalTickets > 4) {
+            return redirect()->back()
+                ->withErrors(['Maximum 4 tickets per booking. Please make a separate booking for larger groups.'])
+                ->withInput();
+        }
+
         // Validation rules
         $rules = [
             'adult_tickets' => 'required|integer|min:0',
@@ -76,7 +95,8 @@ class EventBookingController extends Controller
 
         // For free events, guest bookings require name and email
         if (!Auth::check()) {
-            $rules['guest_name'] = 'required|string|max:255';
+            $rules['guest_first_name'] = 'required|string|max:255';
+            $rules['guest_surname'] = 'required|string|max:255';
             $rules['guest_email'] = 'required|email|max:255';
         }
 
@@ -98,23 +118,13 @@ class EventBookingController extends Controller
 
         $validated = $validator->validated();
 
-        // Calculate total tickets
+        // Recalculate total tickets from validated input
         $totalTickets = $validated['adult_tickets'] + 
                        $validated['child_tickets'] + 
                        $validated['concession_tickets'];
 
         // Business rules validation
         $errors = [];
-
-        // Must book at least 1 ticket
-        if ($totalTickets === 0) {
-            $errors[] = 'Please select at least one ticket.';
-        }
-
-        // Maximum 4 tickets per booking
-        if ($totalTickets > 4) {
-            $errors[] = 'Maximum 4 tickets per booking. Please make a separate booking for larger groups.';
-        }
 
         // Check event is not cancelled
         if ($event->status === 'cancelled') {
@@ -164,7 +174,8 @@ class EventBookingController extends Controller
             $booking = EventBooking::create([
                 'event_id' => $event->id,
                 'user_id' => Auth::id(),
-                'guest_name' => $validated['guest_name'] ?? null,
+                'guest_first_name' => $validated['guest_first_name'] ?? null,
+                'guest_surname' => $validated['guest_surname'] ?? null,
                 'guest_email' => $validated['guest_email'] ?? null,
                 'adult_tickets' => $validated['adult_tickets'],
                 'child_tickets' => $validated['child_tickets'],
