@@ -79,6 +79,11 @@ class EventBooking extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
     /**
      * Computed properties
      */

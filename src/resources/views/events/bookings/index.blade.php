@@ -156,8 +156,13 @@
 
                                         <!-- Actions -->
                                         <div class="flex flex-row md:flex-col gap-2 flex-shrink-0">
-                                            <a href="{{ route('events.show', $event) }}" 
+                                            <a href="{{ route('customer.booking.show', $booking) }}" 
                                                class="px-4 py-2 text-white text-sm font-semibold rounded-lg text-center transition hover:opacity-90" style="background-color: #247a7c;">
+                                                View Details
+                                            </a>
+
+                                            <a href="{{ route('events.show', $event) }}" 
+                                               class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg text-center transition">
                                                 View Event
                                             </a>
 

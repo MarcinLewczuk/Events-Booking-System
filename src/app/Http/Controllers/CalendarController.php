@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventBooking;
+use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -191,5 +192,120 @@ class CalendarController extends Controller
         return response($ics)
             ->header('Content-Type', 'text/calendar; charset=utf-8')
             ->header('Content-Disposition', 'attachment; filename="' . $event->title . '.ics"');
+    }
+
+    /**
+     * Show detailed booking info with tickets for a customer
+     */
+    public function bookingDetail($bookingId)
+    {
+        $booking = EventBooking::with(['event.location', 'tickets', 'user'])
+            ->findOrFail($bookingId);
+
+        if ($booking->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        return view('events.bookings.show', compact('booking'));
+    }
+
+    /**
+     * Download booking summary as a text file
+     */
+    public function downloadBooking($bookingId)
+    {
+        $booking = EventBooking::with(['event.location', 'tickets', 'user'])
+            ->findOrFail($bookingId);
+
+        if ($booking->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $event = $booking->event;
+        $user = $booking->user;
+
+        $content = "═══════════════════════════════════════\n";
+        $content .= "     DELAPRÉ ABBEY EVENTS VENUE\n";
+        $content .= "         BOOKING CONFIRMATION\n";
+        $content .= "═══════════════════════════════════════\n\n";
+
+        $content .= "Booking Reference: {$booking->booking_reference}\n";
+        $content .= "Booking Date:      " . $booking->created_at->format('M d, Y g:i A') . "\n";
+        $content .= "Status:            " . ucfirst($booking->status) . "\n\n";
+
+        $content .= "───────────────────────────────────────\n";
+        $content .= "EVENT DETAILS\n";
+        $content .= "───────────────────────────────────────\n";
+        $content .= "Event:    {$event->title}\n";
+        $content .= "Date:     " . $event->start_datetime->format('l, F j, Y') . "\n";
+        $content .= "Time:     " . $event->start_datetime->format('g:i A');
+        if ($event->end_datetime) {
+            $content .= " – " . $event->end_datetime->format('g:i A');
+        }
+        $content .= "\n";
+        $content .= "Location: " . ($event->location->name ?? 'TBA') . "\n\n";
+
+        $content .= "───────────────────────────────────────\n";
+        $content .= "ATTENDEE\n";
+        $content .= "───────────────────────────────────────\n";
+        $content .= "Name:  " . ($user ? $user->first_name . ' ' . $user->surname : $booking->guest_first_name . ' ' . $booking->guest_surname) . "\n";
+        $content .= "Email: " . ($user ? $user->email : $booking->guest_email) . "\n\n";
+
+        $content .= "───────────────────────────────────────\n";
+        $content .= "TICKETS\n";
+        $content .= "───────────────────────────────────────\n";
+
+        if ($booking->tickets->count() > 0) {
+            foreach ($booking->tickets as $ticket) {
+                $content .= sprintf(
+                    "  %s  |  %-12s  |  £%s  |  %s\n",
+                    $ticket->ticket_reference,
+                    ucfirst($ticket->type),
+                    number_format($ticket->price, 2),
+                    ucfirst($ticket->status)
+                );
+            }
+        } else {
+            if ($booking->adult_tickets > 0) $content .= "  Adult x{$booking->adult_tickets}\n";
+            if ($booking->child_tickets > 0) $content .= "  Child x{$booking->child_tickets}\n";
+            if ($booking->concession_tickets > 0) $content .= "  Concession x{$booking->concession_tickets}\n";
+        }
+
+        $content .= "\n";
+        $content .= "Total Tickets: {$booking->total_tickets}\n";
+        $content .= "Total Amount:  £" . number_format($booking->total_amount, 2) . "\n\n";
+
+        if ($booking->accessibility_notes) {
+            $content .= "───────────────────────────────────────\n";
+            $content .= "ACCESSIBILITY NOTES\n";
+            $content .= "───────────────────────────────────────\n";
+            $content .= "{$booking->accessibility_notes}\n\n";
+        }
+
+        if ($booking->status === 'cancelled') {
+            $content .= "───────────────────────────────────────\n";
+            $content .= "CANCELLATION INFO\n";
+            $content .= "───────────────────────────────────────\n";
+            $content .= "Cancelled:  " . ($booking->cancelled_at ? $booking->cancelled_at->format('M d, Y g:i A') : 'N/A') . "\n";
+            if ($booking->cancellation_reason) {
+                $content .= "Reason:     {$booking->cancellation_reason}\n";
+            }
+            if ($booking->refund_amount > 0) {
+                $content .= "Refund:     £" . number_format($booking->refund_amount, 2) . "\n";
+            }
+            $content .= "\n";
+        }
+
+        $content .= "═══════════════════════════════════════\n";
+        $content .= "Delapré Abbey Events Venue\n";
+        $content .= "London Road, Northampton NN4 4AW\n";
+        $content .= "events@delapre.com | +44 1604 760817\n";
+        $content .= "═══════════════════════════════════════\n";
+
+        $filename = 'Booking-' . $booking->booking_reference . '.txt';
+
+        return response($content)
+            ->header('Content-Type', 'text/plain; charset=utf-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 }

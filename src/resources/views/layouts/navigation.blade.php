@@ -124,6 +124,9 @@
                                         <a href="{{ route('admin.events.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">📅</span> Events
                                         </a>
+                                        <a href="{{ route('admin.event-breakdown.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
+                                            <span class="mr-2">📊</span> Event Breakdown
+                                        </a>
                                         <a href="{{ route('admin.announcements.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">🔈</span> Announcement
                                         </a>
