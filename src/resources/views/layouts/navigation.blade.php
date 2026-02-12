@@ -9,7 +9,7 @@
     $isAdmin = $userRole === 'admin';
 @endphp
 
-<nav x-data="{ adminOpen: false, userOpen: false }" class="bg-primary-400 shadow-lg">
+<nav x-data="{ adminOpen: false, userOpen: false }" class="bg-primary-900 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->

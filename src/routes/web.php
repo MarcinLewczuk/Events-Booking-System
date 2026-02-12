@@ -41,7 +41,14 @@ Route::post('/bookings/{booking}/cancel', [EventBookingController::class, 'cance
 Route::get('/bookings/{booking}/calendar/{type}', [EventBookingController::class, 'addToCalendar'])->name('events.booking.calendar');
 
 // Event pages (keep existing)
-Route::get('/events', function() { return view('corporate.events.index'); })->name('events');
+Route::get('/events', function() {
+    $upcomingEvents = \App\Models\Event::where('status', 'active')
+        ->where('start_datetime', '>', now())
+        ->orderBy('start_datetime', 'asc')
+        ->take(5)
+        ->get();
+    return view('corporate.events.index', compact('upcomingEvents')); 
+})->name('events');
 Route::get('/events/{id}', function($id) { return view('corporate.events.show', ['id' => $id]); })->name('events.show');
 
 Route::get('/auctions', [CorporateController::class, 'browseAuctions'])->name('auctions.browse');
