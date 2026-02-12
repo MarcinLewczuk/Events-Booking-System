@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Delapre Abbey') }}</title>
+        <title>{{ config('app.name', 'Delapré Abbey') }}</title>
+        <link rel="icon" type="image/png" href="https://delapreabbey.org/wp-content/uploads/2024/09/cropped-favicon-1-150x150.png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
