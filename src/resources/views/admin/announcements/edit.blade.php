@@ -14,7 +14,7 @@
                 @method('PATCH')
 
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                    <div class="border-l-4 border-[#370671] p-6">
+                    <div class="border-l-4 border-primary-600 p-6">
                         <!-- Error Messages -->
                         @if($errors->any())
                             <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
@@ -47,7 +47,7 @@
                                     <input type="text" 
                                            name="title" 
                                            value="{{ old('title', $announcement->title) }}"
-                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('title') border-red-500 @enderror"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('title') border-red-500 @enderror"
                                            required>
                                 </div>
 
@@ -58,7 +58,7 @@
                                     </label>
                                     <textarea name="message" 
                                               rows="5"
-                                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('message') border-red-500 @enderror"
+                                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('message') border-red-500 @enderror"
                                               required>{{ old('message', $announcement->message) }}</textarea>
                                 </div>
 
@@ -69,11 +69,13 @@
                                     </label>
                                     <select name="topic" 
                                             id="topic"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('topic') border-red-500 @enderror"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('topic') border-red-500 @enderror"
                                             required
                                             onchange="toggleTopicFields()">
                                         <option value="">Select Topic</option>
-                                        <option value="auction" {{ old('topic', $announcement->topic) == 'auction' ? 'selected' : '' }}>Auction</option>
+                                        <option value="general" {{ old('topic', $announcement->topic) == 'general' ? 'selected' : '' }}>General (All Users)</option>
+
+                                        <option value="event" {{ old('topic', $announcement->topic) == 'event' ? 'selected' : '' }}>Event-Specific</option>
                                     </select>
                                 </div>
 
@@ -83,7 +85,7 @@
                                         Select Auction <span class="text-red-600">*</span>
                                     </label>
                                     <select name="auction_id" 
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         <option value="">Choose an auction</option>
                                         @foreach($auctions as $auction)
                                             <option value="{{ $auction->id }}" {{ old('auction_id', $announcement->auction_id) == $auction->id ? 'selected' : '' }}>
@@ -99,11 +101,27 @@
                                         Select Catalogue <span class="text-red-600">*</span>
                                     </label>
                                     <select name="catalogue_id" 
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         <option value="">Choose a catalogue</option>
                                         @foreach($catalogues as $catalogue)
                                             <option value="{{ $catalogue->id }}" {{ old('catalogue_id', $announcement->catalogue_id) == $catalogue->id ? 'selected' : '' }}>
                                                 {{ $catalogue->name }} ({{ $catalogue->items->count() }} items)
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Event Selection -->
+                                <div id="event-field" style="display: {{ old('topic', $announcement->topic) == 'event' ? 'block' : 'none' }};">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Select Event <span class="text-red-600">*</span>
+                                    </label>
+                                    <select name="event_id" 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                        <option value="">Choose an event</option>
+                                        @foreach($events as $event)
+                                            <option value="{{ $event->id }}" {{ old('event_id', $announcement->event_id) == $event->id ? 'selected' : '' }}>
+                                                {{ $event->title }} ({{ $event->start_datetime->format('M d, Y') }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -156,16 +174,24 @@
             const topic = document.getElementById('topic').value;
             const auctionField = document.getElementById('auction-field');
             const catalogueField = document.getElementById('catalogue-field');
+            const eventField = document.getElementById('event-field');
             
             if (topic === 'auction') {
                 auctionField.style.display = 'block';
                 catalogueField.style.display = 'none';
+                eventField.style.display = 'none';
             } else if (topic === 'catalogue') {
                 auctionField.style.display = 'none';
                 catalogueField.style.display = 'block';
+                eventField.style.display = 'none';
+            } else if (topic === 'event') {
+                auctionField.style.display = 'none';
+                catalogueField.style.display = 'none';
+                eventField.style.display = 'block';
             } else {
                 auctionField.style.display = 'none';
                 catalogueField.style.display = 'none';
+                eventField.style.display = 'none';
             }
         }
     </script>

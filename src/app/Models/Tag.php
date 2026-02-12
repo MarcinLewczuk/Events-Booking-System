@@ -34,4 +34,10 @@ class Tag extends Model
     {
         return $this->belongsToMany(User::class, 'user_tags')->withTimestamps();
     }
+
+    // Relationship: Events with this tag
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_tags');
+    }
 }

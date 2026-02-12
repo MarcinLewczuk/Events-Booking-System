@@ -5,7 +5,7 @@
             <!-- Header -->
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Create Announcement</h1>
-                <p class="mt-1 text-sm text-gray-600">Create a new announcement for an auction or other important messages</p>
+                <p class="mt-1 text-sm text-gray-600">Create and manage announcements for auctions, events, or send to all users</p>
             </div>
 
             <!-- Form Card -->
@@ -13,7 +13,7 @@
                 @csrf
 
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                    <div class="border-l-4 border-[#370671] p-6">
+                    <div class="border-l-4 border-primary-600 p-6">
                         <!-- Error Messages -->
                         @if($errors->any())
                             <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
@@ -46,7 +46,7 @@
                                     <input type="text" 
                                            name="title" 
                                            value="{{ old('title') }}"
-                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('title') border-red-500 @enderror"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('title') border-red-500 @enderror"
                                            placeholder="e.g., Auction Date Changed, New Items Added"
                                            required>
                                 </div>
@@ -59,8 +59,8 @@
                                     <textarea name="message" 
                                             id="message-textarea"
                                             rows="12"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('message') border-red-500 @enderror"
-                                            placeholder="Enter the announcement message or use auto-generate for auctions..."
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('message') border-red-500 @enderror"
+                                            placeholder="Enter the announcement message or use auto-generate for auctions/events..."
                                             required>{{ old('message') }}</textarea>
                                     <p class="mt-2 text-sm text-gray-600">
                                         For auction announcements, select an auction first, then use the auto-generate button below
@@ -74,12 +74,12 @@
                                     </label>
                                     <select name="topic" 
                                             id="topic"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('topic') border-red-500 @enderror"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition @error('topic') border-red-500 @enderror"
                                             required
                                             onchange="toggleTopicFields()">
                                         <option value="">Select Topic</option>
                                         <option value="general" {{ old('topic') == 'general' ? 'selected' : '' }}>General (All Users)</option>
-                                        <option value="auction" {{ old('topic') == 'auction' ? 'selected' : '' }}>Auction-Specific</option>
+                                        <option value="event" {{ old('topic') == 'event' ? 'selected' : '' }}>Event-Specific</option>
                                     </select>
                                     <p class="mt-2 text-sm text-gray-600">
                                         Choose "General" to send this announcement to all users, or select a specific auction/catalogue
@@ -93,7 +93,7 @@
                                     </label>
                                     <select name="auction_id" 
                                             id="auction-select"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         <option value="">Choose an auction</option>
                                         @foreach($auctions as $auction)
                                             <option value="{{ $auction->id }}" {{ old('auction_id') == $auction->id ? 'selected' : '' }}>
@@ -104,8 +104,8 @@
                                     <!-- Auto-Generate Button -->
                                     <button type="button" 
                                             id="generate-btn"
-                                            onclick="generateMessage()"
-                                            class="mt-3 inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
+                                            onclick="generateAuctionMessage()"
+                                            class="mt-3 inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                         </svg>
@@ -122,7 +122,7 @@
                                         Select Catalogue <span class="text-red-600">*</span>
                                     </label>
                                     <select name="catalogue_id" 
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition">
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         <option value="">Choose a catalogue</option>
                                         @foreach($catalogues as $catalogue)
                                             <option value="{{ $catalogue->id }}" {{ old('catalogue_id') == $catalogue->id ? 'selected' : '' }}>
@@ -130,6 +130,36 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+
+                                <!-- Event Selection (hidden by default) -->
+                                <div id="event-field" style="display: {{ old('topic') == 'event' ? 'block' : 'none' }};">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Select Event <span class="text-red-600">*</span>
+                                    </label>
+                                    <select name="event_id" 
+                                            id="event-select"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                        <option value="">Choose an event</option>
+                                        @foreach($events as $event)
+                                            <option value="{{ $event->id }}" {{ old('event_id') == $event->id ? 'selected' : '' }}>
+                                                {{ $event->title }} ({{ $event->start_datetime->format('M d, Y') }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <!-- Auto-Generate Button -->
+                                    <button type="button" 
+                                            id="event-generate-btn"
+                                            onclick="generateEventMessage()"
+                                            class="mt-3 inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                        <span id="event-generate-btn-text">Auto-Generate Message</span>
+                                    </button>
+                                    <p class="mt-2 text-sm text-gray-600">
+                                        Automatically generates a detailed announcement with event information and pricing
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -143,8 +173,9 @@
                                 <div class="text-sm text-blue-800">
                                     <p class="font-semibold mb-1">Announcement Types</p>
                                     <ul class="list-disc list-inside space-y-1">
-                                        <li><strong>General:</strong> Sent to all users, not linked to any specific auction or catalogue</li>
+                                        <li><strong>General:</strong> Sent to all users, not linked to any specific item</li>
                                         <li><strong>Auction-Specific:</strong> Appears on the auction detail page for customers viewing that auction</li>
+                                        <li><strong>Event-Specific:</strong> Appears on the event detail page for customers viewing that event</li>
                                     </ul>
                                 </div>
                             </div>
@@ -173,20 +204,28 @@
         const topic = document.getElementById('topic').value;
         const auctionField = document.getElementById('auction-field');
         const catalogueField = document.getElementById('catalogue-field');
+        const eventField = document.getElementById('event-field');
         
         if (topic === 'auction') {
             auctionField.style.display = 'block';
             catalogueField.style.display = 'none';
+            eventField.style.display = 'none';
         } else if (topic === 'catalogue') {
             auctionField.style.display = 'none';
             catalogueField.style.display = 'block';
+            eventField.style.display = 'none';
+        } else if (topic === 'event') {
+            auctionField.style.display = 'none';
+            catalogueField.style.display = 'none';
+            eventField.style.display = 'block';
         } else {
             auctionField.style.display = 'none';
             catalogueField.style.display = 'none';
+            eventField.style.display = 'none';
         }
     }
     
-    async function generateMessage() {
+    async function generateAuctionMessage() {
         const auctionSelect = document.getElementById('auction-select');
         const auctionId = auctionSelect.value;
         const messageTextarea = document.getElementById('message-textarea');
@@ -210,7 +249,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ auction_id: auctionId })
+                body: JSON.stringify({ type: 'auction', id: auctionId })
             });
             
             const data = await response.json();
@@ -219,7 +258,59 @@
                 messageTextarea.value = data.message;
                 // Show success feedback
                 const originalBg = generateBtn.className;
-                generateBtn.className = generateBtn.className.replace('from-blue-600 to-blue-700', 'from-green-600 to-green-700');
+                generateBtn.className = generateBtn.className.replace('from-primary-600 to-primary-700', 'from-green-600 to-green-700');
+                btnText.innerHTML = '✓ Message Generated!';
+                
+                setTimeout(() => {
+                    generateBtn.className = originalBg;
+                    btnText.innerHTML = 'Auto-Generate Message';
+                }, 2000);
+            } else {
+                alert('Failed to generate message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while generating the message. Please try again.');
+        } finally {
+            generateBtn.disabled = false;
+            generateBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+    }
+
+    async function generateEventMessage() {
+        const eventSelect = document.getElementById('event-select');
+        const eventId = eventSelect.value;
+        const messageTextarea = document.getElementById('message-textarea');
+        const generateBtn = document.getElementById('event-generate-btn');
+        const btnText = document.getElementById('event-generate-btn-text');
+        
+        if (!eventId) {
+            alert('Please select an event first');
+            return;
+        }
+        
+        // Disable button and show loading state
+        generateBtn.disabled = true;
+        btnText.innerHTML = 'Generating...';
+        generateBtn.classList.add('opacity-75', 'cursor-not-allowed');
+        
+        try {
+            const response = await fetch('{{ route("admin.announcements.generate-message") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ type: 'event', id: eventId })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                messageTextarea.value = data.message;
+                // Show success feedback
+                const originalBg = generateBtn.className;
+                generateBtn.className = generateBtn.className.replace('from-primary-600 to-primary-700', 'from-green-600 to-green-700');
                 btnText.innerHTML = '✓ Message Generated!';
                 
                 setTimeout(() => {
