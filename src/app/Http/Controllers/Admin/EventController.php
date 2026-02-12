@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class EventController extends Controller
@@ -128,8 +129,8 @@ class EventController extends Controller
             'title' => 'required|string|max:255|unique:events',
             'description' => 'required|string|min:50|max:2000',
             'itinerary' => 'nullable|string|max:5000',
-            'start_datetime' => 'required|datetime|after_or_equal:now',
-            'end_datetime' => 'required|datetime|after:start_datetime',
+            'start_datetime' => 'required|date|after_or_equal:now',
+            'end_datetime' => 'required|date|after:start_datetime',
             'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
@@ -156,12 +157,10 @@ class EventController extends Controller
             $validated['primary_image'] = $imagePath;
         }
 
-        // Calculate duration if not provided
-        if (!$validated['duration_minutes'] ?? null) {
-            $start = Carbon::parse($validated['start_datetime']);
-            $end = Carbon::parse($validated['end_datetime']);
-            $validated['duration_minutes'] = $start->diffInMinutes($end);
-        }
+        // Calculate duration
+        $start = Carbon::parse($validated['start_datetime']);
+        $end = Carbon::parse($validated['end_datetime']);
+        $validated['duration_minutes'] = $start->diffInMinutes($end);
 
         Event::create($validated);
 
@@ -189,8 +188,8 @@ class EventController extends Controller
             'title' => 'required|string|max:255|unique:events,title,' . $event->id,
             'description' => 'required|string|min:50|max:2000',
             'itinerary' => 'nullable|string|max:5000',
-            'start_datetime' => 'required|datetime|after_or_equal:now',
-            'end_datetime' => 'required|datetime|after:start_datetime',
+            'start_datetime' => 'required|date|after_or_equal:now',
+            'end_datetime' => 'required|date|after:start_datetime',
             'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
@@ -211,6 +210,11 @@ class EventController extends Controller
 
         // Handle image upload
         if ($request->hasFile('primary_image')) {
+            // Delete old image if it exists
+            if ($event->primary_image && Storage::disk('public')->exists($event->primary_image)) {
+                Storage::disk('public')->delete($event->primary_image);
+            }
+            
             $image = $request->file('primary_image');
             $imageName = 'event_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('events', $imageName, 'public');
