@@ -15,33 +15,46 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Primary Teal/Turquoise (Delapre Abbey)
+                // Primary Teal (Delapré Abbey - Header)
                 primary: {
-                    50: '#f0fdfa',
-                    100: '#ccfbf1',
-                    200: '#99f6e4',
-                    300: '#5ae4d4',
-                    400: '#2dd4bf',
-                    500: '#4DB8A7', // Main teal
-                    600: '#0d9488',
-                    700: '#0f766e',
-                    800: '#115e59',
-                    900: '#134e4a',
-                    950: '#042f2e',
+                    50: '#e6f4f5',
+                    100: '#b3e0e2',
+                    200: '#80cccf',
+                    300: '#4db8bc',
+                    400: '#299194', // Header background
+                    500: '#299194', // Main teal (header)
+                    600: '#247a7c',
+                    700: '#206177', // Darker teal for hover
+                    800: '#1a4d5f',
+                    900: '#133946',
+                    950: '#0d252e',
                 },
-                // Secondary Golden Yellow (Delapre Abbey)
+                // Lighter Teal for components
+                'teal-light': {
+                    50: '#eaf7f5',
+                    100: '#c2e9e4',
+                    200: '#9adbd2',
+                    300: '#72cdc1',
+                    400: '#6bbbae', // Lighter teal for components
+                    500: '#6bbbae',
+                    600: '#569689',
+                    700: '#417167',
+                    800: '#2c4c44',
+                    900: '#172722',
+                },
+                // Secondary Golden Yellow (Delapré Abbey accents)
                 secondary: {
-                    50: '#fefce8',
-                    100: '#fef9c3',
-                    200: '#fef08a',
-                    300: '#fde047',
-                    400: '#facc15',
-                    500: '#F5B800', // Main gold/yellow
-                    600: '#ca8a04',
-                    700: '#a16207',
-                    800: '#854d0e',
-                    900: '#713f12',
-                    950: '#422006',
+                    50: '#fef9e6',
+                    100: '#fceeb3',
+                    200: '#fae380',
+                    300: '#f8d84d',
+                    400: '#daaa00', // Yellow accents
+                    500: '#daaa00', // Main yellow
+                    600: '#ae8800',
+                    700: '#826600',
+                    800: '#564400',
+                    900: '#2a2200',
+                    950: '#1a1500',
                 },
                 // Accent colors
                 accent: {

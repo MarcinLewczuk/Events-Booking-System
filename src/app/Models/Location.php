@@ -31,6 +31,12 @@ class Location extends Model
         return $this->hasMany(Auction::class);
     }
 
+    // Events at this location
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
     // Items at this location
     public function items()
     {
