@@ -80,26 +80,6 @@
                            class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.events.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                             Events
                         </a>
-
-                        <a href="{{ route('admin.items.index') }}" 
-                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.items.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                            Items
-                        </a>
-
-                        <a href="{{ route('admin.catalogues.index') }}" 
-                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.catalogues.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                            Catalogues
-                        </a>
-
-                        <a href="{{ route('admin.auctions.index') }}" 
-                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.auctions.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                            Auctions
-                        </a>
-
-                        <a href="{{ route('staff.customers.index') }}" 
-                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('staff.customers.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                            Customers
-                        </a>
                         @if($isAdmin)
                             <!-- Admin Dropdown -->
                             <div class="relative">
@@ -124,32 +104,17 @@
                                         <a href="{{ route('admin.events.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">📅</span> Events
                                         </a>
-                                        <a href="{{ route('admin.event-breakdown.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
-                                            <span class="mr-2">📊</span> Event Breakdown
-                                        </a>
-                                        <a href="{{ route('admin.announcements.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
-                                            <span class="mr-2">🔈</span> Announcement
-                                        </a>
                                         <a href="{{ route('admin.categories.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">📁</span> Categories
                                         </a>
                                         <a href="{{ route('admin.tags.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">🏷️</span> Tags
                                         </a>
-                                        <a href="{{ route('admin.bands.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
-                                            <span class="mr-2">💰</span> Price Bands
-                                        </a>
-                                        <a href="{{ route('admin.locations.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
-                                            <span class="mr-2">📍</span> Locations
-                                        </a>
                                         <a href="{{ route('admin.users.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">👥</span> Users
                                         </a>
-                                        <a href="{{ route('admin.bids.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
-                                            <span class="mr-2">💵</span> Bids
-                                        </a>
-                                        <a href="{{ route('admin.settlements.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white">
-                                            <span class="mr-2">💳</span> Settlements
+                                        <a href="{{ route('admin.announcements.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white">
+                                            <span class="mr-2">📢</span> Announcements
                                         </a>
                                     </div>
                                 </div>
