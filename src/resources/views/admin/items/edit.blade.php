@@ -374,8 +374,8 @@
                             @else
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                                     @foreach($tags as $tag)
-                                        <label class="relative flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-purple-50 transition-colors
-                                            {{ $item->tags->contains($tag->id) ? 'bg-purple-50 border-[#370671] ring-2 ring-[#370671]' : '' }}">
+                                        <label class="relative flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-primary-50 transition-colors
+                                            {{ $item->tags->contains($tag->id) ? 'bg-primary-50 border-primary-600 ring-2 ring-primary-600' : '' }}">
                                             <input type="checkbox" 
                                                    name="tags[]" 
                                                    value="{{ $tag->id }}"

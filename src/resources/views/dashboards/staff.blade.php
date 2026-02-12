@@ -300,16 +300,16 @@
                     <!-- Items -->
                     <a href="{{ route('admin.items.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-3">
-                            <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition">
+                            <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition">
                                 <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                 </svg>
                             </div>
-                            <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Items</h4>
+                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Items</h4>
                         <p class="text-sm text-gray-600 mt-1">Manage auction items</p>
                     </a>
 
@@ -332,16 +332,16 @@
                     <!-- Auctions -->
                     <a href="{{ route('admin.auctions.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                         <div class="flex items-center justify-between mb-3">
-                            <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition">
+                            <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition">
                                 <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                                 </svg>
                             </div>
-                            <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Auctions</h4>
+                        <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Auctions</h4>
                         <p class="text-sm text-gray-600 mt-1">Schedule auctions</p>
                     </a>
 
@@ -363,14 +363,14 @@
                         <!-- Tags -->
                         <a href="{{ route('admin.tags.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-3">
-                                <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition flex items-center justify-center">
+                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
                                     <span class="text-2xl">🏷️</span>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Tags</h4>
+                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Tags</h4>
                             <p class="text-sm text-gray-600 mt-1">Manage item tags</p>
                         </a>
 
@@ -391,14 +391,14 @@
                         <!-- Locations -->
                         <a href="{{ route('admin.locations.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-3">
-                                <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition flex items-center justify-center">
+                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
                                     <span class="text-2xl">📍</span>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Locations</h4>
+                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Locations</h4>
                             <p class="text-sm text-gray-600 mt-1">Manage venues</p>
                         </a>
 
@@ -419,14 +419,14 @@
                         <!-- Bids -->
                         <a href="{{ route('admin.bids.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-3">
-                                <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition flex items-center justify-center">
+                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
                                     <span class="text-2xl">💵</span>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Bids</h4>
+                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Bids</h4>
                             <p class="text-sm text-gray-600 mt-1">View bid history</p>
                         </a>
 
@@ -446,14 +446,14 @@
                             <!-- Announcements -->
                         <a href="{{ route('admin.announcements.index') }}" class="group bg-white rounded-lg shadow-lg hover:shadow-xl p-6 transition-all border-l-4 border-primary-600 transform hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-3">
-                                <div class="bg-purple-100 rounded-lg p-3 group-hover:bg-purple-200 transition flex items-center justify-center">
+                                <div class="bg-primary-100 rounded-lg p-3 group-hover:bg-primary-200 transition flex items-center justify-center">
                                     <span class="text-2xl">📢</span>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">Announcements</h4>
+                            <h4 class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition">Announcements</h4>
                             <p class="text-sm text-gray-600 mt-1">Manage announcements</p>
                         </a>
                     @endif

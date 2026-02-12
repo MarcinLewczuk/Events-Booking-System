@@ -3,8 +3,8 @@
         <!-- Header -->
         <div class="bg-gradient-to-r from-primary-700 to-primary-600 text-white py-16">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-5xl font-bold mb-4">Contact Us</h1>
-                <p class="text-xl text-purple-100">We're here to help with all your auction inquiries</p>
+                <h1 class="text-5xl font-bold mb-4">Contact Delapré Abbey Events</h1>
+                <p class="text-xl text-primary-100">We're here to help with all your event booking inquiries</p>
             </div>
         </div>
 
@@ -25,43 +25,43 @@
                     <div class="space-y-4">
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Email</h3>
-                            <a href="mailto:info@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-lg">
-                                info@fotherbys.com
+                            <a href="mailto:info@delapre.com" class="text-primary-700 hover:text-primary-800 text-lg">
+                                info@delapre.com
                             </a>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Phone</h3>
-                            <a href="tel:+442071234567" class="text-primary-700 hover:text-primary-800 text-lg">
-                                +44 (0) 20 7123 4567
+                            <a href="tel:+441604760817" class="text-primary-700 hover:text-primary-800 text-lg">
+                                +44 (0) 1604 760817
                             </a>
-                            <p class="text-sm text-gray-500 mt-1">Mon-Fri: 9:00 AM - 6:00 PM GMT</p>
+                            <p class="text-sm text-gray-500 mt-1">Mon-Fri: 9:00 AM - 6:00 PM</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Valuations & Consignments -->
+                <!-- Event Ticketing & Bookings -->
                 <div class="bg-white rounded-lg shadow-sm p-8 border-l-4 border-primary-600">
                     <div class="flex items-center mb-6">
                         <div class="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
                             <svg class="w-8 h-8 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m-4 3v2m4 3v2M9 5h6M9 8h6m-7 8a2 2 0 11-4 0 2 2 0 014 0zm0 0h12a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-900">Valuations</h2>
+                        <h2 class="text-2xl font-bold text-gray-900">Ticketing & Bookings</h2>
                     </div>
                     <div class="space-y-4">
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Email</h3>
-                            <a href="mailto:valuations@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-lg">
-                                valuations@fotherbys.com
+                            <a href="mailto:events@delapre.com" class="text-primary-700 hover:text-primary-800 text-lg">
+                                events@delapre.com
                             </a>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Phone</h3>
-                            <a href="tel:+442071234568" class="text-primary-700 hover:text-primary-800 text-lg">
-                                +44 (0) 20 7123 4568
+                            <a href="tel:+441604760817" class="text-primary-700 hover:text-primary-800 text-lg">
+                                +44 (0) 1604 760817
                             </a>
-                            <p class="text-sm text-gray-500 mt-1">Mon-Fri: 9:00 AM - 6:00 PM GMT</p>
+                            <p class="text-sm text-gray-500 mt-1">Daily: 10:00 AM - 4:00 PM</p>
                         </div>
                     </div>
                 </div>
@@ -77,12 +77,12 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Head Office</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Venue Address</h2>
                         <address class="not-italic text-gray-700 text-lg space-y-1">
-                            <p class="font-semibold">Fotherby's Auction House</p>
-                            <p>123 Bond Street</p>
-                            <p>Mayfair, London</p>
-                            <p>W1S 4RF</p>
+                            <p class="font-semibold">Delapré Abbey Events Venue</p>
+                            <p>London Road</p>
+                            <p>Northampton</p>
+                            <p>NN4 4AW</p>
                             <p>United Kingdom</p>
                         </address>
                         <div class="mt-6">
@@ -98,30 +98,30 @@
             <div class="mb-12">
                 <h2 class="text-3xl font-bold text-gray-900 mb-6">Department Contacts</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Client Services -->
+                    <!-- Event Coordination -->
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="font-bold text-gray-900 mb-3">Client Services</h3>
-                        <p class="text-sm text-gray-600 mb-3">Account assistance and general support</p>
-                        <a href="mailto:clientservices@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            clientservices@fotherbys.com
+                        <h3 class="font-bold text-gray-900 mb-3">Event Coordination</h3>
+                        <p class="text-sm text-gray-600 mb-3">Event planning and coordination support</p>
+                        <a href="mailto:events@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            events@delapre.com
                         </a>
                     </div>
 
-                    <!-- Bidding Support -->
+                    <!-- Booking Support -->
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="font-bold text-gray-900 mb-3">Bidding Support</h3>
-                        <p class="text-sm text-gray-600 mb-3">Help with placing bids and auction registration</p>
-                        <a href="mailto:bids@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            bids@fotherbys.com
+                        <h3 class="font-bold text-gray-900 mb-3">Booking Support</h3>
+                        <p class="text-sm text-gray-600 mb-3">Help with bookings and ticket inquiries</p>
+                        <a href="mailto:bookings@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            bookings@delapre.com
                         </a>
                     </div>
 
-                    <!-- Shipping & Logistics -->
+                    <!-- Venue Management -->
                     <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="font-bold text-gray-900 mb-3">Shipping & Logistics</h3>
-                        <p class="text-sm text-gray-600 mb-3">Collection and delivery inquiries</p>
-                        <a href="mailto:logistics@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            logistics@fotherbys.com
+                        <h3 class="font-bold text-gray-900 mb-3">Venue Management</h3>
+                        <p class="text-sm text-gray-600 mb-3">Venue hire and facilities inquiries</p>
+                        <a href="mailto:venue@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            venue@delapre.com
                         </a>
                     </div>
 
@@ -129,8 +129,8 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <h3 class="font-bold text-gray-900 mb-3">Press & Media</h3>
                         <p class="text-sm text-gray-600 mb-3">Media inquiries and press releases</p>
-                        <a href="mailto:press@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            press@fotherbys.com
+                        <a href="mailto:press@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            press@delapre.com
                         </a>
                     </div>
 
@@ -138,8 +138,8 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <h3 class="font-bold text-gray-900 mb-3">Careers</h3>
                         <p class="text-sm text-gray-600 mb-3">Job opportunities and applications</p>
-                        <a href="mailto:careers@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            careers@fotherbys.com
+                        <a href="mailto:careers@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            careers@delapre.com
                         </a>
                     </div>
 
@@ -147,8 +147,8 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <h3 class="font-bold text-gray-900 mb-3">Accounts</h3>
                         <p class="text-sm text-gray-600 mb-3">Payment and invoice inquiries</p>
-                        <a href="mailto:accounts@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
-                            accounts@fotherbys.com
+                        <a href="mailto:accounts@delapre.com" class="text-primary-700 hover:text-primary-800 text-sm font-medium">
+                            accounts@delapre.com
                         </a>
                     </div>
                 </div>
