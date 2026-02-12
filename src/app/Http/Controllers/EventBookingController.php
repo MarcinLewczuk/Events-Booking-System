@@ -86,14 +86,7 @@ class EventBookingController extends Controller
             'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
         ];
 
-        // Paid events require authentication
-        if ($event->is_paid && !Auth::check()) {
-            return redirect()->route('login')
-                ->with('intended_url', route('events.book', $event->id))
-                ->with('error', 'Please login or create an account to book paid events.');
-        }
-
-        // For free events, guest bookings require name and email
+        // Guest bookings require name and email
         if (!Auth::check()) {
             $rules['guest_first_name'] = 'required|string|max:255';
             $rules['guest_surname'] = 'required|string|max:255';
