@@ -272,15 +272,45 @@
 
                                 @guest
                                     <!-- Guest Booking Fields -->
+                                    <div class="bg-teal-light-50 border-2 border-teal-light-300 rounded-xl p-6 mb-4">
+                                        <div class="flex items-center mb-4">
+                                            <svg class="w-6 h-6 text-teal-light-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                            </svg>
+                                            <h4 class="font-bold text-gray-900 text-lg">Book as Guest</h4>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mb-4">No account needed! Just provide your details below.</p>
+                                    </div>
+                                    
                                     <div class="space-y-4">
-                                        <div>
-                                            <label for="guest_name" class="block font-semibold text-gray-900 mb-2 text-lg">Full Name *</label>
-                                            <input type="text" 
-                                                   name="guest_name" 
-                                                   id="guest_name" 
-                                                   value="{{ old('guest_name') }}"
-                                                   required
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-teal-light-500 focus:ring-2 focus:ring-teal-light-200">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label for="guest_first_name" class="block font-semibold text-gray-900 mb-2 text-lg">First Name *</label>
+                                                <input type="text" 
+                                                       name="guest_first_name" 
+                                                       id="guest_first_name" 
+                                                       value="{{ old('guest_first_name') }}"
+                                                       required
+                                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-teal-light-500 focus:ring-2 focus:ring-teal-light-200"
+                                                       placeholder="John">
+                                                @error('guest_first_name')
+                                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div>
+                                                <label for="guest_surname" class="block font-semibold text-gray-900 mb-2 text-lg">Surname *</label>
+                                                <input type="text" 
+                                                       name="guest_surname" 
+                                                       id="guest_surname" 
+                                                       value="{{ old('guest_surname') }}"
+                                                       required
+                                                       class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-teal-light-500 focus:ring-2 focus:ring-teal-light-200"
+                                                       placeholder="Smith">
+                                                @error('guest_surname')
+                                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                                @enderror
+                                            </div>
                                         </div>
 
                                         <div>
@@ -290,8 +320,12 @@
                                                    id="guest_email" 
                                                    value="{{ old('guest_email') }}"
                                                    required
-                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-teal-light-500 focus:ring-2 focus:ring-teal-light-200">
+                                                   class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-teal-light-500 focus:ring-2 focus:ring-teal-light-200"
+                                                   placeholder="john.smith@example.com">
                                             <p class="text-sm text-gray-600 mt-1">Booking confirmation will be sent here</p>
+                                            @error('guest_email')
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 @else

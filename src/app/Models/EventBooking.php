@@ -11,7 +11,8 @@ class EventBooking extends Model
         'booking_reference',
         'event_id',
         'user_id',
-        'guest_name',
+        'guest_first_name',
+        'guest_surname',
         'guest_email',
         'adult_tickets',
         'child_tickets',
@@ -83,7 +84,15 @@ class EventBooking extends Model
      */
     public function getAttendeeNameAttribute()
     {
-        return $this->user ? $this->user->name : $this->guest_name;
+        if ($this->user) {
+            return $this->user->name;
+        }
+        
+        if ($this->guest_first_name && $this->guest_surname) {
+            return $this->guest_first_name . ' ' . $this->guest_surname;
+        }
+        
+        return $this->guest_first_name ?? 'Guest';
     }
 
     public function getAttendeeEmailAttribute()

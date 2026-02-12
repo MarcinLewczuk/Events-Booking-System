@@ -147,10 +147,6 @@
                         Book Tickets
                     </a>
 
-                    <button class="w-full border-2 border-primary-500 text-primary-500 py-3 rounded-lg hover:bg-primary-50 transition font-semibold">
-                        Add to Calendar
-                    </button>
-
                     <div class="mt-6 pt-6 border-t border-gray-200">
                         <h3 class="font-semibold text-gray-900 mb-3">Share this event</h3>
                         <div class="flex gap-2">
