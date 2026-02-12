@@ -131,6 +131,8 @@ class EventController extends Controller
             'itinerary' => 'nullable|string|max:5000',
             'start_datetime' => 'required|date|after_or_equal:now',
             'end_datetime' => 'required|date|after:start_datetime',
+            'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
+            'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
             'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
@@ -141,6 +143,10 @@ class EventController extends Controller
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
         ]);
+
+        // Convert datetime strings to Carbon instances
+        $validated['start_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $validated['start_datetime']);
+        $validated['end_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $validated['end_datetime']);
 
         // If not paid event, clear prices
         if (!$validated['is_paid'] ?? false) {
@@ -158,9 +164,7 @@ class EventController extends Controller
         }
 
         // Calculate duration
-        $start = Carbon::parse($validated['start_datetime']);
-        $end = Carbon::parse($validated['end_datetime']);
-        $validated['duration_minutes'] = $start->diffInMinutes($end);
+        $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
         Event::create($validated);
 
@@ -188,8 +192,8 @@ class EventController extends Controller
             'title' => 'required|string|max:255|unique:events,title,' . $event->id,
             'description' => 'required|string|min:50|max:2000',
             'itinerary' => 'nullable|string|max:5000',
-            'start_datetime' => 'required|date|after_or_equal:now',
-            'end_datetime' => 'required|date|after:start_datetime',
+            'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
+            'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
             'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
@@ -200,6 +204,10 @@ class EventController extends Controller
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
         ]);
+
+        // Convert datetime strings to Carbon instances
+        $validated['start_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $validated['start_datetime']);
+        $validated['end_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $validated['end_datetime']);
 
         // If not paid event, clear prices
         if (!$validated['is_paid'] ?? false) {
@@ -222,9 +230,7 @@ class EventController extends Controller
         }
 
         // Calculate duration
-        $start = Carbon::parse($validated['start_datetime']);
-        $end = Carbon::parse($validated['end_datetime']);
-        $validated['duration_minutes'] = $start->diffInMinutes($end);
+        $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
         $event->update($validated);
 
