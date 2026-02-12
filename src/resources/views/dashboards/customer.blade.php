@@ -14,7 +14,23 @@
             </div>
 
             <!-- Quick Navigation Links -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <a href="{{ route('calendar.index') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-primary-100 rounded-md p-3">
+                                <svg class="h-6 w-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">My Calendar</h3>
+                                <p class="text-sm text-gray-600">View bookings</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="{{ route('customer.inbox.index') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
                     <div class="p-6">
                         <div class="flex items-center">
@@ -132,6 +148,65 @@
                     <a href="{{ route('events') }}" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-6 rounded-lg transition">
                         Browse Events
                     </a>
+                </div>
+            @endif
+
+            <!-- Calendar Preview Section -->
+            @if($bookedEvents && $bookedEvents->isNotEmpty())
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Upcoming Events This Month</h3>
+                        <a href="{{ route('calendar.index') }}" class="text-primary-600 hover:text-primary-700 font-semibold text-sm">
+                            View Full Calendar →
+                        </a>
+                    </div>
+                    
+                    <!-- Mini Calendar Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @php
+                            $upcomingBookings = $bookedEvents->filter(function($booking) {
+                                return $booking->event->start_datetime >= now() && $booking->status === 'confirmed';
+                            })->sortBy(function($booking) {
+                                return $booking->event->start_datetime;
+                            })->take(4);
+                        @endphp
+
+                        @foreach($upcomingBookings as $booking)
+                            <div class="bg-white rounded-lg shadow-sm border-l-4 border-primary-600 p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">{{ $booking->event->title }}</h4>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            📅 {{ $booking->event->start_datetime->format('M d, Y') }} 
+                                            <span class="ml-2">🕐 {{ $booking->event->start_datetime->format('g:i A') }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                @if($booking->event->location)
+                                    <p class="text-sm text-gray-600 mb-3">📍 {{ $booking->event->location->name }}</p>
+                                @endif
+                                
+                                <div class="flex gap-2">
+                                    <a href="{{ route('events.show', $booking->event) }}" 
+                                       class="flex-1 text-center bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200">
+                                        Event Info
+                                    </a>
+                                    <a href="{{ route('calendar.export-ics', $booking) }}" 
+                                       class="flex-1 text-center bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200"
+                                       title="Add to your Windows Calendar or other calendar apps">
+                                        + Calendar
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if($upcomingBookings->count() === 0)
+                        <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+                            <p class="text-gray-600">No upcoming events this month</p>
+                        </div>
+                    @endif
                 </div>
             @endif
 
