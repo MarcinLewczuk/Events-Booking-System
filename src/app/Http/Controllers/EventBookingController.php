@@ -25,15 +25,6 @@ class EventBookingController extends Controller
             return view('events.booking.cancelled', compact('event'));
         }
 
-        // Check if user already has a booking (prevent duplicates)
-        $existingBooking = null;
-        if (Auth::check()) {
-            $existingBooking = $event->bookings()
-                ->where('user_id', Auth::id())
-                ->where('status', 'confirmed')
-                ->first();
-        }
-
         // Pre-fill user data if authenticated
         $userData = null;
         if (Auth::check()) {
@@ -43,7 +34,7 @@ class EventBookingController extends Controller
             ];
         }
 
-        return view('events.booking.show', compact('event', 'existingBooking', 'userData'));
+        return view('events.booking.show', compact('event', 'userData'));
     }
 
     /**
@@ -132,12 +123,6 @@ class EventBookingController extends Controller
             } else {
                 $errors[] = "Only {$remainingSpaces} space(s) remaining. Please reduce your ticket quantity.";
             }
-        }
-
-        // Check for duplicate booking
-        $userIdOrEmail = Auth::check() ? Auth::id() : $validated['guest_email'] ?? null;
-        if ($userIdOrEmail && $event->hasBooking($userIdOrEmail)) {
-            $errors[] = 'You have already booked this event.';
         }
 
         if (!empty($errors)) {

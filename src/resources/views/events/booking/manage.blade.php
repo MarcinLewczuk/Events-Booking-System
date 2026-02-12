@@ -197,7 +197,7 @@
                     <script>
                         function getDirections() {
                             const startAddress = document.getElementById('startAddress').value.trim();
-                            const destination = "{{ $booking->event->location->address }}";
+                            const destination = "London Road, Northampton, NN4 8AW";
                             
                             if (!startAddress) {
                                 alert('Please enter your starting address');
