@@ -59,6 +59,11 @@ class Event extends Model
         return $this->hasMany(EventBooking::class)->where('status', 'confirmed');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'event_tags');
+    }
+
     /**
      * Computed properties
      */
