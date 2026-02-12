@@ -80,7 +80,7 @@
                         @auth
                             @if(auth()->user()->role === 'customer' && auth()->user()->buyer_approved_status && $auction->location && $auction->location->seating_rows && $auction->auction_date > now())
                                 <a href="{{ route('customer.seat-booking.show', $auction) }}" 
-                                   class="inline-flex items-center justify-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-lg font-semibold transition duration-200 shadow-lg hover:shadow-xl">
+                                   class="inline-flex items-center justify-center px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-lg font-semibold transition duration-200 shadow-lg hover:shadow-xl">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>

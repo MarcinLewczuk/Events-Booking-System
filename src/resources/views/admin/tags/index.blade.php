@@ -82,7 +82,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @forelse($tags as $tag)
-                                <tr class="hover:bg-purple-50 transition-colors duration-150">
+                                <tr class="hover:bg-primary-50 transition-colors duration-150">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
                                             <div class="w-10 h-10 bg-gradient-to-br from-[#370671] to-purple-600 rounded-lg flex items-center justify-center mr-3">
