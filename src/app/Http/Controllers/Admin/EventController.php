@@ -107,9 +107,8 @@ class EventController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-        $locations = Location::orderBy('name')->get();
         
-        return view('admin.events.create', compact('categories', 'locations'));
+        return view('admin.events.create', compact('categories'));
     }
 
     /**
@@ -133,7 +132,6 @@ class EventController extends Controller
             'end_datetime' => 'required|date|after:start_datetime',
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
-            'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',
@@ -178,9 +176,8 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $categories = Category::orderBy('name')->get();
-        $locations = Location::orderBy('name')->get();
         
-        return view('admin.events.edit', compact('event', 'categories', 'locations'));
+        return view('admin.events.edit', compact('event', 'categories'));
     }
 
     /**
@@ -194,7 +191,6 @@ class EventController extends Controller
             'itinerary' => 'nullable|string|max:5000',
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
-            'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',

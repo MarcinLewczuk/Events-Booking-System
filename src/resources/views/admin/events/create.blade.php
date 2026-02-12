@@ -108,49 +108,25 @@
                                 <p class="mt-2 text-sm text-gray-600">Detailed schedule or agenda (optional)</p>
                             </div>
 
-                            <!-- Category & Location Grid -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Category -->
-                                <div>
-                                    <label for="category_id" class="block text-sm font-semibold text-gray-900 mb-2">
-                                        Category <span class="text-red-600">*</span>
-                                    </label>
-                                    <select id="category_id"
-                                            name="category_id" 
-                                            class="w-full px-4 py-2 border @error('category_id') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
-                                            required>
-                                        <option value="">Select a category...</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" @selected(old('category_id', $event->category_id ?? null) == $category->id)>
-                                                {{ $category->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('category_id')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Location -->
-                                <div>
-                                    <label for="location_id" class="block text-sm font-semibold text-gray-900 mb-2">
-                                        Location <span class="text-red-600">*</span>
-                                    </label>
-                                    <select id="location_id"
-                                            name="location_id" 
-                                            class="w-full px-4 py-2 border @error('location_id') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
-                                            required>
-                                        <option value="">Select a location...</option>
-                                        @foreach($locations as $location)
-                                            <option value="{{ $location->id }}" @selected(old('location_id', $event->location_id ?? null) == $location->id)>
-                                                {{ $location->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('location_id')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                            <!-- Category Field -->
+                            <div>
+                                <label for="category_id" class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Category <span class="text-red-600">*</span>
+                                </label>
+                                <select id="category_id"
+                                        name="category_id" 
+                                        class="w-full px-4 py-2 border @error('category_id') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                        required>
+                                    <option value="">Select a category...</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" @selected(old('category_id', $event->category_id ?? null) == $category->id)>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
