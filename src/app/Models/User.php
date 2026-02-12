@@ -20,6 +20,7 @@ class User extends Authenticatable
         'contact_telephone_number',
         'contact_address',
         'buyer_approved_status',
+        'newsletter_consent',
     ];
 
     protected $hidden = [
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'buyer_approved_status' => 'boolean',
+        'newsletter_consent' => 'boolean',
     ];
 
     // Full name accessor

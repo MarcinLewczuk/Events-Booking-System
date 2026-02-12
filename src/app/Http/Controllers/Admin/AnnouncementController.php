@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Auction;
 use App\Models\Catalogue;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
@@ -59,19 +60,30 @@ class AnnouncementController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('admin.announcements.create', compact('auctions', 'catalogues'));
+        $events = Event::where('status', 'active')
+            ->where('start_datetime', '>=', now())
+            ->with(['location', 'tags'])
+            ->orderBy('start_datetime', 'asc')
+            ->get();
+
+        return view('admin.announcements.create', compact('auctions', 'catalogues', 'events'));
     }
 
     /**
-     * Generate auto message for auction
+     * Generate auto message for auction or event
      */
     public function generateMessage(Request $request)
     {
         $request->validate([
-            'auction_id' => 'required|exists:auctions,id',
+            'type' => 'required|in:auction,event',
+            'id' => 'required|integer',
         ]);
 
-        $message = Announcement::generateAuctionMessage($request->auction_id);
+        if ($request->type === 'auction') {
+            $message = Announcement::generateAuctionMessage($request->id);
+        } else {
+            $message = Announcement::generateEventMessage($request->id);
+        }
 
         return response()->json([
             'success' => true,
@@ -87,9 +99,10 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'topic' => 'required|in:auction,catalogue,general',
+            'topic' => 'required|in:auction,catalogue,event,general',
             'auction_id' => 'required_if:topic,auction|nullable|exists:auctions,id',
             'catalogue_id' => 'required_if:topic,catalogue|nullable|exists:catalogues,id',
+            'event_id' => 'required_if:topic,event|nullable|exists:events,id',
         ]);
 
         // Prepare data
@@ -100,6 +113,7 @@ class AnnouncementController extends Controller
             'created_by' => auth()->id(),
             'auction_id' => null,
             'catalogue_id' => null,
+            'event_id' => null,
         ];
 
         // Set IDs based on topic
@@ -107,8 +121,10 @@ class AnnouncementController extends Controller
             $data['auction_id'] = $request->auction_id;
         } elseif ($request->topic === 'catalogue' && $request->catalogue_id) {
             $data['catalogue_id'] = $request->catalogue_id;
+        } elseif ($request->topic === 'event' && $request->event_id) {
+            $data['event_id'] = $request->event_id;
         }
-        // If topic is 'general', both IDs remain null
+        // If topic is 'general', all IDs remain null
 
         Announcement::create($data);
 
@@ -140,7 +156,13 @@ class AnnouncementController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('admin.announcements.edit', compact('announcement', 'auctions', 'catalogues'));
+        $events = Event::where('status', 'active')
+            ->where('start_datetime', '>=', now())
+            ->with(['location', 'tags'])
+            ->orderBy('start_datetime', 'asc')
+            ->get();
+
+        return view('admin.announcements.edit', compact('announcement', 'auctions', 'catalogues', 'events'));
     }
 
     /**
@@ -151,9 +173,10 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'topic' => 'required|in:auction,catalogue,general',
+            'topic' => 'required|in:auction,catalogue,event,general',
             'auction_id' => 'required_if:topic,auction|nullable|exists:auctions,id',
             'catalogue_id' => 'required_if:topic,catalogue|nullable|exists:catalogues,id',
+            'event_id' => 'required_if:topic,event|nullable|exists:events,id',
         ]);
 
         // Prepare data
@@ -163,6 +186,7 @@ class AnnouncementController extends Controller
             'topic' => $request->topic,
             'auction_id' => null,
             'catalogue_id' => null,
+            'event_id' => null,
         ];
 
         // Set IDs based on topic
@@ -170,8 +194,10 @@ class AnnouncementController extends Controller
             $data['auction_id'] = $request->auction_id;
         } elseif ($request->topic === 'catalogue' && $request->catalogue_id) {
             $data['catalogue_id'] = $request->catalogue_id;
+        } elseif ($request->topic === 'event' && $request->event_id) {
+            $data['event_id'] = $request->event_id;
         }
-        // If topic is 'general', both IDs remain null
+        // If topic is 'general', all IDs remain null
 
         $announcement->update($data);
 

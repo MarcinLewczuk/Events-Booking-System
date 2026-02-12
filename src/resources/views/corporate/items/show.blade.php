@@ -231,7 +231,7 @@
                             <div class="flex flex-wrap gap-2">
                                 @foreach($item->tags as $tag)
                                     <a href="{{ route('items.browse', ['tags' => [$tag->id]]) }}" 
-                                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-primary-700 hover:bg-purple-200 transition">
+                                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-700 hover:bg-primary-200 transition">
                                         {{ $tag->name }}
                                     </a>
                                 @endforeach

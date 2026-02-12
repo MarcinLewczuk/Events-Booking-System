@@ -11,7 +11,7 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3">
                         @if(in_array(auth()->user()->role, ['admin', 'approver']))
-                            <x-buttons.link :href="route('admin.approvals.items')" class="bg-purple-600 hover:bg-purple-700">
+                            <x-buttons.link :href="route('admin.approvals.items')" class="bg-primary-600 hover:bg-primary-700">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>

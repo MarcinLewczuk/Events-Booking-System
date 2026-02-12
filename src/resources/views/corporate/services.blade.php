@@ -147,7 +147,7 @@
                                     <span class="text-gray-700">Written reports with photographs</span>
                                 </li>
                             </ul>
-                            <a href="{{ route('valuation') }}" class="inline-block bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition">
+                            <a href="{{ route('valuation') }}" class="inline-block bg-primary-700 hover:bg-primary-800 text-white font-semibold py-3 px-6 rounded-lg transition">
                                 Request Valuation →
                             </a>
                         </div>

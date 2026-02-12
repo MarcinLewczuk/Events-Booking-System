@@ -187,9 +187,6 @@
                                     </svg>
                                 </div>
                             @endif
-                            <div class="absolute top-4 left-4 bg-secondary-500 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
-                                {{ $event->start_datetime->format('d M') }}
-                            </div>
                             @if($event->is_paid)
                                 <div class="absolute top-4 right-4 bg-primary-700 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     From £{{ number_format($event->child_price ?? $event->adult_price, 2) }}

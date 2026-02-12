@@ -15,6 +15,7 @@ class Announcement extends Model
         'topic',
         'auction_id',
         'catalogue_id',
+        'event_id',
         'created_by',
     ];
 
@@ -25,22 +26,25 @@ class Announcement extends Model
     {
         parent::boot();
 
-        // Updated validation: allow both to be null for general announcements
+        // Updated validation: allow all to be null for general announcements
         static::saving(function ($announcement) {
-            // Can't be linked to both
-            if ($announcement->auction_id && $announcement->catalogue_id) {
-                throw new \Exception('Announcement cannot be linked to both auction and catalogue');
+            // Can't be linked to multiple items
+            $linkedCount = ($announcement->auction_id ? 1 : 0) + 
+                           ($announcement->catalogue_id ? 1 : 0) + 
+                           ($announcement->event_id ? 1 : 0);
+            
+            if ($linkedCount > 1) {
+                throw new \Exception('Announcement cannot be linked to multiple items');
             }
             
-            // If both are null, it's a general announcement (allowed now)
-            // If one is set, topic should match
-            if ($announcement->auction_id && $announcement->topic !== 'auction') {
+            // Set topic based on what's linked
+            if ($announcement->auction_id) {
                 $announcement->topic = 'auction';
-            }
-            if ($announcement->catalogue_id && $announcement->topic !== 'catalogue') {
+            } elseif ($announcement->catalogue_id) {
                 $announcement->topic = 'catalogue';
-            }
-            if (!$announcement->auction_id && !$announcement->catalogue_id) {
+            } elseif ($announcement->event_id) {
+                $announcement->topic = 'event';
+            } else {
                 $announcement->topic = 'general';
             }
         });
@@ -60,6 +64,14 @@ class Announcement extends Model
     public function catalogue()
     {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    /**
+     * Relation to Event
+     */
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
     }
 
     /**
@@ -94,7 +106,7 @@ class Announcement extends Model
         return !$this->auction_id && !$this->catalogue_id;
     }
     /**
-     * Get the name of the related item (auction or catalogue)
+     * Get the name of the related item (auction, catalogue, or event)
      */
     public function getRelatedItemName()
     {
@@ -104,6 +116,10 @@ class Announcement extends Model
         
         if ($this->catalogue_id && $this->catalogue) {
             return $this->catalogue->name;
+        }
+
+        if ($this->event_id && $this->event) {
+            return $this->event->title;
         }
         
         return 'General Announcement';
@@ -180,6 +196,66 @@ class Announcement extends Model
         $message .= "We look forward to seeing you at the auction!\n\n";
         $message .= "Best regards,\n";
         $message .= "The Auction Team";
+        
+        return $message;
+    }
+
+    /**
+     * Generate auto message for event
+     */
+    public static function generateEventMessage($eventId)
+    {
+        $event = Event::with(['location', 'tags'])
+            ->findOrFail($eventId);
+
+        $message = "Dear Valued Visitor,\n\n";
+        $message .= "We're excited to invite you to an upcoming event!\n\n";
+        
+        // Event details
+        $message .= "🎉 Event: " . $event->title . "\n";
+        $message .= "📅 Date: " . $event->start_datetime->format('l, F j, Y') . "\n";
+        $message .= "🕐 Time: " . $event->start_datetime->format('g:i A') . "\n";
+        
+        if ($event->location) {
+            $message .= "📍 Location: " . $event->location->name . "\n";
+        }
+        
+        if ($event->description) {
+            $message .= "\n" . $event->description . "\n";
+        }
+        
+        // Event details
+        if ($event->is_paid) {
+            $message .= "\n💰 Pricing:\n";
+            if ($event->adult_price) {
+                $message .= "   Adult: £" . number_format($event->adult_price, 2) . "\n";
+            }
+            if ($event->child_price) {
+                $message .= "   Child: £" . number_format($event->child_price, 2) . "\n";
+            }
+            if ($event->concession_price) {
+                $message .= "   Concession: £" . number_format($event->concession_price, 2) . "\n";
+            }
+        } else {
+            $message .= "\n🎟️ This is a FREE event!\n";
+        }
+        
+        // Show tags
+        if ($event->tags && $event->tags->isNotEmpty()) {
+            $message .= "\n🏷️ Event Categories: " . $event->tags->pluck('name')->join(', ') . "\n";
+        }
+        
+        // Capacity info
+        if ($event->capacity) {
+            $bookedTickets = $event->booked_tickets ?? 0;
+            $remaining = max(0, $event->capacity - $bookedTickets);
+            $message .= "\n🎫 Tickets Available: " . $remaining . " of " . $event->capacity . "\n";
+        }
+        
+        $message .= "\nWe look forward to welcoming you!\n\n";
+        $message .= "For more information or to book tickets, visit our website.\n\n";
+        $message .= "Best regards,\n";
+        $message .= "The Events Team";
         
         return $message;
     }

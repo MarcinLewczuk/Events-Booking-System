@@ -8,7 +8,7 @@
                         <h1 class="text-3xl font-bold text-gray-900">Select Your Seat</h1>
                         <p class="mt-1 text-sm text-gray-600">{{ $auction->title }} - {{ $auction->auction_date->format('F d, Y') }}</p>
                     </div>
-                    <a href="{{ route('auctions.show', $auction) }}" class="text-purple-600 hover:text-purple-700 text-sm font-medium">
+                    <a href="{{ route('auctions.show', $auction) }}" class="text-primary-600 hover:text-primary-700 text-sm font-medium">
                         ← Back to Auction
                     </a>
                 </div>

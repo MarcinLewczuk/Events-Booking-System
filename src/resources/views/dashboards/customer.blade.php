@@ -6,115 +6,201 @@
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-2xl font-bold mb-2 text-gray-900">Welcome back, {{ auth()->user()->first_name }}!</h2>
-                            <p class="text-gray-600">Explore our approved items, catalogues, and upcoming auctions.</p>
+                            <h2 class="text-2xl font-bold mb-2 text-gray-900">Welcome, {{ auth()->user()->first_name }}!</h2>
+                            <p class="text-gray-600">Your visitor dashboard - manage your events, preferences, and account settings.</p>
                         </div>
-                        <!-- My Inbox Button -->
-                        <a href="{{ route('customer.inbox.index') }}" 
-                           class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition-colors">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            My Inbox
-                        </a>
                     </div>
                 </div>
             </div>
-            <!-- My Seat Bookings -->
-            @if($seatBookings->isNotEmpty())
+
+            <!-- Quick Navigation Links -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <a href="{{ route('customer.inbox.index') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-primary-100 rounded-md p-3">
+                                <svg class="h-6 w-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Announcements</h3>
+                                <p class="text-sm text-gray-600">View latest updates</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('events') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-secondary-100 rounded-md p-3">
+                                <svg class="h-6 w-6 text-secondary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Browse Events</h3>
+                                <p class="text-sm text-gray-600">See what's on</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('profile.edit') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                                <svg class="h-6 w-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Account Settings</h3>
+                                <p class="text-sm text-gray-600">Manage your profile</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- My Booked Events -->
+            @if($bookedEvents && $bookedEvents->isNotEmpty())
                 <div class="mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">My Seat Bookings</h3>
+                        <h3 class="text-xl font-bold text-gray-900">My Booked Events</h3>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($seatBookings as $booking)
-                            <div class="bg-white rounded-lg shadow-sm border-l-4 border-purple-600 p-4">
-                                <div class="flex items-start justify-between mb-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($bookedEvents as $booking)
+                            <div class="bg-white rounded-lg shadow-sm border-l-4 border-primary-600 p-6 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-4">
                                     <div>
-                                        <h4 class="font-bold text-gray-900">{{ $booking->auction->title }}</h4>
-                                        <p class="text-sm text-gray-600 mt-1">{{ $booking->auction->location->name }}</p>
+                                        <h4 class="font-bold text-gray-900 text-lg">{{ $booking->event->title }}</h4>
+                                        @if($booking->event->location)
+                                            <p class="text-sm text-gray-600 mt-1">{{ $booking->event->location->name }}</p>
+                                        @endif
                                     </div>
-                                    <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                        <span class="text-lg font-bold">{{ $booking->seat_number }}</span>
-                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ 
+                                        $booking->status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                    }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
                                 </div>
-                                <div class="space-y-2 text-sm text-gray-600 mb-3">
+                                <div class="space-y-2 text-sm text-gray-600 mb-4">
                                     <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                         </svg>
-                                        {{ $booking->auction->auction_date->format('M d, Y') }}
+                                        {{ $booking->event->start_datetime->format('M d, Y') }}
                                     </div>
                                     <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
-                                        {{ $booking->auction->start_time }}
+                                        {{ $booking->event->start_datetime->format('g:i A') }}
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m-4 3v2m4 3v2M9 5h6M9 8h6m-7 8a2 2 0 11-4 0 2 2 0 014 0zm0 0h12a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        {{ $booking->total_tickets }} {{ Str::plural('ticket', $booking->total_tickets) }}
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <a href="{{ route('auctions.show', $booking->auction) }}" 
-                                       class="flex-1 text-center bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200">
-                                        View Auction
+                                    <a href="{{ route('events.show', $booking->event) }}" 
+                                       class="flex-1 text-center bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200">
+                                        View Event
                                     </a>
-                                    <a href="{{ route('customer.seat-booking.show', $booking->auction) }}" 
-                                       class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-2 px-3 rounded-lg transition duration-200">
-                                        View Seat Map
-                                    </a>
+                                    @if($booking->status === 'confirmed')
+                                        <button class="flex-1 text-center bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200"
+                                                onclick="if(confirm('Cancel this booking?')) { window.location.href='{{ route('events.booking.cancel', $booking) }}'; }">
+                                            Cancel
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
+            @else
+                <div class="bg-white rounded-lg shadow-sm p-8 mb-8 text-center">
+                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No Booked Events</h3>
+                    <p class="text-gray-600 mb-4">You haven't booked any events yet.</p>
+                    <a href="{{ route('events') }}" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Browse Events
+                    </a>
+                </div>
             @endif
-            <!-- Recommended Auctions -->
-            @if($userTags->isNotEmpty() && $recommendedAuctions->isNotEmpty())
+
+            <!-- Recommended Events -->
+            @if($recommendedEvents && $recommendedEvents->isNotEmpty())
                 <div class="mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Recommended Auctions for You</h3>
-                        <a href="{{ route('auctions.browse') }}" class="text-sm text-purple-600 hover:text-purple-800 font-semibold">
+                        <h3 class="text-xl font-bold text-gray-900">Recommended Events For You</h3>
+                        <a href="{{ route('events') }}" class="text-sm text-primary-600 hover:text-primary-800 font-semibold">
                             View All →
                         </a>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        @foreach($recommendedAuctions as $auction)
-                            <a href="{{ route('auctions.show', $auction) }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
-                                <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-4 text-white relative">
-                                    <div class="absolute top-2 right-2 bg-white text-purple-700 text-xs font-bold px-2 py-1 rounded-full">
-                                        {{ $auction->match_percentage }}% Match
-                                    </div>
-                                    <h4 class="font-bold text-lg mb-1">{{ $auction->title }}</h4>
-                                    @if($auction->catalogue)
-                                        <p class="text-sm text-purple-100">{{ $auction->catalogue->name }}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($recommendedEvents as $event)
+                            <a href="{{ route('events.show', $event) }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
+                                <div class="bg-gradient-to-r from-primary-600 to-primary-700 p-4 text-white relative">
+                                    @if(isset($event->match_percentage) && $event->match_percentage > 0)
+                                        <div class="absolute top-2 right-2 bg-white text-primary-700 text-xs font-bold px-2 py-1 rounded-full">
+                                            {{ $event->match_percentage }}% Match
+                                        </div>
+                                    @endif
+                                    <h4 class="font-bold text-lg mb-1">{{ $event->title }}</h4>
+                                    @if($event->location)
+                                        <p class="text-sm text-primary-100">{{ $event->location->name }}</p>
                                     @endif
                                 </div>
                                 <div class="p-4">
-                                    <div class="space-y-2 text-sm text-gray-600">
+                                    <div class="space-y-2 text-sm text-gray-600 mb-4">
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
-                                            {{ $auction->auction_date->format('M d, Y') }}
-                                            @if($auction->start_time)
-                                                at {{ $auction->start_time }}
-                                            @endif
+                                            {{ $event->start_datetime->format('M d, Y') }}
                                         </div>
-                                        @if($auction->location)
-                                            <div class="flex items-center">
-                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            {{ $event->start_datetime->format('g:i A') }}
+                                        </div>
+                                        @if($event->is_paid)
+                                            <div class="flex items-center text-primary-600 font-semibold">
+                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
                                                 </svg>
-                                                {{ $auction->location->name }}
+                                                From £{{ number_format($event->adult_price, 2) }}
+                                            </div>
+                                        @else
+                                            <div class="flex items-center text-green-600 font-semibold">
+                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                                                </svg>
+                                                Free Event
                                             </div>
                                         @endif
-                                        <div class="flex items-center text-purple-600 font-semibold">
-                                            <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-                                            </svg>
-                                            {{ $auction->matching_items_count }} matching items
-                                        </div>
+                                        @if($event->tags && $event->tags->isNotEmpty())
+                                            <div class="flex items-center flex-wrap gap-1 pt-2">
+                                                @foreach($event->tags->take(3) as $tag)
+                                                    <span class="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded">{{ $tag->name }}</span>
+                                                @endforeach
+                                                @if($event->tags->count() > 3)
+                                                    <span class="text-xs text-gray-500">+{{ $event->tags->count() - 3 }}</span>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </div>
+                                    <button class="w-full bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition duration-200">
+                                        View Event
+                                    </button>
                                 </div>
                             </a>
                         @endforeach
@@ -122,122 +208,96 @@
                 </div>
             @endif
 
-            <!-- Recommended Items -->
-            @if($userTags->isNotEmpty() && $recommendedItems->isNotEmpty())
-                <div class="mb-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-gray-900">Items You Might Like</h3>
-                        <a href="{{ route('items.browse') }}" class="text-sm text-purple-600 hover:text-purple-800 font-semibold">
-                            View All →
-                        </a>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($recommendedItems as $item)
-                            <a href="{{ route('items.show', $item) }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group relative">
-                                <div class="absolute top-2 right-2 z-10 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    {{ $item->match_percentage }}% Match
-                                </div>
-                                <div class="relative aspect-square overflow-hidden bg-gray-200">
-                                    @if($item->primaryImage)
-                                        <img src="{{ asset('storage/' . $item->primaryImage->path) }}" 
-                                             alt="{{ $item->title }}" 
-                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center">
-                                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $item->title }}</h4>
-                                    @if($item->category)
-                                        <p class="text-xs text-gray-500 mb-2">{{ $item->category->name }}</p>
-                                    @endif
-                                    @if($item->estimated_price)
-                                        <p class="text-lg font-bold text-purple-600">£{{ number_format($item->estimated_price, 2) }}</p>
-                                    @endif
-                                    <div class="mt-2 flex items-center text-xs text-purple-600">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                        </svg>
-                                        {{ $item->matching_tags_count }} matching {{ Str::plural('tag', $item->matching_tags_count) }}
-                                    </div>
-                                </div>
+            <!-- Preferences Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Interests & Tags -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Your Interests</h3>
+                            <a href="{{ route('profile.tags') }}" class="text-sm text-primary-600 hover:text-primary-800 font-semibold">
+                                Manage →
                             </a>
-                        @endforeach
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">
+                            @if(auth()->user()->interestedTags && auth()->user()->interestedTags->count() > 0)
+                                You're following {{ auth()->user()->interestedTags->count() }} interest(s).
+                            @else
+                                Add interests to customize your experience.
+                            @endif
+                        </p>
+                        @if(auth()->user()->interestedTags && auth()->user()->interestedTags->count() > 0)
+                            <div class="flex flex-wrap gap-2">
+                                @foreach(auth()->user()->interestedTags->take(8) as $tag)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-600 text-white">
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                                @if(auth()->user()->interestedTags->count() > 8)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                                        +{{ auth()->user()->interestedTags->count() - 8 }} more
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
-            @endif
 
-            <!-- Quick Actions -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <!-- Browse Items -->
-                <a href="{{ route('items.browse') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
+                <!-- Newsletter Subscription -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                                <svg class="h-6 w-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                </svg>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Newsletter & Communication</h3>
+                        <form method="POST" action="{{ route('profile.newsletter') }}" class="space-y-4">
+                            @csrf
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <div>
+                                    <label for="newsletter_consent" class="text-sm font-medium text-gray-700">
+                                        Subscribe to our newsletter
+                                    </label>
+                                    <p class="text-xs text-gray-600 mt-1">Receive updates about events and special offers</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="newsletter_consent" name="newsletter_consent" value="1"
+                                           {{ auth()->user()->newsletter_consent ? 'checked' : '' }}
+                                           class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded cursor-pointer">
+                                </div>
                             </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900">Browse Items</h3>
-                                <p class="text-sm text-gray-600">View approved items</p>
-                            </div>
-                        </div>
+                            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                Save Preferences
+                            </button>
+                        </form>
                     </div>
-                </a>
-
-                <!-- Browse Auctions -->
-                <a href="{{ route('auctions.browse') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                                <svg class="h-6 w-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg font-semibold text-gray-900">Upcoming Auctions</h3>
-                                <p class="text-sm text-gray-600">View scheduled events</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                </div>
             </div>
 
-            <!-- Preferences -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <!-- Account Information -->
+            <div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-900">Your Preferences</h3>
-                        <a href="{{ route('profile.tags') }}" class="text-sm text-purple-600 hover:text-purple-800 font-semibold">
-                            Manage Tags →
-                        </a>
-                    </div>
-                    <p class="text-sm text-gray-600">
-                        @if(auth()->user()->interestedTags->count() > 0)
-                            You're following {{ auth()->user()->interestedTags->count() }} tag(s). We'll recommend items, catalogues, and auctions based on your interests.
-                        @else
-                            You haven't selected any interests yet. Add tags to get personalized recommendations!
-                        @endif
-                    </p>
-                    @if(auth()->user()->interestedTags->count() > 0)
-                        <div class="mt-3 flex flex-wrap gap-2">
-                            @foreach(auth()->user()->interestedTags->take(10) as $tag)
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700">
-                                    {{ $tag->name }}
-                                </span>
-                            @endforeach
-                            @if(auth()->user()->interestedTags->count() > 10)
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-                                    +{{ auth()->user()->interestedTags->count() - 10 }} more
-                                </span>
-                            @endif
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Account Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <div class="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg">
+                                <p class="text-gray-900">{{ auth()->user()->email }}</p>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Email cannot be changed</p>
                         </div>
-                    @endif
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <p class="px-4 py-2 text-gray-900">{{ auth()->user()->first_name }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <p class="px-4 py-2 text-gray-900">{{ auth()->user()->surname }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <p class="px-4 py-2 text-gray-900">{{ auth()->user()->contact_telephone_number ?? 'Not provided' }}</p>
+                        </div>
+                    </div>
+                    <a href="{{ route('profile.edit') }}" class="mt-6 inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Edit Profile
+                    </a>
                 </div>
             </div>
         </div>

@@ -57,4 +57,20 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update newsletter subscription preference.
+     */
+    public function newsletter(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'newsletter_consent' => ['nullable', 'boolean'],
+        ]);
+
+        $request->user()->update([
+            'newsletter_consent' => $request->has('newsletter_consent') ? true : false,
+        ]);
+
+        return back()->with('status', 'newsletter-updated');
+    }
 }
