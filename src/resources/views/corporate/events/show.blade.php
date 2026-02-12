@@ -159,12 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
-                        <p class="text-sm text-gray-600 mb-3">Need help with booking?</p>
-                        <a href="{{ route('contact') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
-                            Contact Us →
-                        </a>
-                    </div>
+
                 </div>
             </div>
 
