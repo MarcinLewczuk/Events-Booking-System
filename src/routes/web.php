@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserTagController;
 use App\Http\Controllers\EventBookingController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\Admin\CatalogueController;
 use App\Http\Controllers\Admin\AuctionController;
 use App\Http\Controllers\Admin\ItemController;
@@ -86,6 +87,20 @@ Route::middleware('auth')->group(function () {
         ->get('/staff', [DashboardController::class, 'staff'])
         ->name('staff.dashboard');
 });
+
+// Calendar routes (Customer only)
+Route::middleware(['auth', 'role:customer'])->prefix('calendar')->name('calendar.')->group(function () {
+    Route::get('/', [CalendarController::class, 'index'])->name('index');
+    Route::get('/bookings/{booking}/export', [CalendarController::class, 'exportIcs'])->name('export-ics');
+});
+
+// My Bookings (Customer only)
+Route::middleware(['auth', 'role:customer'])
+    ->get('/my-bookings', [CalendarController::class, 'myBookings'])
+    ->name('customer.bookings');
+
+// Public calendar - browse all events
+Route::get('/calendar/events', [CalendarController::class, 'browseAll'])->name('calendar.browse-all');
 
 // Admin routes (Admin only)
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
