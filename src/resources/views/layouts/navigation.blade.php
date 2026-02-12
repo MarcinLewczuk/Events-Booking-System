@@ -158,42 +158,6 @@
                     class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         What's On
                     </a>
-
-                    <a href="{{ route('calendar.browse-all') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('calendar.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                        Calendar
-                    </a>
-
-                    <a href="{{ route('contact') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('contact.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
-                        Contact Us
-                    </a>
-
-                    <!-- Eat & Drink Dropdown -->
-                    <div class="relative" x-data="{ eatDrinkOpen: false }">
-                        <button @click="eatDrinkOpen = !eatDrinkOpen" 
-                                class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium text-white hover:bg-primary-700 transition inline-flex items-center whitespace-nowrap">
-                            Eat & Drink
-                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div x-show="eatDrinkOpen" 
-                            @click.away="eatDrinkOpen = false"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute left-0 mt-2 w-56 rounded-none shadow-lg bg-white ring-0 border-t-4 border-secondary-500 z-50"
-                            style="display: none;">
-                            <div class="py-0">
-                                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">The Orangery Café</a>
-                                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white">Hibiscus Fine Dining</a>
-                            </div>
-                        </div>
-                    </div>
                 @endauth
             </div>
 

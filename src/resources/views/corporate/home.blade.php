@@ -23,7 +23,7 @@
                                class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-4 px-8 rounded-lg transition text-lg shadow-lg">
                                 What's On
                             </a>
-                            <a href="{{ route('locations.index') }}" 
+                            <a href="https://delapreabbey.org/visit/" 
                                class="inline-block border-2 border-white text-white hover:bg-white/10 font-bold py-4 px-8 rounded-lg transition text-lg">
                                 Plan Your Visit
                             </a>
@@ -182,7 +182,7 @@
                         <p class="text-gray-700 mb-4">
                             Discover 900 years of history inside this Grade II* listed building. Under 18s go free.
                         </p>
-                        <a href="{{ route('items.browse') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
+                        <a href="https://delapreabbey.org/house-visit/" class="text-primary-600 hover:text-primary-700 font-semibold">
                             Learn More →
                         </a>
                     </div>
@@ -198,7 +198,7 @@
                         <p class="text-gray-700 mb-4">
                             Join our expert guides for an in-depth exploration of the abbey's fascinating history.
                         </p>
-                        <a href="{{ route('events') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
+                        <a href="https://delapreabbey.org/guided-tours/" class="text-primary-600 hover:text-primary-700 font-semibold">
                             Book a Tour →
                         </a>
                     </div>
@@ -214,7 +214,7 @@
                         <p class="text-gray-700 mb-4">
                             Wander through our beautiful historic gardens and enjoy peaceful walks.
                         </p>
-                        <a href="{{ route('locations.index') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
+                        <a href="https://delapreabbey.org/gardens/" class="text-primary-600 hover:text-primary-700 font-semibold">
                             Explore →
                         </a>
                     </div>
@@ -285,7 +285,7 @@
                         <p class="text-lg text-white/90 mb-8 leading-relaxed">
                             Today, we welcome visitors from around the world to explore our beautiful building, attend events, enjoy fine dining, and discover the stories that make this place so special.
                         </p>
-                        <a href="{{ route('about') }}" class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition shadow-lg">
+                        <a href="https://delapreabbey.org/about/" class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition shadow-lg">
                             Our Story →
                         </a>
                     </div>
@@ -313,7 +313,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($locations->take(3) as $location)
-                        <a href="{{ route('locations.index') }}" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition group">
+                        <a href="https://delapreabbey.org/visit/" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition group">
                             @if($location->image_path)
                                 <div class="relative h-64 overflow-hidden">
                                     <img src="{{ asset('storage/' . $location->image_path) }}" 
@@ -342,7 +342,7 @@
                 </div>
 
                 <div class="text-center mt-8">
-                    <a href="{{ route('locations.index') }}" class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition shadow-lg">
+                    <a href="https://delapreabbey.org/visit/" class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-3 px-8 rounded-lg transition shadow-lg">
                         View All Locations →
                     </a>
                 </div>
