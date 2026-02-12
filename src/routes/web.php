@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\SettlementController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
 
 // Public corporate pages
 Route::get('/', [CorporateController::class, 'index'])->name('home');
@@ -114,6 +115,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     
     // Settlements
     Route::resource('settlements', SettlementController::class);
+    
+    // Events Management (authorization handled in controller)
+    Route::resource('events', AdminEventController::class);
 });
 
 // Item approval routes

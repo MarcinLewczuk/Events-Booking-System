@@ -66,6 +66,11 @@
                     </div>
                     @endif
                     @if($isStaff)
+                        <a href="{{ route('admin.events.index') }}" 
+                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.events.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                            Events
+                        </a>
+
                         <a href="{{ route('admin.items.index') }}" 
                            class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.items.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                             Items
@@ -106,6 +111,9 @@
                                      class="absolute left-0 mt-2 w-56 rounded-none shadow-lg bg-white ring-0 border-t-4 border-secondary-500 z-50"
                                      style="display: none;">
                                     <div class="py-0">
+                                        <a href="{{ route('admin.events.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
+                                            <span class="mr-2">📅</span> Events
+                                        </a>
                                         <a href="{{ route('admin.announcements.index') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-teal-light-400 hover:text-white border-b border-gray-200">
                                             <span class="mr-2">🔈</span> Announcement
                                         </a>

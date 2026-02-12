@@ -77,6 +77,10 @@ class EventBookingController extends Controller
             'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
         ];
 
+        $messages = [
+            'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
+        ];
+
         // Guest bookings require name and email
         if (!Auth::check()) {
             $rules['guest_first_name'] = 'required|string|max:255';
