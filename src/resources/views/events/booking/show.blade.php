@@ -331,11 +331,13 @@
                                 </label>
                             </div>
 
-                            <!-- reCAPTCHA Placeholder -->
-                            <div class="bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                                <p class="text-gray-600 font-semibold">reCAPTCHA verification will appear here</p>
-                                <p class="text-sm text-gray-500 mt-1">(Placeholder - to be implemented)</p>
+                            <!-- reCAPTCHA -->
+                            <div class="flex justify-center">
+                                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                             </div>
+                            @error('g-recaptcha-response')
+                                <p class="text-red-600 text-sm mt-2 text-center">{{ $message }}</p>
+                            @enderror
 
                             <!-- Submit Button -->
                             <div class="flex flex-col sm:flex-row gap-4 pt-6">
@@ -430,4 +432,7 @@
         // Initialize on page load
         updateTotal();
     </script>
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </x-layouts.app>
