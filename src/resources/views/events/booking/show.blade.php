@@ -35,25 +35,6 @@
                 </div>
             @endif
 
-            <!-- Existing Booking Alert -->
-            @if ($existingBooking)
-                <div class="mb-6 bg-secondary-50 border-l-4 border-secondary-500 p-6 rounded-r-lg">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-secondary-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-900 mb-2 text-lg">You've already booked this event</h3>
-                            <p class="text-gray-700 mb-3">Booking reference: <span class="font-mono font-bold">{{ $existingBooking->booking_reference }}</span></p>
-                            <a href="{{ route('events.booking.manage', $existingBooking->id) }}" 
-                               class="inline-block bg-teal-light-400 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-semibold transition">
-                                Manage Booking
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <!-- Event is Cancelled -->
             @if ($event->is_cancelled)
                 <div class="bg-white rounded-xl shadow-lg p-8 text-center">
