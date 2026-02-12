@@ -58,7 +58,7 @@
                             <textarea 
                                 name="address" 
                                 rows="3"
-                                placeholder="e.g., 123 High Street, London, SW1A 1AA"
+                                placeholder="e.g., London Road, Northampton, NN4 8AW"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-600 focus:border-transparent transition @error('address') border-red-500 @enderror">{{ old('address') }}</textarea>
                             <p class="mt-2 text-sm text-gray-600">
                                 <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
