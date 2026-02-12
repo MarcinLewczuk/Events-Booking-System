@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class EventBookingController extends Controller
 {
@@ -58,6 +60,11 @@ class EventBookingController extends Controller
             'concession_tickets' => 'required|integer|min:0',
             'accessibility_notes' => 'nullable|string|max:1000',
             'newsletter_opt_in' => 'boolean',
+            'g-recaptcha-response' => 'required',
+        ];
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
         ];
 
         // Paid events require authentication
@@ -73,11 +80,19 @@ class EventBookingController extends Controller
             $rules['guest_email'] = 'required|email|max:255';
         }
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Verify reCAPTCHA response
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        if (!$this->verifyRecaptcha($recaptchaResponse)) {
+            return redirect()->back()
+                ->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.'])
                 ->withInput();
         }
 
@@ -301,5 +316,38 @@ class EventBookingController extends Controller
         }
 
         abort(404);
+    }
+
+    /**
+     * Verify reCAPTCHA response with Google's API
+     */
+    private function verifyRecaptcha($response)
+    {
+        if (empty($response)) {
+            return false;
+        }
+
+        $secret = config('services.recaptcha.secret_key');
+        if (empty($secret)) {
+            // If secret key is not configured, log warning but allow through
+            Log::warning('reCAPTCHA secret key not configured');
+            return true;
+        }
+
+        try {
+            $verifyResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secret,
+                'response' => $response,
+                'remoteip' => request()->ip()
+            ]);
+            
+            $result = $verifyResponse->json();
+            
+            return isset($result['success']) && $result['success'] === true;
+        } catch (\Exception $e) {
+            // Log the error but don't block the booking
+            Log::error('reCAPTCHA verification error: ' . $e->getMessage());
+            return true; // Fail open to prevent blocking legitimate users
+        }
     }
 }
