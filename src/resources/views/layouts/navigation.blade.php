@@ -11,13 +11,10 @@
 
 <nav x-data="{ adminOpen: false, userOpen: false }" class="bg-primary-900 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
+        <div class="flex items-center justify-between h-20">
             <!-- Logo -->
-             <a href="{{ route('home') }}">
-            <div class="flex-shrink-0 flex items-center gap-2">
-                    <x-application-logo class="block" />
-                    <span class="text-lg xl:text-xl font-bold text-white sm:block">Delapre Abbey</span>
-            </div>
+            <a href="{{ route('home') }}" class="flex-shrink-0">
+                <x-application-logo class="block" />
             </a>
             <!-- Main Navigation - Only When Authenticated -->
             <div class="flex items-center space-x-1 lg:space-x-2 flex-1 justify-center">
