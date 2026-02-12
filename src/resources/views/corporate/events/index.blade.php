@@ -1,13 +1,119 @@
 <x-layouts.app>
     <!-- Hero Section -->
-    <div class="relative bg-primary-400 text-white">
+    <!-- <div class="relative bg-primary-400 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <h1 class="text-5xl font-bold mb-4">What's On</h1>
             <p class="text-xl text-primary-100 max-w-2xl">
                 Discover upcoming events, exhibitions, and experiences at Delapré Abbey
             </p>
         </div>
+    </div>-->
+
+    <!-- Events Carousel Section -->
+    @if($upcomingEvents && $upcomingEvents->count() > 0)
+    <div class="relative bg-primary-900 overflow-hidden" x-data="{ 
+        currentSlide: 0, 
+        totalSlides: {{ $upcomingEvents->count() }}
+    }">
+        <!-- Carousel Items -->
+        <div class="relative h-[600px]">
+            @foreach($upcomingEvents as $index => $event)
+                <div x-show="currentSlide === {{ $index }}"
+                     x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0 transform translate-x-full"
+                     x-transition:enter-end="opacity-100 transform translate-x-0"
+                     x-transition:leave="transition ease-in duration-500"
+                     x-transition:leave-start="opacity-100 transform translate-x-0"
+                     x-transition:leave-end="opacity-0 transform -translate-x-full"
+                     class="absolute inset-0">
+                    
+                    <!-- Background - Event Image or Black -->
+                    @if($event->primary_image)
+                        <img src="{{ asset('storage/' . $event->primary_image) }}" 
+                             alt="{{ $event->title }}" 
+                             class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full bg-black"></div>
+                    @endif
+                    
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
+                    
+                    <!-- Content -->
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                            <div class="max-w-2xl">
+                                <span class="inline-block px-4 py-1 bg-secondary-500 text-gray-900 text-sm font-semibold rounded-full mb-4">
+                                    Upcoming Event
+                                </span>
+                                <h2 class="text-5xl font-bold text-white mb-4">{{ $event->title }}</h2>
+                                
+                                @if($event->description)
+                                    <p class="text-xl text-gray-200 mb-6 line-clamp-3">{{ $event->description }}</p>
+                                @endif
+                                
+                                <div class="flex items-center text-white mb-8 space-x-6 flex-wrap">
+                                    <div class="flex items-center">
+                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span class="text-lg">{{ $event->start_datetime->format('F j, Y') }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-lg">{{ $event->start_datetime->format('g:i A') }}</span>
+                                    </div>
+                                    @if($event->location)
+                                        <div class="flex items-center">
+                                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                            <span class="text-lg">{{ $event->location->name }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <a href="{{ route('events.show', $event) }}" 
+                                   class="inline-block bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-4 px-8 rounded-lg transition text-lg">
+                                    Learn More →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Carousel Controls -->
+        <button @click="currentSlide = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1"
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <button @click="currentSlide = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            @foreach($upcomingEvents as $index => $event)
+                <button @click="currentSlide = {{ $index }}"
+                        :class="currentSlide === {{ $index }} ? 'bg-white' : 'bg-white/50'"
+                        class="w-3 h-3 rounded-full transition"></button>
+            @endforeach
+        </div>
+
+        <!-- Auto-advance carousel -->
+        <div x-init="setInterval(() => { currentSlide = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1 }, 5000)"></div>
     </div>
+    @endif
 
     <!-- Filter Bar -->
     <div class="bg-white border-b sticky top-0 z-40">

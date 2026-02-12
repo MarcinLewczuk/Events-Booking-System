@@ -41,7 +41,7 @@ Route::get('/bookings/{booking}/manage', [EventBookingController::class, 'manage
 Route::post('/bookings/{booking}/cancel', [EventBookingController::class, 'cancel'])->name('events.booking.cancel')->middleware('auth');
 Route::get('/bookings/{booking}/calendar/{type}', [EventBookingController::class, 'addToCalendar'])->name('events.booking.calendar');
 
-// Event pages - using EventController for filtering
+// Event pages - merged: carousel + filtering functionality
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 

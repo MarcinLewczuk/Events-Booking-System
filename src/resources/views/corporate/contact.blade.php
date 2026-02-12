@@ -3,8 +3,8 @@
         <!-- Header -->
         <div class="bg-gradient-to-r from-primary-700 to-primary-600 text-white py-16">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-5xl font-bold mb-4">Contact Us</h1>
-                <p class="text-xl text-purple-100">We're here to help with all your auction inquiries</p>
+                <h1 class="text-5xl font-bold mb-4">Contact Delapré Abbey Events</h1>
+                <p class="text-xl text-purple-100">Reach out to our venue team for event inquiries and bookings</p>
             </div>
         </div>
 
@@ -25,16 +25,16 @@
                     <div class="space-y-4">
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Email</h3>
-                            <a href="mailto:info@fotherbys.com" class="text-primary-700 hover:text-primary-800 text-lg">
-                                info@fotherbys.com
+                            <a href="mailto:events@delapre.com" class="text-primary-700 hover:text-primary-800 text-lg">
+                                events@delapre.com
                             </a>
                         </div>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-2">Phone</h3>
-                            <a href="tel:+442071234567" class="text-primary-700 hover:text-primary-800 text-lg">
-                                +44 (0) 20 7123 4567
+                            <a href="tel:+441604760817" class="text-primary-700 hover:text-primary-800 text-lg">
+                                +44 (0) 1604 760817
                             </a>
-                            <p class="text-sm text-gray-500 mt-1">Mon-Fri: 9:00 AM - 6:00 PM GMT</p>
+                            <p class="text-sm text-gray-500 mt-1">Daily: 10:00 AM - 4:00 PM</p>
                         </div>
                     </div>
                 </div>
@@ -77,17 +77,17 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Head Office</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Events Venue</h2>
                         <address class="not-italic text-gray-700 text-lg space-y-1">
-                            <p class="font-semibold">Fotherby's Auction House</p>
-                            <p>123 Bond Street</p>
-                            <p>Mayfair, London</p>
-                            <p>W1S 4RF</p>
+                            <p class="font-semibold">Delapré Abbey Events Venue</p>
+                            <p>London Road</p>
+                            <p>Northampton</p>
+                            <p>NN4 8AW</p>
                             <p>United Kingdom</p>
                         </address>
                         <div class="mt-6">
                             <a href="{{ route('locations.index') }}" class="inline-block text-primary-700 hover:text-primary-800 font-semibold">
-                                View All Our Locations →
+                                View Our Locations →
                             </a>
                         </div>
                     </div>
@@ -156,22 +156,22 @@
 
             <!-- Business Hours -->
             <div class="bg-gradient-to-r from-primary-700 to-primary-600 rounded-lg p-8 text-white">
-                <h2 class="text-2xl font-bold mb-6 text-center">Business Hours</h2>
+                <h2 class="text-2xl font-bold mb-6 text-center">Opening Hours</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                     <div>
-                        <h3 class="font-semibold mb-2">Office Hours</h3>
-                        <p class="text-purple-100">Monday - Friday</p>
-                        <p class="text-lg font-bold">9:00 AM - 6:00 PM</p>
+                        <h3 class="font-semibold mb-2">Daily</h3>
+                        <p class="text-purple-100">Monday - Sunday</p>
+                        <p class="text-lg font-bold">10:00 AM - 4:00 PM</p>
                     </div>
                     <div>
-                        <h3 class="font-semibold mb-2">Viewing Days</h3>
+                        <h3 class="font-semibold mb-2">Event Bookings</h3>
                         <p class="text-purple-100">By Appointment</p>
-                        <p class="text-lg font-bold">Call to Schedule</p>
+                        <p class="text-lg font-bold">Call or Email</p>
                     </div>
                     <div>
-                        <h3 class="font-semibold mb-2">Weekend</h3>
-                        <p class="text-purple-100">Saturday & Sunday</p>
-                        <p class="text-lg font-bold">Closed</p>
+                        <h3 class="font-semibold mb-2">Venue Hire</h3>
+                        <p class="text-purple-100">Inquire for Details</p>
+                        <p class="text-lg font-bold">Contact Us</p>
                     </div>
                 </div>
             </div>
