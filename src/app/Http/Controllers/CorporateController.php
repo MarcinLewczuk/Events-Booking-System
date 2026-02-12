@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\Location;
 use App\Models\Band;
 use App\Models\Auction;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class CorporateController extends Controller
@@ -87,11 +88,19 @@ class CorporateController extends Controller
             ->take(6)
             ->get();
 
+        // Get upcoming events for carousel
+        $upcomingEvents = Event::where('status', 'active')
+            ->where('start_datetime', '>', now())
+            ->orderBy('start_datetime', 'asc')
+            ->take(5)
+            ->get();
+
         return view('corporate.home', compact(
             'upcomingAuctions',
             'featuredItems',
             'highlightedItems',
-            'locations'
+            'locations',
+            'upcomingEvents'
         ));
     }
 

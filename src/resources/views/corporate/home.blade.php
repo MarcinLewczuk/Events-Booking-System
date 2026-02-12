@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <!-- Quick Info Bar -->
+                <!-- Quick Info Bar -->
     <div class="bg-white border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -63,7 +63,6 @@
             </div>
         </div>
     </div>
-
     <!-- What's On Section -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -218,6 +217,57 @@
                         <a href="{{ route('locations.index') }}" class="text-primary-600 hover:text-primary-700 font-semibold">
                             Explore →
                         </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Find Us</h2>
+                    <p class="text-xl text-gray-600">Located in the heart of Northampton</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Delapré Abbey</h3>
+                        <div class="space-y-4 text-gray-700">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-primary-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Address</h4>
+                                    <p>London Road, Northampton NN4 8AW</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-primary-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Phone</h4>
+                                    <p>01604 760817</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-primary-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Opening Times</h4>
+                                    <p>Daily 10:00 AM - 4:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://maps.google.com" target="_blank" class="inline-block mt-6 bg-secondary-500 hover:bg-secondary-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition shadow-lg">
+                            Get Directions →
+                        </a>
+                    </div>
+                    <div class="bg-gray-200 rounded-lg overflow-hidden h-96">
+                        <iframe width="100%" height="100%" style="border:0" loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2419.047!2d-0.8897870554191317!3d52.22615116781254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487630d4c5c5c5c5%3A0x5c5b5c5c5c5c5c5c!2sDelap%C3%A9%20Abbey!5e0!3m2!1sen!2suk!4v1234567890123" width="600" height="450"></iframe>
                     </div>
                 </div>
             </div>

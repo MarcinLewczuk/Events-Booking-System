@@ -87,7 +87,7 @@
                         </address>
                         <div class="mt-6">
                             <a href="{{ route('locations.index') }}" class="inline-block text-primary-700 hover:text-primary-800 font-semibold">
-                                View All Our Locations →
+                                View Our Locations →
                             </a>
                         </div>
                     </div>
@@ -156,22 +156,22 @@
 
             <!-- Business Hours -->
             <div class="bg-gradient-to-r from-primary-700 to-primary-600 rounded-lg p-8 text-white">
-                <h2 class="text-2xl font-bold mb-6 text-center">Business Hours</h2>
+                <h2 class="text-2xl font-bold mb-6 text-center">Opening Hours</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                     <div>
-                        <h3 class="font-semibold mb-2">Office Hours</h3>
-                        <p class="text-purple-100">Monday - Friday</p>
-                        <p class="text-lg font-bold">9:00 AM - 6:00 PM</p>
+                        <h3 class="font-semibold mb-2">Daily</h3>
+                        <p class="text-purple-100">Monday - Sunday</p>
+                        <p class="text-lg font-bold">10:00 AM - 4:00 PM</p>
                     </div>
                     <div>
-                        <h3 class="font-semibold mb-2">Viewing Days</h3>
+                        <h3 class="font-semibold mb-2">Event Bookings</h3>
                         <p class="text-purple-100">By Appointment</p>
-                        <p class="text-lg font-bold">Call to Schedule</p>
+                        <p class="text-lg font-bold">Call or Email</p>
                     </div>
                     <div>
-                        <h3 class="font-semibold mb-2">Weekend</h3>
-                        <p class="text-purple-100">Saturday & Sunday</p>
-                        <p class="text-lg font-bold">Closed</p>
+                        <h3 class="font-semibold mb-2">Venue Hire</h3>
+                        <p class="text-purple-100">Inquire for Details</p>
+                        <p class="text-lg font-bold">Contact Us</p>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,15 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
+        // Get upcoming events for carousel (top 5, no filters applied)
+        $upcomingEvents = Event::with(['location', 'category'])
+            ->where('status', 'active')
+            ->where('start_datetime', '>', Carbon::now())
+            ->orderBy('start_datetime', 'asc')
+            ->take(5)
+            ->get();
+
+        // Get filtered events for the grid
         $query = Event::with(['location', 'category'])
             ->where('status', 'active')
             ->orderBy('start_datetime', 'asc');
@@ -64,7 +73,7 @@ class EventController extends Controller
         $events = $query->paginate(12);
         $categories = Category::orderBy('name')->get();
 
-        return view('corporate.events.index', compact('events', 'categories'));
+        return view('corporate.events.index', compact('events', 'categories', 'upcomingEvents'));
     }
 
     public function show($id)

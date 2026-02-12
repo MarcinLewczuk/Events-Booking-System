@@ -1,1 +1,1 @@
-<img src="{{ asset('images/da.png') }}" alt="Fotherby's" class="h-8 ">
+<img src="{{ asset('images/da.png') }}?v={{ config('app.version', time()) }}" alt="Delapré Abbey" class="h-12">
