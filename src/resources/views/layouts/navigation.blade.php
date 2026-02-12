@@ -34,6 +34,16 @@
                         What's On
                     </a>
 
+                    <a href="{{ route('calendar.index') }}" 
+                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('calendar.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                        Calendar
+                    </a>
+
+                    <a href="{{ route('customer.bookings') }}" 
+                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                        My Bookings
+                    </a>
+
                     <a href="{{ route('contact') }}" 
                     class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('contact.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         Contact Us
@@ -139,6 +149,11 @@
                     <a href="{{ route('events') }}" 
                     class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         What's On
+                    </a>
+
+                    <a href="{{ route('calendar.browse-all') }}" 
+                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('calendar.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                        Calendar
                     </a>
 
                     <a href="{{ route('contact') }}" 
