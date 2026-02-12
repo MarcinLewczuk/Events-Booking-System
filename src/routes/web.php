@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserTagController;
 use App\Http\Controllers\EventBookingController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\CatalogueController;
 use App\Http\Controllers\Admin\AuctionController;
 use App\Http\Controllers\Admin\ItemController;
@@ -40,9 +41,9 @@ Route::get('/bookings/{booking}/manage', [EventBookingController::class, 'manage
 Route::post('/bookings/{booking}/cancel', [EventBookingController::class, 'cancel'])->name('events.booking.cancel')->middleware('auth');
 Route::get('/bookings/{booking}/calendar/{type}', [EventBookingController::class, 'addToCalendar'])->name('events.booking.calendar');
 
-// Event pages (keep existing)
-Route::get('/events', function() { return view('corporate.events.index'); })->name('events');
-Route::get('/events/{id}', function($id) { return view('corporate.events.show', ['id' => $id]); })->name('events.show');
+// Event pages - using EventController for filtering
+Route::get('/events', [EventController::class, 'index'])->name('events');
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
 Route::get('/auctions', [CorporateController::class, 'browseAuctions'])->name('auctions.browse');
 Route::get('/auctions/{auction}', [CorporateController::class, 'showAuction'])->name('auctions.show');
