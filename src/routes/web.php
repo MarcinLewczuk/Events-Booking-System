@@ -115,17 +115,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     
     // Settlements
     Route::resource('settlements', SettlementController::class);
-});
-
-// Admin + Staff Event Management Routes
-Route::prefix('admin')->middleware(['auth', 'role:admin,staff'])->name('admin.')->group(function () {
-    // Events (list and view)
-    Route::resource('events', AdminEventController::class)->only(['index', 'show']);
-});
-
-// Admin Only Event Management Routes (create, edit, delete)
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
-    Route::resource('events', AdminEventController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    
+    // Events Management (authorization handled in controller)
+    Route::resource('events', AdminEventController::class);
 });
 
 // Item approval routes
