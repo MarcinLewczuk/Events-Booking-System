@@ -16,7 +16,6 @@
              <a href="{{ route('home') }}">
             <div class="flex-shrink-0 flex items-center gap-2">
                     <x-application-logo class="block" />
-                    <span class="text-lg xl:text-xl font-bold text-white sm:block">Fotheby's</span>
             </div>
             </a>
             <!-- Main Navigation - Only When Authenticated -->
