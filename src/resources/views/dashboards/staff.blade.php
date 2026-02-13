@@ -71,9 +71,9 @@
                 @else
                     <!-- Calendar Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($upcomingAuctions as $date => $auctions)
+                        @foreach($upcomingAuctions as $date => $events)
                             @if($date !== 'no-date')
-                                @foreach($auctions as $auction)
+                                @foreach($events as $event)
                                     <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all overflow-hidden border-t-4 border-primary-600">
                                         <!-- Date Header -->
                                         <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-4">
