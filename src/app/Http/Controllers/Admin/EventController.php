@@ -128,10 +128,9 @@ class EventController extends Controller
             'title' => 'required|string|max:255|unique:events',
             'description' => 'required|string|min:50|max:2000',
             'itinerary' => 'nullable|string|max:5000',
-            'start_datetime' => 'required|date|after_or_equal:now',
-            'end_datetime' => 'required|date|after:start_datetime',
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
+            'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',
@@ -139,6 +138,7 @@ class EventController extends Controller
             'child_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
         ]);
 
@@ -153,12 +153,23 @@ class EventController extends Controller
             $validated['concession_price'] = null;
         }
 
-        // Handle image upload
+        // Handle primary image upload
         if ($request->hasFile('primary_image')) {
             $image = $request->file('primary_image');
             $imageName = 'event_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('events', $imageName, 'public');
             $validated['primary_image'] = $imagePath;
+        }
+
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            $galleryPaths = [];
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $imageName = 'event_gallery_' . time() . '_' . $index . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('events', $imageName, 'public');
+                $galleryPaths[] = $imagePath;
+            }
+            $validated['gallery_images'] = $galleryPaths;
         }
 
         // Calculate duration
@@ -191,6 +202,7 @@ class EventController extends Controller
             'itinerary' => 'nullable|string|max:5000',
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
+            'location_id' => 'required|exists:locations,id',
             'category_id' => 'required|exists:categories,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',
@@ -198,6 +210,7 @@ class EventController extends Controller
             'child_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
         ]);
 
@@ -212,7 +225,7 @@ class EventController extends Controller
             $validated['concession_price'] = null;
         }
 
-        // Handle image upload
+        // Handle primary image upload
         if ($request->hasFile('primary_image')) {
             // Delete old image if it exists
             if ($event->primary_image && Storage::disk('public')->exists($event->primary_image)) {
@@ -223,6 +236,26 @@ class EventController extends Controller
             $imageName = 'event_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('events', $imageName, 'public');
             $validated['primary_image'] = $imagePath;
+        }
+
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            // Delete old gallery images if they exist
+            if ($event->gallery_images && is_array($event->gallery_images)) {
+                foreach ($event->gallery_images as $oldImage) {
+                    if (Storage::disk('public')->exists($oldImage)) {
+                        Storage::disk('public')->delete($oldImage);
+                    }
+                }
+            }
+            
+            $galleryPaths = [];
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $imageName = 'event_gallery_' . time() . '_' . $index . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('events', $imageName, 'public');
+                $galleryPaths[] = $imagePath;
+            }
+            $validated['gallery_images'] = $galleryPaths;
         }
 
         // Calculate duration

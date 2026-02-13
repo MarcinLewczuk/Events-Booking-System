@@ -79,19 +79,19 @@
                                         <div class="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-4">
                                             <div class="flex items-center justify-between">
                                                 <div>
-                                                    <p class="text-3xl font-bold">{{ $event->start_datetime->format('d') }}</p>
-                                                    <p class="text-sm uppercase tracking-wide">{{ $event->start_datetime->format('M Y') }}</p>
+                                                    <p class="text-3xl font-bold">{{ $auction->start_datetime->format('d') }}</p>
+                                                    <p class="text-sm uppercase tracking-wide">{{ $auction->start_datetime->format('M Y') }}</p>
                                                 </div>
                                                 <div class="text-right">
-                                                    <p class="text-sm">{{ $event->start_datetime->format('l') }}</p>
-                                                    <p class="text-lg font-semibold">{{ $event->start_datetime->format('g:i A') }}</p>
+                                                    <p class="text-sm">{{ $auction->start_datetime->format('l') }}</p>
+                                                    <p class="text-lg font-semibold">{{ $auction->start_datetime->format('g:i A') }}</p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Event Details -->
                                         <div class="p-4">
-                                            <h4 class="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{{ $event->title }}</h4>
+                                            <h4 class="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{{ $auction->title }}</h4>
                                             
                                             <div class="space-y-2 text-sm text-gray-600">
                                                 <!-- Category -->
@@ -99,7 +99,7 @@
                                                     <svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.5a2 2 0 00-1 .266M7 21V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/>
                                                     </svg>
-                                                    <span class="truncate">{{ $event->category?->name ?? 'No category' }}</span>
+                                                    <span class="truncate">{{ $auction->category?->name ?? 'No category' }}</span>
                                                 </div>
 
                                                 <!-- Days Until -->
@@ -107,12 +107,12 @@
                                                     <svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                     </svg>
-                                                    <span>{{ $event->start_datetime->diffForHumans() }}</span>
+                                                    <span>{{ $auction->start_datetime->diffForHumans() }}</span>
                                                 </div>
                                             </div>
 
                                             <!-- View Button -->
-                                            <a href="{{ route('admin.events.show', $event) }}" 
+                                            <a href="{{ route('admin.events.show', $auction) }}" 
                                             class="mt-4 w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition">
                                                 View Details
                                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
