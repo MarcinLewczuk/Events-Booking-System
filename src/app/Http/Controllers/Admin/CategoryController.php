@@ -16,7 +16,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $query = Category::query()->with('parent')->withCount(['children', 'catalogues', 'items']);
+        $query = Category::query()->with('parent')->withCount(['children', 'events']);
 
         if ($request->filled('search')) {
             $search = $request->search;

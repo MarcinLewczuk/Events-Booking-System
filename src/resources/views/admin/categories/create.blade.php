@@ -37,7 +37,7 @@
                             <input type="text" 
                                    name="name" 
                                    value="{{ old('name') }}"
-                                   placeholder="e.g., Furniture, Electronics, Art"
+                                   placeholder="e.g., Workshops, Conferences, Concerts, Seminars"
                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                                    required>
                         </div>

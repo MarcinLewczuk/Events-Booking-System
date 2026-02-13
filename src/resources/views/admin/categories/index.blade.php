@@ -6,8 +6,8 @@
             <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-primary-600">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 class="text-3xl font-bold text-primary-900">Categories Management</h1>
-                        <p class="text-gray-600 mt-1">Organize items with categories and subcategories</p>
+                        <h1 class="text-3xl font-bold text-primary-900">Event Categories</h1>
+                        <p class="text-gray-600 mt-1">Create and manage event categories for organizing your events</p>
                     </div>
                     <x-buttons.link :href="route('admin.categories.create')">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +49,7 @@
                     <input type="text" 
                            name="search" 
                            value="{{ request('search') }}"
-                           placeholder="Search categories..." 
+                           placeholder="Search categories by name..." 
                            class="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500">
                     <x-buttons.primary type="submit">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,8 +75,7 @@
                                 <th class="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Name</th>
                                 <th class="px-6 py-4 text-left text-sm font-bold uppercase tracking-wider">Parent Category</th>
                                 <th class="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">Subcategories</th>
-                                <th class="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">Items</th>
-                                <th class="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">Catalogues</th>
+                                <th class="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">Events</th>
                                 <th class="px-6 py-4 text-center text-sm font-bold uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -109,12 +108,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">
-                                            {{ $category->items_count }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                                            {{ $category->catalogues_count }}
+                                            {{ $category->events_count ?? 0 }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4">
@@ -131,12 +125,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-6 py-12 text-center">
+                                    <td colspan="5" class="px-6 py-12 text-center">
                                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                                         </svg>
                                         <p class="mt-4 text-lg font-semibold text-gray-900">No categories found</p>
-                                        <p class="mt-2 text-sm text-gray-600">Create your first category to organize items</p>
+                                        <p class="mt-2 text-sm text-gray-600">Create your first category to organize events</p>
                                         <div class="mt-6">
                                             <x-buttons.link :href="route('admin.categories.create')">
                                                 Create New Category
