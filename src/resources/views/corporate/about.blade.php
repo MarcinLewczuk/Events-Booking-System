@@ -2,9 +2,9 @@
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-primary-700 to-primary-600 text-white py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-5xl font-bold mb-4">About Fotherby's</h1>
+            <h1 class="text-5xl font-bold mb-4">About Delapré Abbey</h1>
             <p class="text-xl text-purple-100">
-                A traditional auction house specialising in curated sales and expert-led valuations
+                A historic venue bringing people together for 900 years
             </p>
         </div>
     </div>
@@ -17,177 +17,167 @@
                     <div>
                         <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
                         <p class="text-lg text-gray-700 mb-4 leading-relaxed">
-                            Founded in the early twentieth century, Fotherby’s has established itself as a trusted,
-                            independent auction house focused on carefully curated sales rather than high-volume
-                            online listings. What began as a local saleroom has grown into a respected business serving
-                            private collectors, estates, and trade clients across the United Kingdom.
+                            Nestled in the heart of Northampton, Delapré Abbey has been a gathering place for over 900 years. Originally founded as a Cluniac nunnery in 1145, this Grade II* listed building has witnessed centuries of history and continues to bring people together today.
                         </p>
                         <p class="text-lg text-gray-700 mb-4 leading-relaxed">
-                            Our approach has always centred on expert knowledge, realistic valuation, and maintaining
-                            trust between buyers and sellers. Every item is assessed by specialists and entered into
-                            structured auctions designed to achieve fair market value while protecting the reputation
-                            of the business.
+                            Today, we're proud to host a diverse calendar of events that celebrate our heritage while looking to the future. From intimate concerts and workshops to festivals and community gatherings, there's always something special happening at the Abbey.
                         </p>
                         <p class="text-lg text-gray-700 leading-relaxed">
-                            Today, Fotherby’s combines traditional auction practices with carefully selected digital
-                            tools to improve communication, efficiency, and the overall client experience.
+                            Whether you're here to explore our beautiful grounds, attend a memorable event, or simply soak in the history, we're delighted to welcome you to this very special place.
                         </p>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-primary-50 rounded-lg p-6 border-l-4 border-primary-700">
-                            <div class="text-5xl font-bold text-primary-700 mb-2">1961</div>
-                            <p class="text-gray-600">Established</p>
+                        <div class="bg-primary-50 p-6 border-l-4 border-primary-700">
+                            <div class="text-5xl font-bold text-primary-700 mb-2">1145</div>
+                            <p class="text-gray-600">Founded</p>
                         </div>
-                        <div class="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-700">
-                            <div class="text-5xl font-bold text-purple-700 mb-2">65</div>
-                            <p class="text-gray-600">Years of Auction Experience</p>
+                        <div class="bg-purple-50 p-6 border-l-4 border-purple-700">
+                            <div class="text-5xl font-bold text-purple-700 mb-2">900</div>
+                            <p class="text-gray-600">Years of History</p>
                         </div>
-                        <div class="bg-primary-50 rounded-lg p-6 border-l-4 border-primary-700">
-                            <div class="text-5xl font-bold text-primary-700 mb-2">200–300</div>
-                            <p class="text-gray-600">Curated Auctions Per Year</p>
+                        <div class="bg-primary-50 p-6 border-l-4 border-primary-700">
+                            <div class="text-5xl font-bold text-primary-700 mb-2">100+</div>
+                            <p class="text-gray-600">Events Each Year</p>
                         </div>
-                        <div class="bg-primary-50 rounded-lg p-6 border-l-4 border-primary-700">
-                            <div class="text-5xl font-bold text-primary-700 mb-2">3</div>
-                            <p class="text-gray-600">Based Client Network</p>
+                        <div class="bg-primary-50 p-6 border-l-4 border-primary-700">
+                            <div class="text-5xl font-bold text-primary-700 mb-2">8</div>
+                            <p class="text-gray-600">Acres of Grounds</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Our Expertise -->
+        <!-- What We Offer -->
         <section class="py-16 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Expertise</h2>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
                     <p class="text-xl text-gray-600">
-                        Specialist departments focused on carefully selected auction categories
+                        From intimate gatherings to grand celebrations, discover what makes our venue special
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-primary-100 flex items-center justify-center mb-4">
                             <svg class="w-6 h-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Fine Art</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Live Music & Concerts</h3>
                         <p class="text-gray-600">
-                            Paintings, prints, and works on paper assessed and catalogued by experienced specialists.
+                            From classical ensembles to contemporary bands, enjoy performances in our beautiful historic spaces.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-purple-100 flex items-center justify-center mb-4">
                             <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Jewellery & Watches</h3>
-                        <p class="text-gray-600">
-                            Selected fine jewellery, estate pieces, and watches suitable for catalogue sales.
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Furniture & Decorative Arts</h3>
-                        <p class="text-gray-600">
-                            Period furniture, ceramics, and decorative objects assessed on a case-by-case basis.
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Books & Manuscripts</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Workshops & Classes</h3>
                         <p class="text-gray-600">
-                            Rare books, manuscripts, and archival material with specialist interest.
+                            Learn something new with our hands-on workshops, from arts and crafts to history talks.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-primary-100 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Collectables</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Community Events</h3>
                         <p class="text-gray-600">
-                            Coins, medals, militaria, and other specialist collectables appropriate for auction.
+                            Seasonal festivals, markets, and family-friendly activities that bring our community together.
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-red-100 flex items-center justify-center mb-4">
                             <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Asian Art</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Heritage Tours</h3>
                         <p class="text-gray-600">
-                            Selected Asian ceramics and works of art reviewed individually for suitability.
+                            Explore 900 years of fascinating history with our guided tours and special access events.
+                        </p>
+                    </div>
+
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-red-100 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Family Activities</h3>
+                        <p class="text-gray-600">
+                            Fun events and activities designed especially for families with children of all ages.
+                        </p>
+                    </div>
+
+                    <div class="bg-white shadow-sm p-6 hover:shadow-md transition">
+                        <div class="w-12 h-12 bg-red-100 flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Private Hire</h3>
+                        <p class="text-gray-600">
+                            Make your special occasion unforgettable in our stunning historic venue.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Why Choose Us -->
+        <!-- Why Visit Us -->
         <section class="py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Fotherby's</h2>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Visit Us</h2>
                     <p class="text-xl text-gray-600">
-                        A structured, transparent approach to auctions
+                        What makes Delapré Abbey a special place to visit
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-20 h-20 bg-primary-100 flex items-center justify-center mx-auto mb-4">
                             <svg class="w-10 h-10 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Expert Valuation & Banding</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Rich History</h3>
                         <p class="text-gray-600">
-                            Items are valued by specialists and assigned to pricing bands to ensure realistic
-                            expectations and protect auction quality.
+                            Experience nearly a millennium of stories within our beautiful Grade II* listed building and stunning grounds.
                         </p>
                     </div>
 
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-20 h-20 bg-purple-100 flex items-center justify-center mx-auto mb-4">
                             <svg class="w-10 h-10 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Clear Auction Process</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Something for Everyone</h3>
                         <p class="text-gray-600">
-                            From intake and cataloguing to sale and settlement, each stage of the auction is clearly
-                            managed and communicated.
+                            With events ranging from concerts to family activities, workshops to festivals, there's always something to enjoy.
                         </p>
                     </div>
 
                     <div class="text-center">
-                        <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div class="w-20 h-20 bg-primary-100 flex items-center justify-center mx-auto mb-4">
                             <svg class="w-10 h-10 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Reputation & Discretion</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Easy to Reach</h3>
                         <p class="text-gray-600">
-                            Seller anonymity is maintained during auctions, and only suitable items are accepted to
-                            preserve trust and long-term reputation.
+                            Conveniently located in Northampton with ample parking and beautiful grounds to explore before or after your event.
                         </p>
                     </div>
                 </div>
@@ -197,16 +187,16 @@
         <!-- CTA Section -->
         <section class="py-16 bg-gradient-to-r from-primary-700 to-primary-600 text-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl font-bold mb-4">Thinking of Selling or Buying?</h2>
+                <h2 class="text-3xl font-bold mb-4">Ready to Visit?</h2>
                 <p class="text-xl text-purple-100 mb-8">
-                    Our team is here to guide you through the auction process.
+                    Browse our upcoming events or get in touch to plan your visit.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{ route('auctions.browse') }}" class="inline-block bg-white text-primary-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition">
-                        Browse Auctions
+                    <a href="{{ route('events.index') }}" class="inline-block bg-white text-primary-700 hover:bg-gray-100 font-semibold py-3 px-8 transition">
+                        View Events
                     </a>
-                    <a href="{{ route('contact') }}" class="inline-block border-2 border-white text-white hover:bg-white/10 font-semibold py-3 px-8 rounded-lg transition">
-                        Contact Us
+                    <a href="{{ route('contact') }}" class="inline-block border-2 border-white text-white hover:bg-white/10 font-semibold py-3 px-8 transition">
+                        Get in Touch
                     </a>
                 </div>
             </div>

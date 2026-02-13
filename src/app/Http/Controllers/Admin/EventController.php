@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -89,13 +90,13 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load(['location', 'category', 'bookings']);
+        $event->load(['location', 'category', 'bookings', 'tags']);
         
         $stats = [
             'total_bookings' => $event->bookings()->where('status', 'confirmed')->count(),
             'total_tickets' => $event->confirmedBookings()->sum('total_tickets'),
             'remaining_capacity' => $event->remaining_spaces,
-            'booking_value' => $event->confirmedBookings()->sum('total_price'),
+            'booking_value' => $event->confirmedBookings()->sum('total_amount'),
         ];
 
         return view('admin.events.show', compact('event', 'stats'));
@@ -107,8 +108,10 @@ class EventController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get();
+        $location = Location::first();
         
-        return view('admin.events.create', compact('categories'));
+        return view('admin.events.create', compact('categories', 'tags', 'location'));
     }
 
     /**
@@ -128,18 +131,20 @@ class EventController extends Controller
             'title' => 'required|string|max:255|unique:events',
             'description' => 'required|string|min:50|max:2000',
             'itinerary' => 'nullable|string|max:5000',
-            'start_datetime' => 'required|date|after_or_equal:now',
-            'end_datetime' => 'required|date|after:start_datetime',
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
             'category_id' => 'required|exists:categories,id',
+            'location_id' => 'required|exists:locations,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',
             'adult_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'child_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Convert datetime strings to Carbon instances
@@ -153,7 +158,7 @@ class EventController extends Controller
             $validated['concession_price'] = null;
         }
 
-        // Handle image upload
+        // Handle primary image upload
         if ($request->hasFile('primary_image')) {
             $image = $request->file('primary_image');
             $imageName = 'event_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
@@ -161,10 +166,25 @@ class EventController extends Controller
             $validated['primary_image'] = $imagePath;
         }
 
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            $galleryPaths = [];
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $imageName = 'event_gallery_' . time() . '_' . $index . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('events', $imageName, 'public');
+                $galleryPaths[] = $imagePath;
+            }
+            $validated['gallery_images'] = $galleryPaths;
+        }
+
         // Calculate duration
         $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
-        Event::create($validated);
+        $tagIds = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
+        $event = Event::create($validated);
+        $event->tags()->sync($tagIds);
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully!');
@@ -175,9 +195,12 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $event->load('tags');
         $categories = Category::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get();
+        $location = Location::first();
         
-        return view('admin.events.edit', compact('event', 'categories'));
+        return view('admin.events.edit', compact('event', 'categories', 'tags', 'location'));
     }
 
     /**
@@ -192,13 +215,17 @@ class EventController extends Controller
             'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
             'end_datetime' => 'required|date_format:Y-m-d\TH:i|after:start_datetime',
             'category_id' => 'required|exists:categories,id',
+            'location_id' => 'required|exists:locations,id',
             'capacity' => 'required|integer|min:1|max:100000',
             'is_paid' => 'boolean',
             'adult_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'child_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Convert datetime strings to Carbon instances
@@ -212,7 +239,7 @@ class EventController extends Controller
             $validated['concession_price'] = null;
         }
 
-        // Handle image upload
+        // Handle primary image upload
         if ($request->hasFile('primary_image')) {
             // Delete old image if it exists
             if ($event->primary_image && Storage::disk('public')->exists($event->primary_image)) {
@@ -225,10 +252,34 @@ class EventController extends Controller
             $validated['primary_image'] = $imagePath;
         }
 
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            // Delete old gallery images if they exist
+            if ($event->gallery_images && is_array($event->gallery_images)) {
+                foreach ($event->gallery_images as $oldImage) {
+                    if (Storage::disk('public')->exists($oldImage)) {
+                        Storage::disk('public')->delete($oldImage);
+                    }
+                }
+            }
+            
+            $galleryPaths = [];
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $imageName = 'event_gallery_' . time() . '_' . $index . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('events', $imageName, 'public');
+                $galleryPaths[] = $imagePath;
+            }
+            $validated['gallery_images'] = $galleryPaths;
+        }
+
         // Calculate duration
         $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
+        $tagIds = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
         $event->update($validated);
+        $event->tags()->sync($tagIds);
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event updated successfully!');

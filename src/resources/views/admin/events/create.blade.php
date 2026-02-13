@@ -21,7 +21,7 @@
             </div>
 
             <!-- Form Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-visible">
                 <!-- Error Alert -->
                 @if($errors->any())
                     <div class="bg-red-50 border-b border-red-200 p-6">
@@ -109,7 +109,7 @@
                             </div>
 
                             <!-- Category Field -->
-                            <div>
+                            <div class="relative z-20">
                                 <label for="category_id" class="block text-sm font-semibold text-gray-900 mb-2">
                                     Category <span class="text-red-600">*</span>
                                 </label>
@@ -128,8 +128,29 @@
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <!-- Location Field (Fixed) -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Event Location
+                                </label>
+                                <div class="flex items-center gap-3 p-4 bg-gray-50 border border-gray-300">
+                                    <svg class="w-5 h-5 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-900">{{ $location->name }}</div>
+                                        <div class="text-sm text-gray-600">{{ $location->address }}</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="location_id" value="{{ $location->id }}">
+                                <p class="mt-2 text-sm text-gray-600">All events are held at Delapré Abbey</p>
+                            </div>
                         </div>
                     </div>
+
+
 
                     <!-- Date & Time Section -->
                     <div class="p-8">
@@ -432,5 +453,6 @@
             document.getElementById('imagePreviewContainer').classList.add('hidden');
             document.getElementById('uploadBox').classList.remove('hidden');
         }
+
     </script>
 </x-app-layout>

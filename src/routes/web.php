@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\SettlementController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\EventBreakdownController;
+use App\Http\Controllers\SeatBookingController;
 
 // Public corporate pages
 Route::get('/', [CorporateController::class, 'index'])->name('home');
@@ -39,6 +40,8 @@ Route::get('/items/{item}', [CorporateController::class, 'showItem'])->name('ite
 // Event booking routes
 Route::get('/events/{id}/book', [EventBookingController::class, 'show'])->name('events.book');
 Route::post('/events/{id}/book', [EventBookingController::class, 'store'])->name('events.book.store');
+Route::get('/bookings/{booking}/checkout', [EventBookingController::class, 'checkout'])->name('events.checkout');
+Route::post('/bookings/{booking}/payment', [EventBookingController::class, 'processPayment'])->name('events.payment.process');
 Route::get('/bookings/{booking}/confirmation', [EventBookingController::class, 'confirmation'])->name('events.booking.confirmation');
 Route::get('/bookings/{booking}/manage', [EventBookingController::class, 'manage'])->name('events.booking.manage')->middleware('auth');
 Route::post('/bookings/{booking}/cancel', [EventBookingController::class, 'cancel'])->name('events.booking.cancel')->middleware('auth');
@@ -47,6 +50,11 @@ Route::get('/bookings/{booking}/calendar/{type}', [EventBookingController::class
 // Event pages - merged: carousel + filtering functionality
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+
+// API Routes
+Route::get('/api/locations', function() {
+    return response()->json(\App\Models\Location::select('id', 'name', 'address', 'latitude', 'longitude')->get());
+})->name('api.locations');
 
 Route::get('/auctions', [CorporateController::class, 'browseAuctions'])->name('auctions.browse');
 Route::get('/auctions/{auction}', [CorporateController::class, 'showAuction'])->name('auctions.show');

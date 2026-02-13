@@ -19,6 +19,8 @@ class Location extends Model
         'seating_columns',
         'disabled_seats',
         'image_path',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [
