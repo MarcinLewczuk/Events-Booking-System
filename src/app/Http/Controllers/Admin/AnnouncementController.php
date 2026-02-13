@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
-use App\Models\Auction;
-use App\Models\Catalogue;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
@@ -21,7 +20,7 @@ class AnnouncementController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Announcement::with(['auction', 'catalogue', 'creator']);
+        $query = Announcement::with(['event', 'creator']);
 
         // Filter by topic
         if ($request->filled('topic')) {
@@ -51,22 +50,13 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        $auctions = Auction::where('approval_status', 'approved')
-            ->with(['catalogue.items.tags', 'catalogue.items.category', 'location'])
-            ->orderBy('auction_date', 'desc')
-            ->get();
-        
-        $catalogues = Catalogue::where('status', 'published')
-            ->orderBy('name')
-            ->get();
-
         $events = Event::where('status', 'active')
             ->where('start_datetime', '>=', now())
             ->with(['location', 'tags'])
             ->orderBy('start_datetime', 'asc')
             ->get();
 
-        return view('admin.announcements.create', compact('auctions', 'catalogues', 'events'));
+        return view('admin.announcements.create', compact('events'));
     }
 
     /**
@@ -75,20 +65,23 @@ class AnnouncementController extends Controller
     public function generateMessage(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:auction,event',
+            'type' => 'required|in:event',
             'id' => 'required|integer',
         ]);
 
-        if ($request->type === 'auction') {
-            $message = Announcement::generateAuctionMessage($request->id);
-        } else {
+        try {
             $message = Announcement::generateEventMessage($request->id);
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => $message
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => $message
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Could not generate message: ' . $e->getMessage()
+            ], 422);
+        }
     }
 
     /**
@@ -99,9 +92,7 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'topic' => 'required|in:auction,catalogue,event,general',
-            'auction_id' => 'required_if:topic,auction|nullable|exists:auctions,id',
-            'catalogue_id' => 'required_if:topic,catalogue|nullable|exists:catalogues,id',
+            'topic' => 'required|in:event,general',
             'event_id' => 'required_if:topic,event|nullable|exists:events,id',
         ]);
 
@@ -116,15 +107,10 @@ class AnnouncementController extends Controller
             'event_id' => null,
         ];
 
-        // Set IDs based on topic
-        if ($request->topic === 'auction' && $request->auction_id) {
-            $data['auction_id'] = $request->auction_id;
-        } elseif ($request->topic === 'catalogue' && $request->catalogue_id) {
-            $data['catalogue_id'] = $request->catalogue_id;
-        } elseif ($request->topic === 'event' && $request->event_id) {
+        // Set event ID if event-specific
+        if ($request->topic === 'event' && $request->event_id) {
             $data['event_id'] = $request->event_id;
         }
-        // If topic is 'general', all IDs remain null
 
         Announcement::create($data);
 
@@ -137,7 +123,7 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        $announcement->load(['auction', 'catalogue', 'creator']);
+        $announcement->load(['event', 'creator']);
         
         return view('admin.announcements.show', compact('announcement'));
     }
@@ -147,22 +133,21 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        $auctions = Auction::where('approval_status', 'approved')
-            ->with(['catalogue.items.tags', 'catalogue.items.category', 'location'])
-            ->orderBy('auction_date', 'desc')
-            ->get();
-        
-        $catalogues = Catalogue::where('status', 'published')
-            ->orderBy('name')
-            ->get();
-
         $events = Event::where('status', 'active')
             ->where('start_datetime', '>=', now())
             ->with(['location', 'tags'])
             ->orderBy('start_datetime', 'asc')
             ->get();
 
-        return view('admin.announcements.edit', compact('announcement', 'auctions', 'catalogues', 'events'));
+        // Include the currently linked event even if it's past
+        if ($announcement->event_id && !$events->contains('id', $announcement->event_id)) {
+            $currentEvent = Event::with(['location', 'tags'])->find($announcement->event_id);
+            if ($currentEvent) {
+                $events->prepend($currentEvent);
+            }
+        }
+
+        return view('admin.announcements.edit', compact('announcement', 'events'));
     }
 
     /**
@@ -173,9 +158,7 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'topic' => 'required|in:auction,catalogue,event,general',
-            'auction_id' => 'required_if:topic,auction|nullable|exists:auctions,id',
-            'catalogue_id' => 'required_if:topic,catalogue|nullable|exists:catalogues,id',
+            'topic' => 'required|in:event,general',
             'event_id' => 'required_if:topic,event|nullable|exists:events,id',
         ]);
 
@@ -189,15 +172,10 @@ class AnnouncementController extends Controller
             'event_id' => null,
         ];
 
-        // Set IDs based on topic
-        if ($request->topic === 'auction' && $request->auction_id) {
-            $data['auction_id'] = $request->auction_id;
-        } elseif ($request->topic === 'catalogue' && $request->catalogue_id) {
-            $data['catalogue_id'] = $request->catalogue_id;
-        } elseif ($request->topic === 'event' && $request->event_id) {
+        // Set event ID if event-specific
+        if ($request->topic === 'event' && $request->event_id) {
             $data['event_id'] = $request->event_id;
         }
-        // If topic is 'general', all IDs remain null
 
         $announcement->update($data);
 
