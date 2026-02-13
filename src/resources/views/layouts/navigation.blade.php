@@ -20,39 +20,39 @@
             <div class="flex items-center space-x-1 lg:space-x-2 flex-1 justify-center">
                 @auth
                     <a href="{{ $dashboardRoute }}" 
-                       class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('*.dashboard') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                       class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('*.dashboard') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         Dashboard
                     </a>
                     @if($userRole === 'customer')
                     <a href="{{ route('customer.inbox.index') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('inbox.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('inbox.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         Inbox
                     </a>
                     
                     <a href="{{ route('events') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         What's On
                     </a>
 
                     <a href="{{ route('calendar.index') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('calendar.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('calendar.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         Calendar
                     </a>
 
                     <a href="{{ route('customer.bookings') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         My Bookings
                     </a>
 
                     <a href="{{ route('contact') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('contact.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('contact.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         Contact Us
                     </a>
 
                     <!-- Eat & Drink Dropdown -->
                     <div class="relative" x-data="{ eatDrinkOpen: false }">
                         <button @click="eatDrinkOpen = !eatDrinkOpen" 
-                                class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium text-white hover:bg-primary-700 transition inline-flex items-center whitespace-nowrap">
+                                class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium text-white hover:bg-primary-700 transition inline-flex items-center whitespace-nowrap">
                             Eat & Drink
                             <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -77,14 +77,14 @@
                     @endif
                     @if($isStaff)
                         <a href="{{ route('admin.events.index') }}" 
-                           class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('admin.events.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                           class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('admin.events.*') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                             Events
                         </a>
                         @if($isAdmin)
                             <!-- Admin Dropdown -->
                             <div class="relative">
                                 <button @click="adminOpen = !adminOpen" 
-                                        class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium text-white hover:bg-primary-700 transition inline-flex items-center whitespace-nowrap">
+                                        class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium text-white hover:bg-primary-700 transition inline-flex items-center whitespace-nowrap">
                                     Admin
                                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -123,7 +123,7 @@
                     @endif
                 @else
                     <a href="{{ route('events') }}" 
-                    class="px-2 lg:px-3 py-2 rounded-md text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
+                    class="px-2 lg:px-3 py-2 text-m lg:text-m font-medium {{ request()->routeIs('events') ? 'bg-primary-700 text-white' : 'text-white hover:bg-primary-700' }} transition whitespace-nowrap">
                         What's On
                     </a>
                 @endauth
@@ -135,7 +135,7 @@
                     <!-- Authenticated User Menu -->
                     <div class="relative">
                         <button @click="userOpen = !userOpen" 
-                                class="flex items-center space-x-2 px-3 py-2 rounded-md text-xs lg:text-sm font-medium text-white hover:bg-primary-700 transition">
+                                class="flex items-center space-x-2 px-3 py-2 text-xs lg:text-sm font-medium text-white hover:bg-primary-700 transition">
                             <span class="hidden sm:inline">{{ Auth::user()->first_name ?? 'User' }}</span>
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -149,7 +149,7 @@
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="transform opacity-100 scale-100"
                              x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                             class="absolute right-0 mt-2 w-48 shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
                              style="display: none;">
                             <div class="py-1">
                                 <div class="px-4 py-2 text-xs text-gray-500 border-b">
@@ -177,7 +177,7 @@
                 @else
                     <!-- Guest Login Button -->
                     <a href="{{ route('login') }}" 
-                       class="flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-primary-700 hover:bg-primary-700 transition">
+                       class="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-white bg-primary-700 hover:bg-primary-700 transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                         </svg>
