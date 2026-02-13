@@ -7,7 +7,7 @@
             <div class="bg-gradient-to-r from-primary-900 to-primary-800 rounded-lg shadow-xl p-6 mb-8">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-white">Staff Dashboard</h2>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white">Admin Dashboard</h2>
                         <p class="text-primary-100 mt-1">Welcome back, <span class="font-semibold">{{ auth()->user()->first_name }} {{ auth()->user()->surname }}</span></p>
                     </div>
                     <div class="mt-4 sm:mt-0">
