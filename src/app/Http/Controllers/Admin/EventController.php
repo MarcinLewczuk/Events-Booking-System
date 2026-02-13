@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -89,7 +90,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load(['location', 'category', 'bookings']);
+        $event->load(['location', 'category', 'bookings', 'tags']);
         
         $stats = [
             'total_bookings' => $event->bookings()->where('status', 'confirmed')->count(),
@@ -107,8 +108,9 @@ class EventController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get();
         
-        return view('admin.events.create', compact('categories'));
+        return view('admin.events.create', compact('categories', 'tags'));
     }
 
     /**
@@ -140,6 +142,8 @@ class EventController extends Controller
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Convert datetime strings to Carbon instances
@@ -164,7 +168,11 @@ class EventController extends Controller
         // Calculate duration
         $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
-        Event::create($validated);
+        $tagIds = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
+        $event = Event::create($validated);
+        $event->tags()->sync($tagIds);
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully!');
@@ -175,9 +183,11 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $event->load('tags');
         $categories = Category::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get();
         
-        return view('admin.events.edit', compact('event', 'categories'));
+        return view('admin.events.edit', compact('event', 'categories', 'tags'));
     }
 
     /**
@@ -199,6 +209,8 @@ class EventController extends Controller
             'concession_price' => 'nullable|numeric|min:0.01|max:9999.99',
             'primary_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'status' => 'in:draft,active,cancelled',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         // Convert datetime strings to Carbon instances
@@ -228,7 +240,11 @@ class EventController extends Controller
         // Calculate duration
         $validated['duration_minutes'] = $validated['start_datetime']->diffInMinutes($validated['end_datetime']);
 
+        $tagIds = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
         $event->update($validated);
+        $event->tags()->sync($tagIds);
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event updated successfully!');

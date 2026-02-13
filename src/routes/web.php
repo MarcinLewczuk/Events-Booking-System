@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\SettlementController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\EventBreakdownController;
+use App\Http\Controllers\SeatBookingController;
 
 // Public corporate pages
 Route::get('/', [CorporateController::class, 'index'])->name('home');

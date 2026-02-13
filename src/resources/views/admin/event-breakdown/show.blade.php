@@ -9,6 +9,7 @@
                         <p class="text-gray-600 mt-1">{{ $event->start_datetime->format('l, F j, Y \a\t g:i A') }} · {{ $event->location->name ?? 'TBA' }}</p>
                     </div>
                     <div class="flex gap-3">
+                        <a href="{{ route('admin.events.show', $event) }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-sm transition">View Event</a>
                         <a href="{{ route('admin.events.edit', $event) }}" class="px-4 py-2 text-white font-semibold rounded-lg text-sm transition" style="background-color: #247a7c;">Edit Event</a>
                         <a href="{{ route('admin.event-breakdown.index') }}" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg text-sm transition">← Back</a>
                     </div>
@@ -47,6 +48,74 @@
                 </div>
             </div>
 
+            <!-- Averages & Occupancy Gauge Row -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Average Stats -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Averages</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Tickets per Booking</span>
+                            <span class="text-lg font-bold text-gray-900">{{ $stats['avg_tickets_per_booking'] }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Revenue per Booking</span>
+                            <span class="text-lg font-bold text-gray-900">£{{ number_format($stats['avg_revenue_per_booking'], 2) }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Revenue per Attendee</span>
+                            <span class="text-lg font-bold text-gray-900">£{{ $stats['total_attendees'] > 0 ? number_format($stats['total_revenue'] / $stats['total_attendees'], 2) : '0.00' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Occupancy Visual -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Capacity Usage</h3>
+                    <div class="flex items-center justify-center">
+                        <div class="relative w-36 h-36">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e5e7eb" stroke-width="3"/>
+                                <path d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="{{ $stats['occupancy_pct'] >= 90 ? '#ef4444' : ($stats['occupancy_pct'] >= 60 ? '#f59e0b' : '#247a7c') }}" stroke-width="3" stroke-dasharray="{{ $stats['occupancy_pct'] }}, 100" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-3xl font-bold text-gray-900">{{ $stats['occupancy_pct'] }}%</span>
+                                <span class="text-xs text-gray-500">filled</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center text-sm text-gray-600">
+                        <span class="font-semibold">{{ $stats['capacity'] - $stats['remaining'] }}</span> booked of <span class="font-semibold">{{ $stats['capacity'] }}</span> capacity
+                    </div>
+                </div>
+
+                <!-- Booking Source -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Booking Source</h3>
+                    @php $totalSource = max($bookingSource['registered'] + $bookingSource['guest'], 1); @endphp
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600">Registered Users</span>
+                                <span class="font-semibold">{{ $bookingSource['registered'] }} ({{ round(($bookingSource['registered'] / $totalSource) * 100) }}%)</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                <div class="h-full rounded-full" style="width: {{ ($bookingSource['registered'] / $totalSource) * 100 }}%; background-color: #247a7c;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600">Guest Bookings</span>
+                                <span class="font-semibold">{{ $bookingSource['guest'] }} ({{ round(($bookingSource['guest'] / $totalSource) * 100) }}%)</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                <div class="h-full rounded-full bg-amber-500" style="width: {{ ($bookingSource['guest'] / $totalSource) * 100 }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Ticket Breakdown -->
             <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h3 class="text-lg font-bold text-gray-900 mb-4">Ticket Breakdown</h3>
@@ -72,6 +141,80 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+            </div>
+
+            <!-- Daily Booking Trend & Peak Hours -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Daily Booking Trend -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Daily Booking Trend</h3>
+                    @if($dailyBookings->isNotEmpty())
+                        @php $maxDaily = max(1, $dailyBookings->max('count')); @endphp
+                        <div class="space-y-2 max-h-64 overflow-y-auto">
+                            @foreach($dailyBookings as $day)
+                                <div class="flex items-center gap-3">
+                                    <div class="w-20 text-xs text-gray-600 font-medium text-right flex-shrink-0">{{ \Carbon\Carbon::parse($day->date)->format('M d') }}</div>
+                                    <div class="flex-1 bg-gray-100 rounded-full h-6 overflow-hidden">
+                                        <div class="h-full rounded-full flex items-center justify-end pr-2 text-xs font-bold text-white transition-all" 
+                                             style="width: {{ max(($day->count / $maxDaily) * 100, 12) }}%; background-color: #247a7c;">
+                                            {{ $day->count }}
+                                        </div>
+                                    </div>
+                                    <div class="w-20 text-xs text-gray-500 text-right flex-shrink-0">£{{ number_format($day->revenue, 2) }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-500">
+                            <span>{{ $dailyBookings->count() }} booking day(s)</span>
+                            <span>{{ $dailyBookings->sum('tickets') }} total tickets</span>
+                        </div>
+                    @else
+                        <p class="text-gray-500 text-sm">No booking data available yet.</p>
+                    @endif
+                </div>
+
+                <!-- Peak Booking Hours + Tags -->
+                <div class="space-y-6">
+                    <!-- Peak Booking Hours -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Peak Booking Hours</h3>
+                        @if($peakHours->isNotEmpty())
+                            <div class="space-y-2">
+                                @foreach($peakHours as $ph)
+                                    @php $maxPeak = max(1, $peakHours->max('count')); @endphp
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 text-xs text-gray-600 font-medium text-right">{{ str_pad($ph->hour, 2, '0', STR_PAD_LEFT) }}:00</div>
+                                        <div class="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
+                                            <div class="h-full rounded-full flex items-center justify-end pr-2 text-xs font-bold text-white" 
+                                                 style="width: {{ max(($ph->count / $maxPeak) * 100, 15) }}%; background-color: #ae8800;">
+                                                {{ $ph->count }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-gray-500 text-sm">No booking data available yet.</p>
+                        @endif
+                    </div>
+
+                    <!-- Event Tags -->
+                    @if($event->tags->isNotEmpty())
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">Event Tags</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($event->tags as $tag)
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
+                                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                        </svg>
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

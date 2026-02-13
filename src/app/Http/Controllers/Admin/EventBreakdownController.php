@@ -88,7 +88,7 @@ class EventBreakdownController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load(['location', 'confirmedBookings.user', 'confirmedBookings.tickets', 'bookings']);
+        $event->load(['location', 'category', 'tags', 'confirmedBookings.user', 'confirmedBookings.tickets', 'bookings']);
 
         $stats = [
             'total_bookings' => $event->bookings()->where('status', 'confirmed')->count(),
@@ -99,6 +99,11 @@ class EventBreakdownController extends Controller
             'remaining' => $event->remaining_spaces,
             'occupancy_pct' => $event->capacity > 0 ? round(($event->booked_tickets / $event->capacity) * 100) : 0,
         ];
+
+        // Average stats
+        $confirmedCount = max($stats['total_bookings'], 1);
+        $stats['avg_tickets_per_booking'] = round($stats['total_attendees'] / $confirmedCount, 1);
+        $stats['avg_revenue_per_booking'] = round($stats['total_revenue'] / $confirmedCount, 2);
 
         // Ticket breakdown for this event
         $ticketBreakdown = Ticket::where('event_id', $event->id)
@@ -113,6 +118,34 @@ class EventBreakdownController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.event-breakdown.show', compact('event', 'stats', 'ticketBreakdown', 'bookings'));
+        // Daily booking trend (bookings per day since first booking)
+        $dailyBookings = $event->bookings()
+            ->where('status', 'confirmed')
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as count, SUM(total_tickets) as tickets, SUM(total_amount) as revenue')
+            ->groupByRaw('DATE(created_at)')
+            ->orderBy('date')
+            ->get();
+
+        // Booking source breakdown (registered users vs guests)
+        $registeredBookings = $event->bookings()->where('status', 'confirmed')->whereNotNull('user_id')->count();
+        $guestBookings = $event->bookings()->where('status', 'confirmed')->whereNull('user_id')->count();
+        $bookingSource = [
+            'registered' => $registeredBookings,
+            'guest' => $guestBookings,
+        ];
+
+        // Peak booking hour analysis
+        $peakHours = $event->bookings()
+            ->where('status', 'confirmed')
+            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            ->groupByRaw('HOUR(created_at)')
+            ->orderBy('count', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('admin.event-breakdown.show', compact(
+            'event', 'stats', 'ticketBreakdown', 'bookings',
+            'dailyBookings', 'bookingSource', 'peakHours'
+        ));
     }
 }

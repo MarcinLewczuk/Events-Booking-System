@@ -69,6 +69,13 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
+                        <a href="{{ route('admin.event-breakdown.show', $event) }}" 
+                           class="inline-flex items-center px-6 py-2 text-white font-medium rounded-lg transition" style="background-color: #247a7c;">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            View Breakdown
+                        </a>
                         <a href="{{ route('admin.events.edit', $event) }}" 
                            class="inline-flex items-center px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,6 +166,22 @@
                             Event Description
                         </h2>
                         <p class="text-gray-700 leading-relaxed">{{ $event->description }}</p>
+                        
+                        @if($event->tags && $event->tags->isNotEmpty())
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <h3 class="text-sm font-semibold text-gray-600 mb-2">Tags</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($event->tags as $tag)
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-700">
+                                            <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                            </svg>
+                                            {{ $tag->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Itinerary (if available) -->
