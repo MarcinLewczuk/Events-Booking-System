@@ -96,7 +96,7 @@ class EventController extends Controller
             'total_bookings' => $event->bookings()->where('status', 'confirmed')->count(),
             'total_tickets' => $event->confirmedBookings()->sum('total_tickets'),
             'remaining_capacity' => $event->remaining_spaces,
-            'booking_value' => $event->confirmedBookings()->sum('total_price'),
+            'booking_value' => $event->confirmedBookings()->sum('total_amount'),
         ];
 
         return view('admin.events.show', compact('event', 'stats'));
@@ -109,9 +109,9 @@ class EventController extends Controller
     {
         $categories = Category::orderBy('name')->get();
         $tags = Tag::orderBy('name')->get();
-        $locations = Location::orderBy('name')->get();
+        $location = Location::first();
         
-        return view('admin.events.create', compact('categories', 'tags', 'locations'));
+        return view('admin.events.create', compact('categories', 'tags', 'location'));
     }
 
     /**
@@ -198,9 +198,9 @@ class EventController extends Controller
         $event->load('tags');
         $categories = Category::orderBy('name')->get();
         $tags = Tag::orderBy('name')->get();
-        $locations = Location::orderBy('name')->get();
+        $location = Location::first();
         
-        return view('admin.events.edit', compact('event', 'categories', 'tags', 'locations'));
+        return view('admin.events.edit', compact('event', 'categories', 'tags', 'location'));
     }
 
     /**

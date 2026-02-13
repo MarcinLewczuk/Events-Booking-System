@@ -129,102 +129,28 @@
                                 @enderror
                             </div>
 
-                            <!-- Location Field -->
+                            <!-- Location Field (Fixed) -->
                             <div>
-                                <label for="location_id" class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Location <span class="text-red-600">*</span>
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Event Location
                                 </label>
-                                <div class="space-y-3">
-                                    <div id="location-bar" class="flex items-center gap-3 p-4 bg-gray-50 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 transition" onclick="document.getElementById('map-modal').classList.remove('hidden')">
-                                        <svg class="w-5 h-5 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        </svg>
-                                        <div class="flex-1">
-                                            <div id="selected-location-text" class="font-medium text-gray-900">
-                                                @if(isset($event) && $event->location)
-                                                    {{ $event->location->name }} - {{ $event->location->address }}
-                                                @else
-                                                    Click to select event location
-                                                @endif
-                                            </div>
-                                            <div id="selected-location-coords" class="text-sm text-gray-500">
-                                                @if(isset($event) && $event->location)
-                                                    Lat: {{ $event->location->latitude }}, Lon: {{ $event->location->longitude }}
-                                                @else
-                                                    Choose location from map
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                        </svg>
-                                    </div>
-                                    <input type="hidden" 
-                                           id="location_id"
-                                           name="location_id" 
-                                           value="{{ old('location_id', $event->location_id ?? '') }}">
-                                </div>
-                                @error('location_id')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Location Map Modal -->
-                    <div id="map-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2">
-                        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl max-h-screen overflow-auto">
-                            <!-- Modal Header -->
-                            <div class="sticky top-0 bg-white border-b p-3 flex items-center justify-between">
-                                <h3 class="text-base font-semibold text-gray-900">Select Location</h3>
-                                <button type="button" onclick="document.getElementById('map-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                <div class="flex items-center gap-3 p-4 bg-gray-50 border border-gray-300">
+                                    <svg class="w-5 h-5 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                </button>
-                            </div>
-
-                            <!-- Modal Content -->
-                            <div class="p-3 space-y-2">
-                                <!-- Search Bar -->
-                                <div class="flex gap-2">
-                                    <input type="text" 
-                                           id="location-search"
-                                           placeholder="Search location..."
-                                           class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-primary-600 focus:border-transparent">
-                                    <button type="button"
-                                            id="search-btn"
-                                            class="px-3 py-2 bg-primary-600 text-white rounded text-sm hover:bg-primary-700 transition">
-                                        Search
-                                    </button>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-900">{{ $location->name }}</div>
+                                        <div class="text-sm text-gray-600">{{ $location->address }}</div>
+                                    </div>
                                 </div>
-
-                                <!-- Map Container -->
-                                <div id="map-container" style="height: 200px;" class="border border-gray-300 rounded"></div>
-
-                                <!-- Location List -->
-                                <div>
-                                    <h4 class="font-semibold text-gray-900 mb-1 text-xs">Available Locations</h4>
-                                    <div id="locations-list" class="grid grid-cols-1 gap-1 max-h-24 overflow-y-auto"></div>
-                                </div>
-
-                                <!-- Modal Footer -->
-                                <div class="border-t pt-2 flex gap-2 justify-end">
-                                    <button type="button" 
-                                            onclick="document.getElementById('map-modal').classList.add('hidden')"
-                                            class="px-3 py-1.5 border border-gray-300 rounded text-gray-700 text-sm hover:bg-gray-50 transition">
-                                        Cancel
-                                    </button>
-                                    <button type="button" 
-                                            id="confirm-location-btn"
-                                            disabled
-                                            class="px-3 py-1.5 bg-primary-600 text-white rounded text-sm hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                                        Confirm
-                                    </button>
-                                </div>
+                                <input type="hidden" name="location_id" value="{{ $location->id }}">
+                                <p class="mt-2 text-sm text-gray-600">All events are held at Delapré Abbey</p>
                             </div>
                         </div>
                     </div>
+
+
 
                     <!-- Date & Time Section -->
                     <div class="p-8">
@@ -527,145 +453,6 @@
             document.getElementById('imagePreviewContainer').classList.add('hidden');
             document.getElementById('uploadBox').classList.remove('hidden');
         }
-
-        // Maps functionality
-        let selectedLocation = null;
-        let map = null;
-        let mapMarker = null;
-
-        // Default location: Delapré Abbey
-        const defaultLocation = {
-            id: 1,
-            name: 'Delapré Abbey',
-            address: 'London Rd, Northampton NN4 8AW',
-            latitude: 52.22615116781254,
-            longitude: -0.8897870554191317
-        };
-
-        // Initialize map when modal opens
-        document.getElementById('location-bar').addEventListener('click', function() {
-            setTimeout(() => {
-                if (!map) {
-                    initializeMap();
-                    loadLocations();
-                    // Set default location
-                    selectLocation(defaultLocation);
-                } else {
-                    map.invalidateSize();
-                }
-            }, 100);
-        });
-
-        function initializeMap() {
-            // Load Leaflet from CDN
-            if (!window.L) {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
-                document.head.appendChild(link);
-
-                const script = document.createElement('script');
-                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-                script.onload = function() {
-                    createMap();
-                };
-                document.head.appendChild(script);
-            } else {
-                createMap();
-            }
-        }
-
-        function createMap() {
-            const mapContainer = document.getElementById('map-container');
-            if (mapContainer.hasChildNodes()) {
-                mapContainer.innerHTML = '';
-            }
-
-            map = L.map('map-container').setView([52.22615116781254, -0.8897870554191317], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(map);
-
-            // Click handler for map
-            map.on('click', function(e) {
-                const location = {
-                    name: 'Custom Location',
-                    address: `${e.latlng.lat.toFixed(6)}, ${e.latlng.lng.toFixed(6)}`,
-                    latitude: e.latlng.lat,
-                    longitude: e.latlng.lng
-                };
-                selectLocation(location);
-            });
-        }
-
-        function loadLocations() {
-            const locationsList = document.getElementById('locations-list');
-            
-            // Fetch all locations from the server
-            fetch('{{ route("api.locations") }}')
-                .then(response => response.json())
-                .then(locations => {
-                    locationsList.innerHTML = '';
-                    locations.forEach(location => {
-                        const button = document.createElement('button');
-                        button.type = 'button';
-                        button.className = 'text-left p-2 border border-gray-200 rounded hover:border-primary-600 hover:bg-primary-50 transition text-sm';
-                        button.innerHTML = `
-                            <div class="font-medium text-gray-900">${location.name}</div>
-                            <div class="text-xs text-gray-600">${location.address}</div>
-                        `;
-                        button.onclick = () => selectLocation(location);
-                        locationsList.appendChild(button);
-                    });
-                });
-        }
-
-        function selectLocation(location) {
-            selectedLocation = location;
-
-            // Update display
-            document.getElementById('selected-location-text').textContent = `${location.name} - ${location.address}`;
-            document.getElementById('selected-location-coords').textContent = `Lat: ${location.latitude.toFixed(6)}, Lon: ${location.longitude.toFixed(6)}`;
-            document.getElementById('confirm-location-btn').disabled = false;
-
-            // Update map if it exists
-            if (map) {
-                if (mapMarker) {
-                    map.removeLayer(mapMarker);
-                }
-                mapMarker = L.marker([location.latitude, location.longitude]).addTo(map);
-                map.setView([location.latitude, location.longitude], 13);
-            }
-        }
-
-        // Confirm location selection
-        document.getElementById('confirm-location-btn').addEventListener('click', function() {
-            if (selectedLocation) {
-                document.getElementById('location_id').value = selectedLocation.id || '';
-                document.getElementById('map-modal').classList.add('hidden');
-            }
-        });
-
-        // Search locations
-        document.getElementById('search-btn').addEventListener('click', function() {
-            const searchTerm = document.getElementById('location-search').value.toLowerCase();
-            const locationsList = document.getElementById('locations-list');
-            const buttons = locationsList.querySelectorAll('button');
-
-            buttons.forEach(button => {
-                const text = button.textContent.toLowerCase();
-                button.style.display = text.includes(searchTerm) ? 'block' : 'none';
-            });
-        });
-
-        // Search on Enter key
-        document.getElementById('location-search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('search-btn').click();
-            }
-        });
 
     </script>
 </x-app-layout>
