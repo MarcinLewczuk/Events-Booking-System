@@ -22,7 +22,7 @@
                     </a>
                     <a href="https://www.tiktok.com/@delapreabbey" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19.498 3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM12 9c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM4.5 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM22 5v10c0 1.6-1.3 2.9-2.9 2.9H3.9c-1.6 0-2.9-1.3-2.9-2.9V5"/>
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v12.7a2.85 2.85 0 1 1-5.92-2.86 2.89 2.89 0 0 1 2.31 1.39V9.4a6.53 6.53 0 0 0-6.59 6.5 6.5 6.5 0 1 0 11.43-5.61"/>
                         </svg>
                     </a>
                     <a href="https://www.linkedin.com/company/delapre-abbey/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition">
