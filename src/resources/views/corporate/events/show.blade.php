@@ -54,6 +54,93 @@
         </div>
     </div>
 
+    <!-- Event Image Carousel -->
+    @php
+        // Gather all images (primary + gallery)
+        $allImages = [];
+        if ($event->primary_image) {
+            $allImages[] = $event->primary_image;
+        }
+        if ($event->gallery_images) {
+            $galleryImages = is_string($event->gallery_images) ? json_decode($event->gallery_images, true) : $event->gallery_images;
+            if (is_array($galleryImages)) {
+                $allImages = array_merge($allImages, $galleryImages);
+            }
+        }
+        $hasImages = count($allImages) > 0;
+        $imageCount = count($allImages);
+    @endphp
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+        @if($hasImages)
+            <!-- Image Carousel -->
+            <div class="relative h-96 rounded-2xl overflow-hidden shadow-2xl" x-data="{ 
+                currentSlide: 0, 
+                totalSlides: {{ $imageCount }}
+            }">
+                <!-- Carousel Images -->
+                @foreach($allImages as $index => $imagePath)
+                    <div x-show="currentSlide === {{ $index }}"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="absolute inset-0">
+                        <img src="{{ asset('storage/' . $imagePath) }}" 
+                             alt="{{ $event->title }} - Image {{ $index + 1 }}" 
+                             class="w-full h-full object-cover">
+                    </div>
+                @endforeach
+
+                @if($imageCount > 1)
+                    <!-- Previous Button -->
+                    <button @click="currentSlide = currentSlide === 0 ? totalSlides - 1 : currentSlide - 1"
+                            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Next Button -->
+                    <button @click="currentSlide = currentSlide === totalSlides - 1 ? 0 : currentSlide + 1"
+                            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Carousel Indicators -->
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                        @foreach($allImages as $index => $imagePath)
+                            <button @click="currentSlide = {{ $index }}"
+                                    :class="currentSlide === {{ $index }} ? 'bg-white' : 'bg-white/50'"
+                                    class="w-2.5 h-2.5 rounded-full transition"></button>
+                        @endforeach
+                    </div>
+
+                    <!-- Image Counter -->
+                    <div class="absolute top-4 right-4 bg-black/60 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm z-10">
+                        <span x-text="currentSlide + 1"></span> / {{ $imageCount }}
+                    </div>
+                @endif
+            </div>
+        @else
+            <!-- Placeholder gradient with icon (no images) -->
+            <div class="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="w-full h-full bg-gradient-to-br from-primary-400 via-teal-light-400 to-secondary-400 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <svg class="w-32 h-32 mx-auto mb-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <p class="text-2xl font-semibold opacity-80">{{ $event->title }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">

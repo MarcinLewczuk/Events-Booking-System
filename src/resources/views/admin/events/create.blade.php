@@ -377,6 +377,55 @@
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <!-- Gallery Images -->
+                            <div class="mt-8">
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Gallery Images <span class="text-gray-500 font-normal">(Optional - Multiple images)</span>
+                                </label>
+                                
+                                @if(isset($event) && $event->gallery_images && count($event->gallery_images) > 0)
+                                    <div class="mb-4">
+                                        <p class="text-sm font-medium text-gray-900 mb-3">Current Gallery Images</p>
+                                        <div class="grid grid-cols-3 gap-4">
+                                            @foreach($event->gallery_images as $galleryImage)
+                                                <div class="relative group">
+                                                    <img src="{{ asset('storage/' . $galleryImage) }}" 
+                                                         alt="Gallery image"
+                                                         class="w-full h-32 object-cover rounded-lg border border-gray-300">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition cursor-pointer" onclick="document.getElementById('gallery_images').click()">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <input type="file" 
+                                           id="gallery_images"
+                                           name="gallery_images[]" 
+                                           accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                                           multiple
+                                           class="hidden"
+                                           onchange="previewGalleryImages(this)">
+                                    <div class="pointer-events-none">
+                                        <span class="text-gray-600">Click to upload multiple images</span>
+                                        <p class="text-sm text-gray-500 mt-1">PNG, JPG, GIF or WebP. Max 5MB each</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Gallery Preview Container -->
+                                <div id="galleryPreviewContainer" class="hidden mt-4 grid grid-cols-3 gap-4"></div>
+                                
+                                @error('gallery_images')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                @error('gallery_images.*')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
@@ -466,6 +515,34 @@
             document.getElementById('imagePreview').src = '';
             document.getElementById('imagePreviewContainer').classList.add('hidden');
             document.getElementById('uploadBox').classList.remove('hidden');
+        }
+
+        // Preview gallery images
+        function previewGalleryImages(input) {
+            const container = document.getElementById('galleryPreviewContainer');
+            container.innerHTML = '';
+            
+            if (input.files && input.files.length > 0) {
+                container.classList.remove('hidden');
+                
+                Array.from(input.files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative group';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" alt="Gallery preview ${index + 1}" class="w-full h-32 object-cover rounded-lg border-2 border-primary-300">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">Image ${index + 1}</span>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                container.classList.add('hidden');
+            }
         }
     </script>
 </x-app-layout>
