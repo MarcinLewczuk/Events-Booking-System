@@ -56,14 +56,20 @@ export default {
                     900: '#2a2200',
                     950: '#1a1500',
                 },
+                // Dark grey for text and backgrounds
+                'dark-grey': {
+                    DEFAULT: '#25282a',
+                    light: '#3a3d3f',
+                    dark: '#1a1c1d',
+                },
                 // Accent colors
                 accent: {
                     success: '#10b981',
                     warning: '#f59e0b',
                     info: '#3b82f6',
                     danger: '#ef4444',
-                    teal: '#4DB8A7',
-                    gold: '#F5B800',
+                    teal: '#299194',
+                    gold: '#daaa00',
                 },
             },
         },
