@@ -129,6 +129,32 @@
                     @endforeach
                 </select>
 
+                <!-- Tag Filter Dropdown -->
+                @if(isset($tags) && $tags->count())
+                <div class="relative" x-data="{ open: false }">
+                    <button type="button" @click="open = !open" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-400 bg-white flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                        <span>Tags{{ !empty($selectedTags) ? ' (' . count($selectedTags) . ')' : '' }}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false" x-transition
+                         class="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-3 max-h-60 overflow-y-auto">
+                        @foreach($tags as $tag)
+                            <label class="flex items-center px-2 py-1.5 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                       {{ in_array($tag->id, $selectedTags ?? []) ? 'checked' : '' }}
+                                       class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">{{ $tag->name }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
                 <!-- Date Filter -->
                 <select name="date_filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-400">
                     <option value="">All Dates</option>
@@ -153,7 +179,7 @@
                 </button>
 
                 <!-- Clear Filters -->
-                @if(request()->hasAny(['category', 'date_filter', 'start_date', 'end_date']))
+                @if(request()->hasAny(['category', 'date_filter', 'start_date', 'end_date', 'tags']))
                     <a href="{{ route('events') }}" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition">
                         Clear Filters
                     </a>
@@ -161,6 +187,74 @@
             </form>
         </div>
     </div>
+
+    <!-- Recommended Events Section (for logged-in users with tag preferences) -->
+    @if(isset($recommendedEvents) && $recommendedEvents->isNotEmpty())
+    <div class="bg-gradient-to-r from-primary-50 to-secondary-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center mb-8">
+                <svg class="w-7 h-7 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                </svg>
+                <h2 class="text-2xl font-bold text-gray-900">Recommended For You</h2>
+                <span class="ml-3 text-sm text-gray-500">Based on your tag preferences</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($recommendedEvents as $event)
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition group flex flex-col h-full relative">
+                        <!-- Recommendation Badge -->
+                        <div class="absolute top-4 left-4 z-10 bg-gradient-to-r from-primary-600 to-primary-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            {{ $event->recommendation_score }}% Match
+                        </div>
+                        <a href="{{ route('events.show', $event->id) }}" class="block relative h-52 bg-gradient-to-br from-teal-light-400 to-primary-400 flex-shrink-0">
+                            @if($event->primary_image)
+                                <img src="{{ asset('storage/' . $event->primary_image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                            @endif
+                        </a>
+                        <div class="p-5 flex flex-col flex-grow">
+                            @if($event->category)
+                                <div class="text-xs text-primary-400 font-semibold mb-1 uppercase">{{ $event->category->name }}</div>
+                            @endif
+                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-400 transition">{{ $event->title }}</h3>
+                            <div class="flex items-center text-gray-500 text-sm mb-1">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                {{ $event->start_datetime->format('M j, Y \a\t g:i A') }}
+                            </div>
+                            @if($event->tags->isNotEmpty())
+                                <div class="flex flex-wrap gap-1.5 mt-2 mb-3">
+                                    @foreach($event->tags->take(4) as $tag)
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $userTags->contains($tag->id) ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-600' }}">
+                                            {{ $tag->name }}
+                                        </span>
+                                    @endforeach
+                                    @if($event->tags->count() > 4)
+                                        <span class="text-xs text-gray-400">+{{ $event->tags->count() - 4 }} more</span>
+                                    @endif
+                                </div>
+                            @endif
+                            <div class="mt-auto">
+                                <a href="{{ route('events.show', $event->id) }}" class="w-full text-center block px-4 py-2 bg-primary-400 hover:bg-primary-500 text-white rounded-lg transition font-bold shadow">
+                                    View Event
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- Events Grid -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -194,6 +288,14 @@
                             @else
                                 <div class="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     FREE
+                                </div>
+                            @endif
+                            @if(isset($event->recommendation_score) && $event->recommendation_score > 0)
+                                <div class="absolute top-4 left-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
+                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                    {{ $event->recommendation_score }}%
                                 </div>
                             @endif
                         </a>
