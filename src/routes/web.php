@@ -51,6 +51,11 @@ Route::get('/bookings/{booking}/calendar/{type}', [EventBookingController::class
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
+// API Routes
+Route::get('/api/locations', function() {
+    return response()->json(\App\Models\Location::select('id', 'name', 'address', 'latitude', 'longitude')->get());
+})->name('api.locations');
+
 Route::get('/auctions', [CorporateController::class, 'browseAuctions'])->name('auctions.browse');
 Route::get('/auctions/{auction}', [CorporateController::class, 'showAuction'])->name('auctions.show');
 
