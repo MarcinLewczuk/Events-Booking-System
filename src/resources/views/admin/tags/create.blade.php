@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Create New Tag</h1>
-                <p class="mt-1 text-sm text-gray-600">Add a new tag to organize your items</p>
+                <p class="mt-1 text-sm text-gray-600">Add a new tag to organise your events</p>
             </div>
 
             <!-- Form Card -->
@@ -39,7 +39,7 @@
                             <input type="text" 
                                    name="name" 
                                    value="{{ old('name') }}"
-                                   placeholder="e.g., Vintage Cars, Greek Pottery, Antiques" 
+                                   placeholder="e.g., Virtual, In-Person, Family-Friendly, Beginner"
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#370671] focus:border-transparent transition @error('name') border-red-500 @enderror"
                                    required>
                             <p class="mt-2 text-sm text-gray-600">
@@ -63,7 +63,7 @@
                                 <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                                 </svg>
-                                Optional: Add context for when staff should apply this tag
+                                Optional: Add context for when staff should apply this tag to events
                             </p>
                         </div>
 
