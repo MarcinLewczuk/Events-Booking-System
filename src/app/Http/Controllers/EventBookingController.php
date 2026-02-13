@@ -177,11 +177,24 @@ class EventBookingController extends Controller
             // TODO: Queue confirmation email
             // dispatch(new SendBookingConfirmationEmail($booking));
 
-            // TODO: Handle payment for paid events
-            // if ($event->is_paid) {
-            //     return redirect()->route('events.payment', $booking->id);
-            // }
+            // For paid events, redirect to checkout page
+            if ($event->is_paid) {
+                // Store booking data in session for checkout
+                session([
+                    'checkout_booking_id' => $booking->id,
+                    'checkout_data' => [
+                        'event_id' => $event->id,
+                        'booking_id' => $booking->id,
+                        'total_amount' => $totalAmount,
+                        'total_tickets' => $totalTickets,
+                    ]
+                ]);
+                
+                DB::commit();
+                return redirect()->route('events.checkout', $booking->id);
+            }
 
+            DB::commit();
             return redirect()->route('events.booking.confirmation', $booking->id);
 
         } catch (\Exception $e) {
@@ -190,6 +203,64 @@ class EventBookingController extends Controller
                 ->withErrors(['An error occurred while processing your booking. Please try again.'])
                 ->withInput();
         }
+    }
+
+    /**
+     * Show checkout page for paid events
+     */
+    public function checkout($bookingId)
+    {
+        $booking = EventBooking::with(['event.location'])->findOrFail($bookingId);
+
+        // Verify this is a paid event
+        if (!$booking->event->is_paid) {
+            return redirect()->route('events.booking.confirmation', $booking->id);
+        }
+
+        // Verify session has checkout data
+        if (!session()->has('checkout_booking_id') || session('checkout_booking_id') != $bookingId) {
+            return redirect()->route('events.show', $booking->event_id)
+                ->withErrors(['Invalid checkout session. Please try booking again.']);
+        }
+
+        return view('events.booking.checkout', compact('booking'));
+    }
+
+    /**
+     * Process payment and complete booking
+     */
+    public function processPayment(Request $request, $bookingId)
+    {
+        $booking = EventBooking::with(['event'])->findOrFail($bookingId);
+
+        // Verify this is a paid event
+        if (!$booking->event->is_paid) {
+            return redirect()->route('events.booking.confirmation', $booking->id);
+        }
+
+        // Verify session
+        if (!session()->has('checkout_booking_id') || session('checkout_booking_id') != $bookingId) {
+            return redirect()->route('events.show', $booking->event_id)
+                ->withErrors(['Invalid checkout session.']);
+        }
+
+        // Validate mock payment details
+        $validated = $request->validate([
+            'cardholder_name' => 'required|string|max:255',
+            'card_number' => 'required|string',
+            'expiry' => 'required|string',
+            'cvc' => 'required|string',
+        ]);
+
+        // Mock payment processing (always successful)
+        // In a real implementation, this would process with Stripe
+
+        // Clear checkout session
+        session()->forget(['checkout_booking_id', 'checkout_data']);
+
+        // Redirect to confirmation
+        return redirect()->route('events.booking.confirmation', $booking->id)
+            ->with('success', 'Payment successful! Your booking is confirmed.');
     }
 
     /**
