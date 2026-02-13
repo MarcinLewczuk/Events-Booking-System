@@ -21,7 +21,7 @@
             </div>
 
             <!-- Form Card -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-visible">
+            <div class="bg-white shadow-sm border border-gray-200 overflow-visible">
                 <!-- Error Alert -->
                 @if($errors->any())
                     <div class="bg-red-50 border-b border-red-200 p-6">
@@ -70,7 +70,7 @@
                                        name="title" 
                                        value="{{ old('title', $event->title ?? '') }}"
                                        placeholder="e.g., Summer Festival 2025, Jazz Night"
-                                       class="w-full px-4 py-2 border @error('title') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                       class="w-full px-4 py-2 border @error('title') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                        required>
                                 @error('title')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -87,7 +87,7 @@
                                           name="description" 
                                           rows="5"
                                           placeholder="Describe your event in detail. What will happen? Who will attend? Why should people come?"
-                                          class="w-full px-4 py-2 border @error('description') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                          class="w-full px-4 py-2 border @error('description') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                           required>{{ old('description', $event->description ?? '') }}</textarea>
                                 @error('description')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -104,7 +104,7 @@
                                           name="itinerary" 
                                           rows="4"
                                           placeholder="Optional: Provide a detailed schedule (e.g., 2:00 PM - Opening Remarks, 2:30 PM - Main Event, etc.)"
-                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">{{ old('itinerary', $event->itinerary ?? '') }}</textarea>
+                                          class="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">{{ old('itinerary', $event->itinerary ?? '') }}</textarea>
                                 <p class="mt-2 text-sm text-gray-600">Detailed schedule or agenda (optional)</p>
                             </div>
 
@@ -115,7 +115,7 @@
                                 </label>
                                 <select id="category_id"
                                         name="category_id" 
-                                        class="w-full px-4 py-2 border @error('category_id') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                        class="w-full px-4 py-2 border @error('category_id') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                         required>
                                     <option value="">Select a category...</option>
                                     @foreach($categories as $category)
@@ -171,7 +171,7 @@
                                        id="start_datetime"
                                        name="start_datetime" 
                                        value="{{ old('start_datetime', isset($event) && $event->start_datetime ? $event->start_datetime->format('Y-m-d\TH:i') : '') }}"
-                                       class="w-full px-4 py-2 border @error('start_datetime') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                       class="w-full px-4 py-2 border @error('start_datetime') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                        required>
                                 @error('start_datetime')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -188,7 +188,7 @@
                                        id="end_datetime"
                                        name="end_datetime" 
                                        value="{{ old('end_datetime', isset($event) && $event->end_datetime ? $event->end_datetime->format('Y-m-d\TH:i') : '') }}"
-                                       class="w-full px-4 py-2 border @error('end_datetime') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                       class="w-full px-4 py-2 border @error('end_datetime') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                        required>
                                 @error('end_datetime')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -219,7 +219,7 @@
                                        value="{{ old('capacity', $event->capacity ?? '') }}"
                                        min="1"
                                        placeholder="e.g., 500"
-                                       class="w-full px-4 py-2 border @error('capacity') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
+                                       class="w-full px-4 py-2 border @error('capacity') border-red-500 @else border-gray-300 @enderror focus:ring-2 focus:ring-primary-600 focus:border-transparent transition"
                                        required>
                                 @error('capacity')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -228,7 +228,7 @@
                             </div>
 
                             <!-- Paid Event Toggle -->
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <div class="bg-gray-50 border border-gray-200 p-4">
                                 <label class="flex items-center cursor-pointer">
                                     <input type="hidden" name="is_paid" value="0">
                                     <input type="checkbox" 
@@ -236,7 +236,7 @@
                                            name="is_paid" 
                                            value="1"
                                            {{ old('is_paid', $event->is_paid ?? false) ? 'checked' : '' }}
-                                           class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-600">
+                                           class="w-4 h-4 text-primary-600 border-gray-300 focus:ring-primary-600">
                                     <span class="ml-3 font-medium text-gray-900">This is a Paid Event</span>
                                 </label>
                                 <p class="mt-2 text-sm text-gray-600 ml-7">Enable this if attendees need to pay to book tickets</p>
@@ -244,7 +244,7 @@
 
                             <!-- Pricing Fields (Shown when is_paid is checked) -->
                             <div id="pricing-section" class="space-y-6 @if(!old('is_paid', $event->is_paid ?? false)) hidden @endif">
-                                <div class="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                                <div class="bg-primary-50 border border-primary-200 p-4">
                                     <p class="text-sm text-primary-900">Enter ticket prices for different categories. All prices are optional.</p>
                                 </div>
 
@@ -261,7 +261,7 @@
                                                step="0.01"
                                                min="0"
                                                placeholder="25.00"
-                                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                               class="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         @error('adult_price')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -279,7 +279,7 @@
                                                step="0.01"
                                                min="0"
                                                placeholder="15.00"
-                                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                               class="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         @error('child_price')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -297,7 +297,7 @@
                                                step="0.01"
                                                min="0"
                                                placeholder="20.00"
-                                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                               class="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                         @error('concession_price')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
@@ -322,7 +322,7 @@
                                     <p class="text-sm font-medium text-gray-900 mb-3">Current Image</p>
                                     <img src="{{ asset('storage/' . $event->primary_image) }}" 
                                          alt="{{ $event->title }}"
-                                         class="w-full max-w-xs h-48 object-cover rounded-lg border border-gray-300">
+                                         class="w-full max-w-xs h-48 object-cover border border-gray-300">
                                 </div>
                             @endif
 
@@ -335,8 +335,8 @@
                                 <div id="imagePreviewContainer" class="hidden mb-4">
                                     <p class="text-sm font-medium text-gray-900 mb-2">New Image Preview</p>
                                     <div class="relative inline-block">
-                                        <img id="imagePreview" src="" alt="Preview" class="w-full max-w-xs h-48 object-cover rounded-lg border border-gray-300">
-                                        <button type="button" onclick="clearImagePreview()" class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition">
+                                        <img id="imagePreview" src="" alt="Preview" class="w-full max-w-xs h-48 object-cover border border-gray-300">
+                                        <button type="button" onclick="clearImagePreview()" class="absolute top-2 right-2 bg-red-600 text-white p-1.5 hover:bg-red-700 transition">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                             </svg>
@@ -344,7 +344,7 @@
                                     </div>
                                 </div>
                                 
-                                <div id="uploadBox" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary-400 transition cursor-pointer" onclick="document.getElementById('primary_image').click()">
+                                <div id="uploadBox" class="border-2 border-dashed border-gray-300 p-8 text-center hover:border-primary-400 transition cursor-pointer" onclick="document.getElementById('primary_image').click()">
                                     <svg class="mx-auto h-12 w-12 text-gray-400 mb-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
@@ -376,13 +376,13 @@
                         </h2>
 
                         <div class="space-y-4">
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <div class="bg-gray-50 border border-gray-200 p-4">
                                 <label for="status" class="block text-sm font-semibold text-gray-900 mb-3">
                                     Status
                                 </label>
                                 <select id="status" 
                                         name="status" 
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
+                                        class="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-primary-600 focus:border-transparent transition">
                                     <option value="draft" @selected(old('status', $event->status ?? 'draft') === 'draft')>Draft</option>
                                     <option value="active" @selected(old('status', $event->status ?? null) === 'active')>Active</option>
                                     <option value="cancelled" @selected(old('status', $event->status ?? null) === 'cancelled')>Cancelled</option>
@@ -399,14 +399,14 @@
                     <!-- Form Actions -->
                     <div class="bg-gray-50 border-t border-gray-200 px-8 py-6 flex justify-between gap-4">
                         <a href="{{ route('admin.events.index') }}" 
-                           class="inline-flex items-center px-6 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition">
+                           class="inline-flex items-center px-6 py-2 border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                             </svg>
                             Cancel
                         </a>
                         <button type="submit" 
-                                class="inline-flex items-center px-8 py-2 bg-gradient-to-r from-primary-700 to-primary-600 text-white font-semibold rounded-lg hover:from-primary-800 hover:to-primary-700 transition shadow-md">
+                                class="inline-flex items-center px-8 py-2 bg-gradient-to-r from-primary-700 to-primary-600 text-white font-semibold hover:from-primary-800 hover:to-primary-700 transition shadow-md">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
