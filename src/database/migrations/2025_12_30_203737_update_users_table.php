@@ -61,9 +61,9 @@ return new class extends Migration
                 $table->enum('auction_display_setting', ['anonymous', 'name', 'business'])->nullable()->after('customer_consent_profile');
             }
             if (!Schema::hasColumn('users', 'role')) {
-                $table->enum('role', ['admin', 'staff', 'approver', 'customer'])->default('customer')->after('auction_display_setting');
+                $table->enum('role', ['admin', 'staff', 'customer'])->default('customer')->after('auction_display_setting');
             } else {
-                $table->enum('role', ['admin', 'staff', 'approver', 'customer'])->default('customer')->change();
+                $table->enum('role', ['admin', 'staff', 'customer'])->default('customer')->change();
             }
         });
     }
