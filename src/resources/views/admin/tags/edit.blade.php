@@ -39,8 +39,8 @@
                             <div>
                                 <h3 class="font-semibold text-gray-900">{{ $tag->name }}</h3>
                                 <p class="text-sm text-gray-600">
-                                    Currently used by <span class="font-semibold text-[#370671]">{{ $tag->items()->count() }}</span> 
-                                    {{ Str::plural('item', $tag->items()->count()) }}
+                                    Currently used by <span class="font-semibold text-[#370671]">{{ $tag->events()->count() }}</span> 
+                                    {{ Str::plural('event', $tag->events()->count()) }}
                                 </p>
                             </div>
                         </div>

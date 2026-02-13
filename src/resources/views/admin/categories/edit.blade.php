@@ -60,7 +60,7 @@
                                 <strong>Subcategories:</strong> {{ $category->children()->count() }}
                             </p>
                             <p class="text-sm text-blue-800">
-                                <strong>Used in catalogues:</strong> {{ $category->catalogues()->count() }}
+                                <strong>Used in events:</strong> {{ $category->events()->count() }}
                             </p>
                         </div>
 
@@ -88,7 +88,7 @@
                         <div class="flex items-start gap-4">
                             <div class="flex-1">
                                 <h3 class="text-lg font-bold text-gray-900 mb-1">Delete Category</h3>
-                                <p class="text-sm text-gray-600">Once deleted, this category cannot be recovered. Items and catalogues using this category will need to be reassigned.</p>
+                                <p class="text-sm text-gray-600">Once deleted, this category cannot be recovered. Events using this category will need to be reassigned.</p>
                             </div>
                             <x-buttons.danger type="submit">
                                 Delete Category

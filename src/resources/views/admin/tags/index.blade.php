@@ -5,8 +5,8 @@
             <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-primary-900">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Tags Management</h1>
-                        <p class="mt-1 text-sm text-gray-600">Organize items with descriptive tags</p>
+                        <h1 class="text-3xl font-bold text-gray-900">Event Tags</h1>
+                        <p class="mt-1 text-sm text-gray-600">Organise events with descriptive tags</p>
                     </div>
                     <x-buttons.primary href="{{ route('admin.tags.create') }}">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
                                 <th class="px-6 py-4 text-left text-sm font-semibold">Tag Name</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold">Slug</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold">Description</th>
-                                <th class="px-6 py-4 text-center text-sm font-semibold">Items</th>
+                                <th class="px-6 py-4 text-center text-sm font-semibold">Events</th>
                                 <th class="px-6 py-4 text-center text-sm font-semibold">Actions</th>
                             </tr>
                         </thead>

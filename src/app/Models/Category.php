@@ -37,4 +37,10 @@ class Category extends Model
     {
         return $this->hasMany(Item::class, 'category_id');
     }
+
+    // Events linked to this category
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'category_id');
+    }
 }

@@ -18,7 +18,7 @@ class TagController extends Controller
     // List all tags
     public function index(Request $request)
     {
-        $query = Tag::query()->withCount('items');
+        $query = Tag::query()->withCount('events');
 
         // Search functionality
         if ($request->filled('search')) {
@@ -86,9 +86,9 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         // Check if tag is in use
-        if ($tag->items()->count() > 0) {
+        if ($tag->events()->count() > 0) {
             return back()->withErrors([
-                'error' => 'Cannot delete tag that is assigned to items. Remove from items first.'
+                'error' => 'Cannot delete tag that is assigned to events. Remove from Events first.'
             ]);
         }
 
